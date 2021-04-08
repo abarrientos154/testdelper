@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">Nomenclatura 1</div>
+    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">Examen 1</div>
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
         <div class="row">
           <q-btn @click="newQ = true" class="text-subtitle1" padding="10px 5px" color="primary" icon="add" no-caps>Nueva</q-btn>
           <q-btn @click="newF = true" padding="10px 8px" class="text-subtitle1 q-ml-sm" color="primary" icon="upload_file" no-caps>Desde Excel</q-btn>
+          <q-btn @click="$router.push('/questions')" padding="10px 8px" class="text-subtitle1 q-ml-sm" color="primary" icon="quiz" no-caps>Preguntas Existentes</q-btn>
         </div>
       </div>
     </q-card>
