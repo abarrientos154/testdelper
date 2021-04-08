@@ -2,21 +2,24 @@
   <div class="q-pa-md column items-center">
     <div class="text-primary text-h3 text-weight-bolder">Bienvenido!</div>
     <div class="text-black text-h6 q-mb-lg">Asignaturas</div>
-    <q-list>
-      <q-card v-for="(item,index) in asig" :key="index" v-ripple class="q-pa-sm q-mb-md bordes">
+    <q-list class="column items-center" style="width: 100%">
+      <q-card v-for="(item,index) in asig" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/test/' + asig[index].id)">
+          <q-item-section @click="$router.push('/temas/' + asig[index].id)">
             <q-item>
               <q-item-section avatar>
                 <q-icon name="menu_book" size="30px"/>
               </q-item-section>
-              <q-item-section>
+              <q-item-section class="colum">
                 <q-item-label class="text-black text-weight-bolder text-h6">{{item.name}}</q-item-label>
+                <div>
+                  <q-chip text-color="white" :label="item.status ? 'Paga' : 'Gratuita'" :color="item.status ? 'green-14' : 'primary'" />
+                </div>
               </q-item-section>
             </q-item>
           </q-item-section>
           <q-item-section side>
-            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editAsig(index)"/>
+            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editAsig(item,index)"/>
           </q-item-section>
         </q-item>
       </q-card>
@@ -26,16 +29,29 @@
         <q-card-section>
           <div class="text-h6">Editar Asignatura</div>
         </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-input rounded dense outlined type="text" v-model="newName" label="Nuevo nombre" style="width: 300px">
-            <template v-slot:prepend>
-              <q-icon name="edit" color="primary"/>
-            </template>
-          </q-input>
+        <q-card-section class="q-pt-none row">
+          <div class="col">
+            <q-input rounded dense outlined type="text" v-model="newDatos.name" label="Nuevo nombre" style="width: 300px">
+              <template v-slot:prepend>
+                <q-icon name="edit" color="primary"/>
+              </template>
+            </q-input>
+            <q-chip text-color="white" :label="newDatos.status ? 'Paga' : 'Gratuita'" :color="newDatos.status ? 'green-14' : 'primary'" />
+          </div>
+          <div class="col-2">
+            <q-toggle
+                @input="newDatos.status != newDatos.status"
+                v-model="newDatos.status"
+                checked-icon="attach_money"
+                unchecked-icon="star"
+                :color="newDatos.status ? 'green-14' : 'primary'"
+                keep-color
+                />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="primary" v-close-popup no-caps/>
-          <q-btn flat label="Actualizar" color="primary" v-close-popup @click="actualizarAsig(newName)" no-caps/>
+          <q-btn flat label="Cancelar" color="primary" v-close-popup @click="decartarCamb()" no-caps/>
+          <q-btn flat label="Actualizar" color="primary" v-close-popup @click="actualizarAsig()" no-caps/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -47,64 +63,81 @@ export default {
   data () {
     return {
       edit: false,
-      newName: '',
+      newDatos: {},
       item: 0,
       asig: [
         {
           id: 1,
-          name: 'Nomenclatura náutica'
+          name: 'Nomenclatura náutica',
+          status: false
         },
         {
           id: 2,
-          name: 'Amarre y fondeo'
+          name: 'Amarre y fondeo',
+          status: false
         },
         {
           id: 3,
-          name: 'Seguridad en la mar'
+          name: 'Seguridad en la mar',
+          status: false
         },
         {
           id: 4,
-          name: 'Legislación'
+          name: 'Legislación',
+          status: false
         },
         {
           id: 5,
-          name: 'Balizamiento'
+          name: 'Balizamiento',
+          status: false
         },
         {
           id: 6,
-          name: 'Reglamento'
+          name: 'Reglamento',
+          status: false
         },
         {
           id: 7,
-          name: 'Maniobras en la mar'
+          name: 'Maniobras en la mar',
+          status: false
         },
         {
           id: 8,
-          name: 'Emergencias en la mar'
+          name: 'Emergencias en la mar',
+          status: false
         },
         {
           id: 9,
-          name: 'Metodología'
+          name: 'Metodología',
+          status: false
         },
         {
           id: 10,
-          name: 'Navegación'
+          name: 'Navegación',
+          status: false
         },
         {
           id: 11,
-          name: 'Carta náutica'
+          name: 'Carta náutica',
+          status: false
         }
       ]
     }
   },
   methods: {
     actualizarAsig () {
-      this.asig[this.item].name = this.newName
-      this.newName = ''
+      this.asig[this.item].name = this.newDatos.name
+      this.asig[this.item].status = this.newDatos.status
+      this.newDatos = {}
     },
-    editAsig (ind) {
+    decartarCamb () {
+      this.newDatos = {}
+    },
+    editAsig (itm, ind) {
+      const newd = { ...itm }
       this.edit = true
       this.item = ind
+      this.newDatos = newd
     }
   }
 }

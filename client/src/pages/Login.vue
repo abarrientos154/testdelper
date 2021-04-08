@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     loguear () {
-      this.$router.push('/inicio')
+      this.$router.push('/inicio_administrador')
     }
   }
 }
