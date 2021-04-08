@@ -16,7 +16,7 @@
       </div>
       <q-btn icon="add_circle" color="primary" @click="save()" label="Guardar"/>
     </q-card>
-    </div>
+  </div>
 </template>
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
