@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md column items-center">
     <div class="text-primary text-h3 text-weight-bolder">Bienvenido!</div>
-    <div class="text-black text-h6 q-mb-lg">Asignaturas.</div>
+    <div class="text-black text-h6 q-mb-lg">Asignaturas</div>
     <q-list>
       <q-card v-for="(item,index) in asig" :key="index" v-ripple class="q-pa-sm q-mb-md bordes">
         <q-item>

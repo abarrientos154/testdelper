@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import Quest from '../components/Quest.vue'
+import Quest from '../../components/Quest.vue'
 export default {
   components: { Quest },
   data () {
