@@ -20,7 +20,6 @@
 </template>
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
-// import { required, minLength, maxLength } from '@vuelidate/validators'
 export default {
   name: 'Quest',
   data () {
@@ -34,7 +33,7 @@ export default {
       optionA: { required, minLength: minLength(3), maxLength: maxLength(30) },
       optionB: { required, minLength: minLength(3), maxLength: maxLength(30) },
       optionC: { required, minLength: minLength(3), maxLength: maxLength(30) },
-      optionD: { required, minLength: minLength(3), maxLength: maxLength(30) },
+      optionD: { required, minLength: minLength(3), maxLength: maxLength(30) }
     }
   },
   methods: {
