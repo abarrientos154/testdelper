@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@vuelidate/core": "^2.0.0-alpha.15",
+    "@vuelidate/validators": "^2.0.0-alpha.13",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "vue-i18n": "^8.0.0"
+    "vue-i18n": "^8.0.0",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
