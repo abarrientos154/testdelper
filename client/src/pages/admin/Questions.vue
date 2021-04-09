@@ -32,20 +32,13 @@
                         <q-card-section>
                           <q-list bordered class="rounded-borders q-ma-md q-pa-md">
                             <div class="text-h6 text-primary">Preguntas:</div>
-                            <q-expansion-item
-                              v-for="(item3, index) in item2.questions"
-                              :key="index"
-                              expand-separator
-                              icon="quiz"
-                              :label="item3.name"
-                            >
-                              <q-card>
-                                <q-card-section>
-                                  <div class="text-h6 text-primary">Respuestas</div>
-                                  <q-item v-for="(item4, index) in item3.answer" :key="index" class="text-subtitle1 q-mb-sm" clickable>{{item4}}</q-item>
-                                </q-card-section>
-                              </q-card>
-                            </q-expansion-item>
+                            <div class="text-subtitle1 q-ml-sm" v-for="(item3, index) in item2.questions" :key="index">{{item3.name}}
+                              <q-checkbox v-model="item3.isActive" @click="questSelected(item3, index)"/>
+                              <q-item class="text-subtitle1">A) {{item3.answer[0]}}</q-item>
+                              <q-item class="text-subtitle1">B) {{item3.answer[1]}}</q-item>
+                              <q-item class="text-subtitle1">C) {{item3.answer[2]}}</q-item>
+                              <q-item class="text-subtitle1">D) {{item3.answer[3]}}</q-item>
+                            </div>
                           </q-list>
                         </q-card-section>
                       </q-card>
@@ -55,6 +48,9 @@
               </q-card>
             </q-expansion-item>
           </q-list>
+          <div class="row justify-center q-mb-md">
+            <q-btn icon="add_circle" color="primary" @click="save()" label="Guardar"/>
+          </div>
         </div>
       </div>
     </div>
@@ -79,7 +75,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -88,7 +85,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -97,7 +95,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -106,7 +105,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -120,7 +120,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -129,7 +130,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -138,7 +140,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -147,7 +150,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -161,7 +165,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -170,7 +175,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -179,7 +185,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -188,7 +195,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -202,7 +210,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -211,7 +220,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -220,7 +230,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -229,7 +240,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -249,7 +261,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -258,7 +271,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -267,7 +281,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -276,7 +291,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -290,7 +306,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -299,7 +316,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -308,7 +326,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -317,7 +336,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -331,7 +351,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -340,7 +361,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -349,7 +371,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -358,7 +381,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -372,7 +396,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -381,7 +406,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -390,7 +416,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -399,7 +426,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -419,7 +447,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -428,7 +457,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -437,7 +467,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -446,7 +477,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -460,7 +492,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -469,7 +502,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -478,7 +512,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -487,7 +522,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -501,7 +537,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -510,7 +547,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -519,7 +557,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -528,7 +567,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -542,7 +582,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -551,7 +592,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -560,7 +602,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -569,7 +612,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -589,7 +633,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -598,7 +643,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -607,7 +653,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -616,7 +663,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -630,7 +678,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -639,7 +688,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -648,7 +698,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -657,7 +708,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -671,7 +723,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -680,7 +733,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -689,7 +743,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -698,7 +753,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -712,7 +768,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -721,7 +778,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -730,7 +788,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -739,7 +798,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -759,7 +819,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -768,7 +829,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -777,7 +839,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -786,7 +849,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -800,7 +864,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -809,7 +874,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -818,7 +884,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -827,7 +894,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -841,7 +909,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -850,7 +919,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -859,7 +929,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -868,7 +939,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -882,7 +954,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -891,7 +964,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -900,7 +974,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -909,7 +984,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -929,7 +1005,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -938,7 +1015,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -947,7 +1025,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -956,7 +1035,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -970,7 +1050,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -979,7 +1060,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -988,7 +1070,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -997,7 +1080,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1011,7 +1095,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1020,7 +1105,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1029,7 +1115,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1038,7 +1125,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1052,7 +1140,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1061,7 +1150,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1070,7 +1160,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1079,7 +1170,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -1099,7 +1191,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1108,7 +1201,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1117,7 +1211,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1126,7 +1221,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1140,7 +1236,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1149,7 +1246,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1158,7 +1256,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1167,7 +1266,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1181,7 +1281,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1190,7 +1291,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1199,7 +1301,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1208,7 +1311,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1222,7 +1326,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1231,7 +1336,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1240,7 +1346,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1249,7 +1356,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -1269,7 +1377,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1278,7 +1387,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1287,7 +1397,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1296,7 +1407,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1310,7 +1422,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1319,7 +1432,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1328,7 +1442,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1337,7 +1452,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1351,7 +1467,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1360,7 +1477,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1369,7 +1487,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1378,7 +1497,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1392,7 +1512,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1401,7 +1522,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1410,7 +1532,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1419,7 +1542,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -1439,7 +1563,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1448,7 +1573,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1457,7 +1583,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1466,7 +1593,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1480,7 +1608,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1489,7 +1618,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1498,7 +1628,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1507,7 +1638,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1521,7 +1653,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1530,7 +1663,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1539,7 +1673,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1548,7 +1683,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1562,7 +1698,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1571,7 +1708,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1580,7 +1718,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1589,7 +1728,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -1609,7 +1749,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1618,7 +1759,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1627,7 +1769,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1636,7 +1779,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1650,7 +1794,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1659,7 +1804,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1668,7 +1814,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1677,7 +1824,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1691,7 +1839,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1700,7 +1849,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1709,7 +1859,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1718,7 +1869,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1732,7 +1884,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1741,7 +1894,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1750,7 +1904,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1759,7 +1914,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -1779,7 +1935,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1788,7 +1945,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1797,7 +1955,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1806,7 +1965,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1820,7 +1980,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1829,7 +1990,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1838,7 +2000,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1847,7 +2010,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1861,7 +2025,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1870,7 +2035,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1879,7 +2045,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1888,7 +2055,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             },
@@ -1902,7 +2070,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question2',
@@ -1911,7 +2080,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question3',
@@ -1920,7 +2090,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 },
                 {
                   name: 'question4',
@@ -1929,7 +2100,8 @@ export default {
                     'segunda respuesta',
                     'tercera respuesta',
                     'cuarta respuesta'
-                  ]
+                  ],
+                  isActive: false
                 }
               ]
             }
@@ -1939,7 +2111,12 @@ export default {
     }
   },
   methods: {
-
+    questSelected (quest, ind) {
+      console.log('quest, ind :>> ', quest, ind)
+    },
+    save () {
+      console.log('pronto emitiendo al padre')
+    }
   },
   mounted () {
     console.log('this.asig :>> ', this.asig)
