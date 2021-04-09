@@ -33,7 +33,7 @@
                           <q-list bordered class="rounded-borders q-ma-md q-pa-md">
                             <div class="text-h6 text-primary">Preguntas:</div>
                             <div class="text-subtitle1 q-ml-sm" v-for="(item3, index) in item2.questions" :key="index">{{item3.name}}
-                              <q-checkbox v-model="item3.isActive" @click="questSelected(item3, index)"/>
+                              <q-checkbox v-model="item3.isActive" @input="questSelected(item3)"/>
                               <q-item class="text-subtitle1">A) {{item3.answer[0]}}</q-item>
                               <q-item class="text-subtitle1">B) {{item3.answer[1]}}</q-item>
                               <q-item class="text-subtitle1">C) {{item3.answer[2]}}</q-item>
@@ -58,6 +58,7 @@
 </template>
 <script>
 export default {
+  name: 'Questions',
   data () {
     return {
       asig: [
@@ -2107,15 +2108,24 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      send: []
     }
   },
   methods: {
     questSelected (quest, ind) {
-      console.log('quest, ind :>> ', quest, ind)
+      if (quest.isActive === true) {
+        this.send.push(quest)
+      }
+      console.log('quest, ind :>> ', quest, this.send)
     },
     save () {
-      console.log('pronto emitiendo al padre')
+      for (var i in this.send) {
+        if (this.send[i].isActive === false) {
+          this.send.splice(i, 1)
+        }
+      }
+      console.log('this.send :>> ', this.send)
     }
   },
   mounted () {
