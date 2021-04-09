@@ -55,7 +55,7 @@ export default {
         {
           icon: 'article',
           label: 'Examenes',
-          ruta: '/'
+          ruta: '/examenes'
         },
         {
           icon: 'logout',

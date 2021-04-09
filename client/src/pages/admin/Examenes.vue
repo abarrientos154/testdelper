@@ -1,13 +1,13 @@
 <template>
   <div class="q-pa-md column items-center">
-    <div class="text-primary text-h3 text-weight-bolder q-mb-lg">Temas</div>
+    <div class="text-primary text-h3 text-weight-bolder q-mb-lg">Examenes</div>
     <q-list class="column items-center" style="width: 100%">
-      <q-card v-for="(item,index) in temas" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
+      <q-card v-for="(item,index) in exsamenes" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/test/' + item.id)">
+          <q-item-section @click="$router.push('/exam/' + item.id)">
             <q-item>
               <q-item-section avatar>
-                <q-icon name="source" size="30px"/>
+                <q-icon name="grading" size="30px"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label class="text-black text-weight-bolder text-h6">{{item.name}}</q-item-label>
@@ -15,8 +15,8 @@
             </q-item>
           </q-item-section>
           <q-item-section side>
-            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editTem(item,index)"/>
-            <q-btn flat dense round class="q-mx-sm" color="red" icon="delete" @click="EliminarTem(index)"/>
+            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editExam(item,index)"/>
+            <q-btn flat dense round class="q-mx-sm" color="red" icon="delete" @click="eiminarExam(index)"/>
           </q-item-section>
         </q-item>
       </q-card>
@@ -24,7 +24,7 @@
     <q-dialog v-model="edit">
       <q-card>
         <q-card-section>
-          <div class="text-h6">{{item > temas.length ? 'Añadir Tema' : 'Editar Tema'}}</div>
+          <div class="text-h6">{{item > exsamenes.length ? 'Crear Examen' : 'Editar Examen'}}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
           <q-input rounded dense outlined type="text" v-model="newDatos.name" label="Nuevo nombre" style="width: 300px">
@@ -35,12 +35,12 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup @click="decartarCamb()" no-caps/>
-          <q-btn flat :label="item > temas.length ? 'Crear' : 'Actualizar'" color="primary" v-close-popup @click="actualizarTem()" no-caps/>
+          <q-btn flat :label="item > exsamenes.length ? 'Crear' : 'Actualizar'" color="primary" v-close-popup @click="actualizarExam()" no-caps/>
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-page-sticky position="top-right" :offset="[20, 20]">
-      <q-btn round icon="add" color="primary" size="20px" @click="crearTem()"/>
+      <q-btn round icon="add" color="primary" size="20px" @click="crearExam()"/>
     </q-page-sticky>
   </div>
 </template>
@@ -52,53 +52,53 @@ export default {
       edit: false,
       newDatos: {},
       item: 0,
-      temas: [
+      exsamenes: [
         {
           id: 1,
-          name: 'Tema 1'
+          name: 'Examen 1'
         },
         {
           id: 2,
-          name: 'Tema 2'
+          name: 'Examen 2'
         },
         {
           id: 3,
-          name: 'Tema 3'
+          name: 'Examen 3'
         }
       ]
     }
   },
   methods: {
-    actualizarTem () {
-      if (this.temas.length < this.item) {
+    actualizarExam () {
+      if (this.exsamenes.length < this.item) {
         this.newDatos.id = this.item
-        this.temas.push(this.newDatos)
+        this.exsamenes.push(this.newDatos)
       } else {
-        this.temas[this.item].name = this.newDatos.name
+        this.exsamenes[this.item].name = this.newDatos.name
       }
       this.newDatos = {}
     },
     decartarCamb () {
       this.newDatos = {}
     },
-    editTem (itm, ind) {
+    editExam (itm, ind) {
       const newd = { ...itm }
       this.edit = true
       this.item = ind
       this.newDatos = newd
     },
-    crearTem () {
+    crearExam () {
       this.edit = true
-      this.item = this.temas.length + 1
+      this.item = this.exsamenes.length + 1
     },
-    EliminarTem (ind) {
+    eiminarExam (ind) {
       this.$q.dialog({
         title: 'Confirma',
-        message: '¿Seguro deseas elimirar este Tema?',
+        message: '¿Seguro deseas elimirar este exsamenes?',
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.temas.splice(ind, 1)
+        this.exsamenes.splice(ind, 1)
       }).onCancel(() => {
         // cancel
       })
