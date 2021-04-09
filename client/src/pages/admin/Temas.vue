@@ -27,7 +27,7 @@
           <div class="text-h6">{{item > temas.length ? 'Añadir Tema' : 'Editar Tema'}}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input rounded dense outlined type="text" v-model="newDatos.name" label="Nuevo nombre" style="width: 300px">
+          <q-input rounded dense outlined type="text" v-model="newDatos.name" label="Nuevo nombre" style="width: 300px" :error="$v.newDatos.name.$error" error-message="Este campo es requerido"  @blur="$v.newDatos.name.$touch()">
             <template v-slot:prepend>
               <q-icon name="edit" color="primary"/>
             </template>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
@@ -68,15 +69,23 @@ export default {
       ]
     }
   },
+  validations: {
+    newDatos: {
+      name: { required, minLength: minLength(3), maxLength: maxLength(20) }
+    }
+  },
   methods: {
     actualizarTem () {
-      if (this.temas.length < this.item) {
-        this.newDatos.id = this.item
-        this.temas.push(this.newDatos)
-      } else {
-        this.temas[this.item].name = this.newDatos.name
+      this.$v.$touch()
+      if (!this.$v.newDatos.$error) {
+        if (this.temas.length < this.item) {
+          this.newDatos.id = this.item
+          this.temas.push(this.newDatos)
+        } else {
+          this.temas[this.item].name = this.newDatos.name
+        }
+        this.newDatos = {}
       }
-      this.newDatos = {}
     },
     decartarCamb () {
       this.newDatos = {}
