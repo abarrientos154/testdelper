@@ -2,12 +2,12 @@
   <div class="absolute-center column items-center">
     <img src="logocolomer.png">
     <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div>
-    <q-input rounded dense outlined class="q-mb-lg" type="email" v-model="form.email" label="User/Email" style="width: 300px">
+    <q-input rounded dense outlined class="q-mb-lg" type="email" v-model="form.email" label="User/Email" style="width: 300px" :error="$v.form.email.$error" error-message="Este campo es requerido"  @blur="$v.form.email.$touch()">
       <template v-slot:prepend>
         <q-icon name="person" color="primary"/>
       </template>
     </q-input>
-    <q-input rounded dense outlined class="q-mb-lg" :type="isPwd ? 'password' : 'text'" v-model="form.password" label="Contraseña" style="width: 300px">
+    <q-input rounded dense outlined class="q-mb-lg" :type="isPwd ? 'password' : 'text'" v-model="form.password" label="Contraseña" style="width: 300px" :error="$v.form.password.$error" error-message="Este campo es requerido"  @blur="$v.form.password.$touch()">
       <template v-slot:prepend>
         <q-icon name="https" color="primary"/>
       </template>
@@ -31,24 +31,27 @@
 </template>
 
 <script>
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
       loading: false,
       isPwd: true,
-      form: {
-        email: '',
-        password: ''
-      }
+      form: {}
     }
   },
   validations: {
     form: {
+      email: { required, email },
+      password: { required }
     }
   },
   methods: {
     loguear () {
-      this.$router.push('/inicio_administrador')
+      this.$v.$touch()
+      if (!this.$v.form.$error) {
+        this.$router.push('/inicio_administrador')
+      }
     }
   }
 }
