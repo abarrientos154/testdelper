@@ -2119,7 +2119,7 @@ export default {
       console.log('quest, ind :>> ', quest, this.send)
     },
     save () {
-      for (var i in this.send) {
+      for (const i in this.send) {
         if (this.send[i].isActive === false) {
           this.send.splice(i, 1)
         }
