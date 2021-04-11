@@ -53,6 +53,9 @@ export default {
       newF: false
     }
   },
+  mounted () {
+    console.log('prueba :>> ')
+  },
   methods: {
     toList (quest) {
       if (quest) {
