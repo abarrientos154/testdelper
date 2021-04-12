@@ -32,24 +32,15 @@ export default {
   },
   validations: {
     quest: {
-      title: { required, minLength: minLength(12), maxLength: maxLength(70) },
-      optionA: { required, minLength: minLength(3), maxLength: maxLength(30) },
-      optionB: { required, minLength: minLength(3), maxLength: maxLength(30) },
-      optionC: { required, minLength: minLength(3), maxLength: maxLength(30) },
-      optionD: { required, minLength: minLength(3), maxLength: maxLength(30) }
+      title: { required, minLength: minLength(12), maxLength: maxLength(150) },
+      optionA: { required, minLength: minLength(1), maxLength: maxLength(100) },
+      optionB: { required, minLength: minLength(1), maxLength: maxLength(100) },
+      optionC: { required, minLength: minLength(1), maxLength: maxLength(100) },
+      optionD: { required, minLength: minLength(1), maxLength: maxLength(100) }
     }
   },
   mounted () {
-    if (this.id !== '') {
-      console.log('this.id :>> ', this.id)
-      this.edit = true
-      this.$api.get('questById/' + this.id).then(res => {
-        if (res) {
-          console.log('res :>> ', res)
-          this.quest = res.data
-        }
-      })
-    }
+    this.getQuestById()
   },
   methods: {
     getQuestById () {

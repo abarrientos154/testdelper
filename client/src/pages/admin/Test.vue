@@ -11,7 +11,7 @@
       </div>
     </q-card>
     <div>
-      <q-dialog v-model="newQ">
+      <q-dialog v-model="newQ" @hide="reload">
         <quest @question="newQuest" :id="questId"/>
       </q-dialog>
     </div>
@@ -21,14 +21,14 @@
       </q-dialog>
     </div>
     <div class="row justify-center">
-      <div class="col col-xs-12 col-sm-8 col-md-7 col-lg-5 col-xl-4 q-mx-md q-my-sm no-wrap">
+      <div class="col col-xs-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 q-mx-md q-my-sm">
         <div class="column dimension no-wrap">
-          <q-card class="q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
-            <q-card class="row justify-between bg-blue-2 q-pa-sm q-mb-md">
-              <div class="text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
+          <q-card class=" dimensionC q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
+            <q-card class="row bg-blue-2 q-pa-sm q-mb-md">
+              <div class="col-9 text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
               <div>
-                <q-btn round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
-                <q-btn round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
+                <q-btn class="col-6" round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
+                <q-btn class="col-6" round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
               </div>
             </q-card>
             <div class="column q-pl-lg">
@@ -104,6 +104,9 @@ export default {
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       })
+    },
+    reload () {
+      this.questId = ''
     }
   }
 }
@@ -111,6 +114,9 @@ export default {
 
 <style scoped lang="scss">
 .dimension {
-  min-width: 400px;
+  min-width: 280px;
+}
+.dimensionC {
+  min-width: 270px;
 }
 </style>

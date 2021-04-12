@@ -36,7 +36,7 @@ export default {
     async upload () {
       this.$v.$touch()
       if (!this.$v.file.$error) {
-        var formData = new FormData()
+        const formData = new FormData()
         formData.append('fileExcel', this.file)
         await this.$api.post('uploadExcel', formData, {
           headers: {
