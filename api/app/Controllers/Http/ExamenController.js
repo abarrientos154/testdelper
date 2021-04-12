@@ -1,6 +1,6 @@
 'use strict'
 const Examen = use("App/Models/Examen")
-const { validate } = use("Validator")
+// const { validate } = use("Validator")
 // const Helpers = use('Helpers')
 // const mkdirp = use('mkdirp')
 // const fs = require('fs')
@@ -28,27 +28,25 @@ class ExamenController {
   }
 
   async store ({ request, response, auth }) {
-    var dat = request.only(['dat'])
-    dat = JSON.parse(dat.dat)
-    const validation = await validate(dat, Examen.fieldValidationRules())
-    if (validation.fails()) {
-      response.unprocessableEntity(validation.messages())
-    } else {
-      let guardar = await Examen.create(dat)
-      response.send(guardar)
-    }
+    var dat = request.body
+    // const validation = await validate(dat, Examen.fieldValidationRules())
+    // if (validation.fails()) {
+    //   response.unprocessableEntity(validation.messages())
+    // } else {
+    // }
+    let guardar = await Examen.create(dat)
+    response.send(guardar)
   }
 
   async update ({ params, request, response }) {
-    var dat = request.only(['dat'])
-    dat = JSON.parse(dat.dat)
-    const validation = await validate(dat, Examen.fieldValidationRules())
-    if (validation.fails()) {
-      response.unprocessableEntity(validation.messages())
-    } else {
-      let modificar = await Examen.query().where('_id', params.id).update(dat)
-      response.send(modificar)
-    }
+    var dat = request.body
+    // const validation = await validate(dat, Examen.fieldValidationRules())
+    // if (validation.fails()) {
+    //   response.unprocessableEntity(validation.messages())
+    // } else {
+    // }
+    let modificar = await Examen.query().where('_id', params.id).update(dat)
+    response.send(modificar)
   }
 
   async destroy ({ params, request, response }) {

@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md column items-center">
     <div class="text-primary text-h3 text-weight-bolder q-mb-lg">Examenes</div>
-    <q-list class="column items-center" style="width: 100%">
-      <q-card v-for="(item,index) in exsamenes" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
+    <q-list class="column items-center" style="width: 100%" v-if="examenes.length > 0">
+      <q-card v-for="(item,index) in examenes" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/exam/' + item.id)">
+          <q-item-section @click="$router.push('/exam/' + item._id)">
             <q-item>
               <q-item-section avatar>
                 <q-icon name="grading" size="30px"/>
@@ -15,19 +15,22 @@
             </q-item>
           </q-item-section>
           <q-item-section side>
-            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editExam(item,index)"/>
-            <q-btn flat dense round class="q-mx-sm" color="red" icon="delete" @click="eiminarExam(index)"/>
+            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editExam(item)"/>
+            <q-btn flat dense round class="q-mx-sm" color="red" icon="delete" @click="eiminarExam(item._id)"/>
           </q-item-section>
         </q-item>
       </q-card>
     </q-list>
-    <q-dialog v-model="edit">
+    <q-card v-else class="shadow-2 q-ma-md q-pa-md">
+      <div class="text-center text-subtitle1">Actualmente sin Examenes...</div>
+    </q-card>
+    <q-dialog v-model="nuevo" @hide="decartarCamb()">
       <q-card>
         <q-card-section>
-          <div class="text-h6">{{item > exsamenes.length ? 'Crear Examen' : 'Editar Examen'}}</div>
+          <div class="text-h6">{{edit ? 'Editar Examen' : 'Crear Examen'}}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input rounded dense outlined type="text" v-model="newDatos.name" label="Nuevo nombre" style="width: 300px" :error="$v.newDatos.name.$error" error-message="Este campo es requerido"  @blur="$v.newDatos.name.$touch()">
+          <q-input rounded dense outlined type="text" v-model="form.name" label="Nuevo nombre" style="width: 300px" :error="$v.form.name.$error" error-message="Este campo es requerido"  @blur="$v.form.name.$touch()">
             <template v-slot:prepend>
               <q-icon name="edit" color="primary"/>
             </template>
@@ -35,12 +38,12 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup @click="decartarCamb()" no-caps/>
-          <q-btn flat :label="item > exsamenes.length ? 'Crear' : 'Actualizar'" color="primary" v-close-popup @click="actualizarExam()" no-caps/>
+          <q-btn flat :label="edit ? 'Actualizar' :  'Crear'" color="primary" v-close-popup @click="edit ? actualizarExam() : nuevo ? crearExam() : ''" no-caps/>
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-page-sticky position="top-right" :offset="[20, 20]">
-      <q-btn round icon="add" color="primary" size="20px" @click="crearExam()"/>
+      <q-btn round icon="add" color="primary" size="20px" @click="editExam()"/>
     </q-page-sticky>
   </div>
 </template>
@@ -50,66 +53,87 @@ import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
+      id: '',
       edit: false,
-      newDatos: {},
+      nuevo: false,
+      form: {},
       item: 0,
-      exsamenes: [
-        {
-          id: 1,
-          name: 'Examen 1'
-        },
-        {
-          id: 2,
-          name: 'Examen 2'
-        },
-        {
-          id: 3,
-          name: 'Examen 3'
-        }
-      ]
+      examenes: []
     }
   },
   validations: {
-    newDatos: {
+    form: {
       name: { required, minLength: minLength(3), maxLength: maxLength(20) }
     }
   },
+  mounted () {
+    this.getExam()
+  },
   methods: {
     actualizarExam () {
-      this.$v.$touch()
-      if (!this.$v.newDatos.$error) {
-        if (this.exsamenes.length < this.item) {
-          this.newDatos.id = this.item
-          this.exsamenes.push(this.newDatos)
-        } else {
-          this.exsamenes[this.item].name = this.newDatos.name
-        }
-        this.newDatos = {}
+      this.$v.form.$touch()
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Actualizando Examen, Por Favor Espere...'
+        })
+        this.$api.put('examen/' + this.id, this.form).then((res) => {
+          this.$q.loading.hide()
+          this.getExam()
+        })
       }
     },
     decartarCamb () {
-      this.newDatos = {}
+      this.form = {}
+      this.edit = false
     },
-    editExam (itm, ind) {
-      const newd = { ...itm }
-      this.edit = true
-      this.item = ind
-      this.newDatos = newd
+    editExam (itm) {
+      if (itm) {
+        var datos = { ...itm }
+        this.id = itm._id
+        this.form = datos
+        this.nuevo = true
+        this.edit = true
+      } else {
+        this.nuevo = true
+      }
     },
     crearExam () {
-      this.edit = true
-      this.item = this.exsamenes.length + 1
+      this.$v.$touch()
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Subiendo Examen, Por Favor Espere...'
+        })
+        this.$api.post('examen', this.form).then((res) => {
+          this.$q.loading.hide()
+          this.getExam()
+        })
+      }
     },
-    eiminarExam (ind) {
+    eiminarExam (id) {
       this.$q.dialog({
         title: 'Confirma',
-        message: '¿Seguro deseas elimirar este exsamenes?',
+        message: '¿Seguro deseas eliminar este examen?',
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.exsamenes.splice(ind, 1)
+        this.$api.delete('examen/' + id).then(res => {
+          if (res) {
+            this.$q.notify({
+              color: 'positive',
+              message: 'Eliminado Correctamente'
+            })
+            this.getExam()
+          }
+        })
       }).onCancel(() => {
-        // cancel
+        // console.log('>>>> Cancel')
+      })
+    },
+    getExam () {
+      this.$api.get('examen').then(res => {
+        if (res) {
+          this.examenes = res
+        }
       })
     }
   }
