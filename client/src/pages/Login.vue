@@ -7,7 +7,7 @@
         <q-icon name="person" color="primary"/>
       </template>
     </q-input>
-    <q-input rounded dense outlined class="q-mb-lg" :type="isPwd ? 'password' : 'text'" v-model="form.password" label="Contraseña" style="width: 300px" :error="$v.form.password.$error" error-message="Este campo es requerido"  @blur="$v.form.password.$touch()">
+    <q-input rounded dense outlined class="q-mb-sm" :type="isPwd ? 'password' : 'text'" v-model="form.password" label="Contraseña" style="width: 300px" :error="$v.form.password.$error" error-message="Este campo es requerido"  @blur="$v.form.password.$touch()">
       <template v-slot:prepend>
         <q-icon name="https" color="primary"/>
       </template>
@@ -19,7 +19,11 @@
       <div class="text-black text-h9">Has olvidado tu contraseña?</div>
       <div class="text-primary q-ml-sm text-bold text-h9">Recuperar.</div>
     </div>
-    <div class="q-mt-md row justify-center">
+    <div class="row">
+      <div class="text-black text-h9">Aún no tienes cuenta?</div>
+      <div class="text-primary q-ml-sm text-bold text-h9" @click="$router.push('/registro')">Registrar.</div>
+    </div>
+    <div class="q-my-md row justify-center">
       <q-btn rounded color="primary" text-color="white" label="Iniciar Sesión" :loading="loading" @click="loguear()" no-caps>
         <template v-slot:loading>
           <q-spinner-hourglass class="on-center" />
@@ -31,26 +35,52 @@
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators'
+import { mapMutations, mapActions } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
       loading: false,
       isPwd: true,
-      form: {}
+      form: {},
+      user: {}
     }
   },
   validations: {
     form: {
-      email: { required, email },
+      email: { required },
       password: { required }
     }
   },
   methods: {
+    ...mapMutations('generals', ['login']),
+    ...mapActions('generals', ['saveUser']),
     loguear () {
       this.$v.$touch()
       if (!this.$v.form.$error) {
-        this.$router.push('/inicio_administrador')
+        this.loading = true
+        this.$q.loading.show({
+          message: 'Iniciando sesión'
+        })
+        this.$api.post('login', this.form).then(res => {
+          if (res) {
+            this.user = res.SESSION_INFO
+            console.log('user', this.user)
+
+            this.login(res)
+            if (this.user.roles[0] === 1) {
+              this.$router.push('/inicio_administrador')
+            } else if (this.user.roles[0] === 2) {
+              this.$router.push('/inicio')
+            }
+          } else {
+            console.log('error de ususario')
+            this.loading = false
+            this.$q.loading.hide()
+          }
+          this.$q.loading.hide()
+          this.loading = false
+        })
       }
     }
   }

@@ -32,11 +32,25 @@ const addPrefixToGroup = group => {
 addPrefixToGroup(
   Route.group(() => {
     // Insertar rutas sin protección de autenticación aquí
+    Route.post("login", "UserController.login");
+    Route.post("register", "UserController.register")
   })
 );
 
 addPrefixToGroup(
   Route.group(() => {
     // Insertar rutas con protección de autenticación aquí
+    Route.get("asignatura", "AsignaturaController.index")
+    Route.put('updateAsignatura/:id', 'AsignaturaController.update')
+
+    Route.get('tema', 'TemaController.index')
+    Route.post('tema', 'TemaController.store')
+    Route.put('tema/:id', 'TemaController.update')
+    Route.delete('tema/:id', 'TemaController.destroy')
+
+    Route.get('examen', 'ExamenController.index')
+    Route.post('examen', 'ExamenController.store')
+    Route.put('examen/:id', 'ExamenController.update')
+    Route.delete('examen/:id', 'ExamenController.destroy')
   }).middleware("auth")
 );

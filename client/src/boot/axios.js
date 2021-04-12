@@ -1,14 +1,12 @@
-import Vue from 'vue'
 import axios from 'axios'
 import env from '../env'
-// import { Notify } from 'quasar'
+import { Notify } from 'quasar'
 
 const axiosInstance = axios.create({
   baseURL: env.apiUrl// url base cargada de archivo env.js
 })
-Vue.prototype.$api = axiosInstance
 
-/* export default async ({ store, Vue }) => {
+export default async ({ store, Vue }) => {
   // Vue.prototype.$axios = axios
   Vue.prototype.$api = axiosInstance
 
@@ -25,7 +23,7 @@ Vue.prototype.$api = axiosInstance
             message: 'Registro guardado con éxito!'
           })
         } else { // Es Login
-          localStorage.setItem('TRI_SESSION_INFO', JSON.stringify(response.data))
+          localStorage.setItem('SESSION_INFO', JSON.stringify(response.data))
         }
       }
     }
@@ -47,13 +45,13 @@ Vue.prototype.$api = axiosInstance
           message: 'Correo y/o Contraseña Incorrectos',
           color: 'black'
         })
-        localStorage.removeItem('TRI_SESSION_INFO')
+        localStorage.removeItem('SESSION_INFO')
       } else if (error.response.status === 403) {
         Notify.create({
           message: error.response.data,
           color: 'red'
         })
-        localStorage.removeItem('TRI_SESSION_INFO')
+        localStorage.removeItem('SESSION_INFO')
       } else if (error.response.status === 404) {
         Notify.create({
           message: 'Ruta no encontrada - 404',
@@ -116,7 +114,7 @@ Vue.prototype.$api = axiosInstance
     // Antes de enviar cada petición se añade el token si existe
 
     store.dispatch('generals/fetchAccessToken')
-    const token = (store.state.generals.TRI_SESSION_INFO !== null) ? store.state.generals.TRI_SESSION_INFO.token : false
+    const token = (store.state.generals.SESSION_INFO !== null) ? store.state.generals.SESSION_INFO.token : false
     // console.log('token', token)
     if (token) {
       if (!config.headers) { config.headers = {} }
@@ -129,6 +127,6 @@ Vue.prototype.$api = axiosInstance
     // Do something with request error
     return Promise.reject(error)
   })
-} */
+}
 
 export { axiosInstance }

@@ -7,6 +7,18 @@ const Hash = use('Hash')
 const Model = use('Model')
 
 class User extends Model {
+  static get fillable() {
+    return ['email','password']
+  }
+
+  static fieldValidationRules() {
+    const rulesUser = {
+      email: 'required|email',
+      password: 'required|string|max:256'
+    }
+    return rulesUser
+  }
+
   static boot () {
     super.boot()
 
