@@ -1,4 +1,9 @@
 'use strict'
+const Helpers = use('Helpers')
+const path = require('path')
+const ExcelJS = require('exceljs');
+const Question = use("App/Models/Question")
+
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -87,6 +92,42 @@ class UploadController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+  }
+  async excel ({request, response}) {
+    console.log('sirve?');
+    let files = request.file('fileExcel')
+    // TODO preguntar a andres
+    files.clientName = 'UploadExcel.xlsx'
+    const filePath = `${path.resolve(`./tmp/uploads/`)}/${files.clientName}`
+    await files.move(Helpers.tmpPath('uploads'), { name: files.clientName, overwrite: true })
+    console.log('filePath :>> ', filePath);
+
+    var workbook = new ExcelJS.Workbook()
+    workbook = await workbook.xlsx.readFile(filePath)
+    console.log('workbook :>> ', workbook);
+    let explanation = workbook.getWorksheet('Hoja1')
+    // console.log('explanation :>> ', explanation);
+    let colComment = explanation.getColumn('B')
+    colComment.eachCell(async (cell, rowNumber) => {
+      if (rowNumber >= 2) {
+        let question = {}
+        let title = explanation.getCell('B' + rowNumber).value
+        question.title = title
+        let optionA = explanation.getCell('C' + rowNumber).value
+        question.optionA = optionA
+        let optionB = explanation.getCell('D' + rowNumber).value
+        question.optionB = optionB
+        let optionC = explanation.getCell('E' + rowNumber).value
+        question.optionC = optionC
+        let optionD = explanation.getCell('F' + rowNumber).value
+        question.optionD = optionD
+        question.isActive = false
+        console.log('question :>> ', question);
+        let save = await Question.create(question)
+      }
+    })
+
+    response.send(true)
   }
 }
 

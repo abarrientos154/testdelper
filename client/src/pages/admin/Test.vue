@@ -12,7 +12,7 @@
     </q-card>
     <div>
       <q-dialog v-model="newQ">
-        <quest @question="toList"/>
+        <quest @question="newQuest" :id="questId"/>
       </q-dialog>
     </div>
     <div>
@@ -24,8 +24,12 @@
       <div class="col col-xs-12 col-sm-8 col-md-7 col-lg-5 col-xl-4 q-mx-md q-my-sm no-wrap">
         <div class="column dimension no-wrap">
           <q-card class="q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
-            <q-card class="bg-blue-2 q-pa-sm q-mb-md">
-              <div class="text-h6 q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
+            <q-card class="row justify-between bg-blue-2 q-pa-sm q-mb-md">
+              <div class="text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
+              <div>
+                <q-btn round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
+                <q-btn round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
+              </div>
             </q-card>
             <div class="column q-pl-lg">
               <q-item class="text-subtitle1 q-mb-sm" clickable>A) {{qt.optionA}}</q-item>
@@ -47,24 +51,59 @@ export default {
   data () {
     return {
       questions: [],
+      questId: '',
       file: {},
       newQ: false,
       newF: false
     }
   },
+  mounted () {
+    this.getQuestionsByCourse()
+  },
   methods: {
-    toList (quest) {
-      if (quest) {
-        this.questions.push(quest)
+    getQuestionsByCourse () {
+      this.$api.get('getQuestionsbyCourse').then(res => {
+        if (res) {
+          console.log('res :>> ', res)
+          this.questions = res.data
+        }
+      })
+    },
+    newQuest (quest) {
+      if (quest === false) {
         this.newQ = false
+        this.getQuestionsByCourse()
       }
     },
-    getFile (file) {
-      if (file) {
-        this.file = file
-        console.log('this.file :>> ', this.file)
+    async getFile (f) {
+      if (f === false) {
         this.newF = false
+        this.getQuestionsByCourse()
       }
+    },
+    getIdForEdit (id) {
+      this.questId = id
+      this.newQ = true
+    },
+    destroyQuest (id) {
+      this.$q.dialog({
+        title: 'Confirma',
+        message: '¿Seguro deseas eliminar esta Pregunta?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$api.delete('destroyQuest/' + id).then(res => {
+          if (res) {
+            this.$q.notify({
+              color: 'positive',
+              message: 'Pregunta Eliminada Correctamente'
+            })
+            this.getQuestionsByCourse()
+          }
+        })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      })
     }
   }
 }

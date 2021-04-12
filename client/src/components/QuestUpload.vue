@@ -33,10 +33,24 @@ export default {
     file: { required }
   },
   methods: {
-    upload () {
+    async upload () {
       this.$v.$touch()
       if (!this.$v.file.$error) {
-        this.$emit('file', this.file)
+        var formData = new FormData()
+        formData.append('fileExcel', this.file)
+        await this.$api.post('uploadExcel', formData, {
+          headers: {
+            'Content-Type': undefined
+          }
+        }).then(res => {
+          if (res) {
+            this.$q.notify({
+              message: 'Preguntas Cargadas Correctamente',
+              color: 'positive'
+            })
+            this.$emit('file', false)
+          }
+        })
       }
     }
   }

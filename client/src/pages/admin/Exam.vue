@@ -53,20 +53,14 @@ export default {
       newF: false
     }
   },
-  mounted () {
-    console.log('prueba :>> ')
-  },
   methods: {
     toList (quest) {
-      if (quest) {
-        this.questions.push(quest)
+      if (quest === false) {
         this.newQ = false
       }
     },
-    getFile (file) {
-      if (file) {
-        this.file = file
-        console.log('this.file :>> ', this.file)
+    async getFile (f) {
+      if (f === false) {
         this.newF = false
       }
     }

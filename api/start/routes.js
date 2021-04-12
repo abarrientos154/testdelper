@@ -32,6 +32,14 @@ const addPrefixToGroup = group => {
 addPrefixToGroup(
   Route.group(() => {
     // Insertar rutas sin protección de autenticación aquí
+    Route.post('uploadExcel', 'UploadController.excel')
+    Route.post('newQuest', 'QuestionController.store')
+    Route.get('getQuestions', 'QuestionController.index')
+    Route.get('getQuestionsbyCourse', 'QuestionController.getQuestionsbyCourse')
+    Route.put('updateQuest/:id', 'QuestionController.update')
+    Route.get('questById/:id', 'QuestionController.show')
+    Route.delete('destroyQuest/:id', 'QuestionController.destroy')
+
   })
 );
 
