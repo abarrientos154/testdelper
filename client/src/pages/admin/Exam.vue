@@ -4,16 +4,16 @@
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
-        <div class="row">
-          <q-btn @click="newQ = true" class="text-subtitle1" padding="10px 5px" color="primary" icon="add" no-caps>Nueva</q-btn>
-          <q-btn @click="newF = true" padding="10px 8px" class="text-subtitle1 q-ml-sm" color="primary" icon="upload_file" no-caps>Desde Excel</q-btn>
-          <q-btn @click="$router.push('/questions')" padding="10px 8px" class="text-subtitle1 q-ml-sm" color="primary" icon="quiz" no-caps>Preguntas Existentes</q-btn>
+        <div class="row col col-xs-3">
+          <q-btn @click="newQ = true" class="dimensionE q-mb-xs text-subtitle1" padding="10px 5px" color="primary" icon="add" no-caps>Nueva</q-btn>
+          <q-btn @click="newF = true" padding="10px 8px" class="dimensionE q-mb-xs text-subtitle1 q-ml-sm" color="primary" icon="upload_file" no-caps>Desde Excel</q-btn>
+          <q-btn @click="$router.push('/questions')" padding="10px 8px" class="dimensionE q-mb-xs text-subtitle1 q-ml-sm" color="primary" icon="quiz" no-caps>Preguntas Existentes</q-btn>
         </div>
       </div>
     </q-card>
     <div>
-      <q-dialog v-model="newQ">
-        <quest @question="toList"/>
+      <q-dialog v-model="newQ" @hide="reload">
+        <quest @question="newQuest" :id="questId"/>
       </q-dialog>
     </div>
     <div>
@@ -22,11 +22,15 @@
       </q-dialog>
     </div>
     <div class="row justify-center">
-      <div class="col col-xs-12 col-sm-8 col-md-7 col-lg-5 col-xl-4 q-mx-md q-my-sm no-wrap">
+      <div class="col col-xs-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 q-mx-md q-my-sm">
         <div class="column dimension no-wrap">
-          <q-card class="q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
-            <q-card class="bg-blue-2 q-pa-sm q-mb-md">
+          <q-card class="dimensionC q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
+            <q-card class="row justify-between bg-blue-2 q-pa-sm q-mb-md">
               <div class="text-h6 q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
+              <div>
+                <q-btn round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
+                <q-btn round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
+              </div>
             </q-card>
             <div class="column q-pl-lg">
               <q-item class="text-subtitle1 q-mb-sm" clickable>A) {{qt.optionA}}</q-item>
@@ -48,27 +52,62 @@ export default {
   data () {
     return {
       questions: [],
+      questId: '',
       file: {},
       newQ: false,
       newF: false
     }
   },
   mounted () {
-    console.log('prueba :>> ')
+    this.getQuestionsByCourse()
   },
   methods: {
-    toList (quest) {
-      if (quest) {
-        this.questions.push(quest)
+    getQuestionsByCourse () {
+      this.$api.get('getQuestionsbyCourse').then(res => {
+        if (res) {
+          console.log('res :>> ', res)
+          this.questions = res.data
+        }
+      })
+    },
+    newQuest (quest) {
+      if (quest === false) {
         this.newQ = false
+        this.getQuestionsByCourse()
       }
     },
-    getFile (file) {
-      if (file) {
-        this.file = file
-        console.log('this.file :>> ', this.file)
+    async getFile (f) {
+      if (f === false) {
         this.newF = false
+        this.getQuestionsByCourse()
       }
+    },
+    getIdForEdit (id) {
+      this.questId = id
+      this.newQ = true
+    },
+    destroyQuest (id) {
+      this.$q.dialog({
+        title: 'Confirma',
+        message: '¿Seguro deseas eliminar esta Pregunta?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$api.delete('destroyQuest/' + id).then(res => {
+          if (res) {
+            this.$q.notify({
+              color: 'positive',
+              message: 'Pregunta Eliminada Correctamente'
+            })
+            this.getQuestionsByCourse()
+          }
+        })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      })
+    },
+    reload () {
+      this.questId = ''
     }
   }
 }
@@ -76,6 +115,12 @@ export default {
 
 <style scoped lang="scss">
 .dimension {
-  min-width: 400px;
+  min-width: 280px;
+}
+.dimensionE {
+  min-width: 80px;
+}
+.dimensionC {
+  min-width: 270px;
 }
 </style>

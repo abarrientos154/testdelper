@@ -34,6 +34,14 @@ addPrefixToGroup(
     // Insertar rutas sin protección de autenticación aquí
     Route.post("login", "UserController.login");
     Route.post("register", "UserController.register")
+    Route.post('uploadExcel', 'UploadController.excel')
+    Route.post('newQuest', 'QuestionController.store')
+    Route.get('getQuestions', 'QuestionController.index')
+    Route.get('getQuestionsbyCourse', 'QuestionController.getQuestionsbyCourse')
+    Route.put('updateQuest/:id', 'QuestionController.update')
+    Route.get('questById/:id', 'QuestionController.show')
+    Route.delete('destroyQuest/:id', 'QuestionController.destroy')
+
   })
 );
 
