@@ -9,8 +9,7 @@ class Tema extends Model {
   }
   static fieldValidationRules() {
     const rules = {
-      name: "required|string",
-      asignatura_id: "required|string",
+      name: "required|string"
     }
     return rules
   }

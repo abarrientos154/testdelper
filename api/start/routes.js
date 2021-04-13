@@ -52,6 +52,7 @@ addPrefixToGroup(
     Route.put('updateAsignatura/:id', 'AsignaturaController.update')
 
     Route.get('tema', 'TemaController.index')
+    Route.get('tema_by_asignatura/:asignatura_id', 'TemaController.temaByAsignatura')
     Route.post('tema', 'TemaController.store')
     Route.put('tema/:id', 'TemaController.update')
     Route.delete('tema/:id', 'TemaController.destroy')

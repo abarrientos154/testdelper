@@ -30,7 +30,7 @@
           <div class="text-h6">{{edit ? 'Editar Examen' : 'Crear Examen'}}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input rounded dense outlined type="text" v-model="form.name" label="Nuevo nombre" style="width: 300px" :error="$v.form.name.$error" error-message="Este campo es requerido"  @blur="$v.form.name.$touch()">
+          <q-input rounded dense outlined type="text" v-model="form.name" label="Nuevo nombre" :error="$v.form.name.$error" error-message="Este campo es requerido"  @blur="$v.form.name.$touch()">
             <template v-slot:prepend>
               <q-icon name="edit" color="primary"/>
             </template>
@@ -53,7 +53,6 @@ import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
-      id: '',
       edit: false,
       nuevo: false,
       form: {},
@@ -76,9 +75,15 @@ export default {
         this.$q.loading.show({
           message: 'Actualizando Examen, Por Favor Espere...'
         })
-        this.$api.put('examen/' + this.id, this.form).then((res) => {
-          this.$q.loading.hide()
-          this.getExam()
+        this.$api.put('examen/' + this.form._id, this.form).then((res) => {
+          if (res) {
+            this.$q.loading.hide()
+            this.$q.notify({
+              color: 'positive',
+              message: 'Examen Actualizado Correctamente'
+            })
+            this.getExam()
+          }
         })
       }
     },
@@ -89,7 +94,6 @@ export default {
     editExam (itm) {
       if (itm) {
         var datos = { ...itm }
-        this.id = itm._id
         this.form = datos
         this.nuevo = true
         this.edit = true
@@ -104,8 +108,14 @@ export default {
           message: 'Subiendo Examen, Por Favor Espere...'
         })
         this.$api.post('examen', this.form).then((res) => {
-          this.$q.loading.hide()
-          this.getExam()
+          if (res) {
+            this.$q.loading.hide()
+            this.$q.notify({
+              color: 'positive',
+              message: 'Examen Creado Correctamente'
+            })
+            this.getExam()
+          }
         })
       }
     },

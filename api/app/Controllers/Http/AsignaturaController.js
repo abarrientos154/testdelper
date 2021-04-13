@@ -1,7 +1,7 @@
 'use strict'
 
 const Asignatura = use("App/Models/Asignatura")
-const { validate } = use("Validator")
+// const { validate } = use("Validator")
 // const Helpers = use('Helpers')
 // const mkdirp = use('mkdirp')
 // const fs = require('fs')
@@ -25,15 +25,14 @@ class AsignaturaController {
   }
 
   async update ({ params, request, response }) {
-    var dat = request.only(['dat'])
-    dat = JSON.parse(dat.dat)
-    const validation = await validate(dat, Asignatura.fieldValidationRules())
-    if (validation.fails()) {
-      response.unprocessableEntity(validation.messages())
-    } else {
-      let modificar = await Asignatura.query().where('_id', params.id).update(dat)
-      response.send(modificar)
-    }
+    var dat = request.body
+    // const validation = await validate(dat, Asignatura.fieldValidationRules())
+    // if (validation.fails()) {
+    //   response.unprocessableEntity(validation.messages())
+    // } else {
+    // }
+    let modificar = await Asignatura.query().where('_id', params.id).update(dat)
+    response.send(modificar)
   }
 }
 

@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md column items-center">
     <div class="text-primary text-h3 text-weight-bolder q-mb-lg">Temas</div>
-    <q-list class="column items-center" style="width: 100%">
+    <q-list class="column items-center" style="width: 100%" v-if="temas.length > 0">
       <q-card v-for="(item,index) in temas" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/test/' + item.id)">
+          <q-item-section @click="$router.push('/exam/' + item._id)">
             <q-item>
               <q-item-section avatar>
                 <q-icon name="source" size="30px"/>
@@ -15,19 +15,22 @@
             </q-item>
           </q-item-section>
           <q-item-section side>
-            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editTem(item,index)"/>
-            <q-btn flat dense round class="q-mx-sm" color="red" icon="delete" @click="EliminarTem(index)"/>
+            <q-btn flat dense round class="q-mx-sm" color="primary" icon="edit" @click="editTem(item)"/>
+            <q-btn flat dense round class="q-mx-sm" color="red" icon="delete" @click="eiminarTem(item._id)"/>
           </q-item-section>
         </q-item>
       </q-card>
     </q-list>
-    <q-dialog v-model="edit">
+    <q-card v-else class="shadow-2 q-ma-md q-pa-md">
+      <div class="text-center text-subtitle1">Actualmente sin Temas...</div>
+    </q-card>
+    <q-dialog v-model="nuevo" @hide="decartarCamb()">
       <q-card>
         <q-card-section>
-          <div class="text-h6">{{item > temas.length ? 'Añadir Tema' : 'Editar Tema'}}</div>
+          <div class="text-h6">{{edit ? 'Editar Tema' : 'Crear Tema'}}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input rounded dense outlined type="text" v-model="newDatos.name" label="Nuevo nombre" style="width: 300px" :error="$v.newDatos.name.$error" error-message="Este campo es requerido"  @blur="$v.newDatos.name.$touch()">
+          <q-input rounded dense outlined type="text" v-model="form.name" label="Nuevo nombre" :error="$v.form.name.$error" error-message="Este campo es requerido"  @blur="$v.form.name.$touch()">
             <template v-slot:prepend>
               <q-icon name="edit" color="primary"/>
             </template>
@@ -35,12 +38,12 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup @click="decartarCamb()" no-caps/>
-          <q-btn flat :label="item > temas.length ? 'Crear' : 'Actualizar'" color="primary" v-close-popup @click="actualizarTem()" no-caps/>
+          <q-btn flat :label="edit ? 'Actualizar' :  'Crear'" color="primary" v-close-popup @click="edit ? actualizarTem() : crearTem()" no-caps/>
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-page-sticky position="top-right" :offset="[20, 20]">
-      <q-btn round icon="add" color="primary" size="20px" @click="crearTem()"/>
+      <q-btn round icon="add" color="primary" size="20px" @click="editTem()"/>
     </q-page-sticky>
   </div>
 </template>
@@ -51,65 +54,98 @@ export default {
   data () {
     return {
       edit: false,
-      newDatos: {},
+      nuevo: false,
+      form: {},
       item: 0,
-      temas: [
-        {
-          id: 1,
-          name: 'Tema 1'
-        },
-        {
-          id: 2,
-          name: 'Tema 2'
-        },
-        {
-          id: 3,
-          name: 'Tema 3'
-        }
-      ]
+      temas: []
     }
   },
   validations: {
-    newDatos: {
+    form: {
       name: { required, minLength: minLength(3), maxLength: maxLength(20) }
     }
   },
+  mounted () {
+    this.getTem(this.$route.params.id)
+    this.form.asignatura_id = this.$route.params.id
+  },
   methods: {
     actualizarTem () {
-      this.$v.$touch()
-      if (!this.$v.newDatos.$error) {
-        if (this.temas.length < this.item) {
-          this.newDatos.id = this.item
-          this.temas.push(this.newDatos)
-        } else {
-          this.temas[this.item].name = this.newDatos.name
-        }
-        this.newDatos = {}
+      this.$v.form.$touch()
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Actualizando Tema, Por Favor Espere...'
+        })
+        this.$api.put('tema/' + this.form._id, this.form).then((res) => {
+          if (res) {
+            this.$q.loading.hide()
+            this.$q.notify({
+              color: 'positive',
+              message: 'Tema Actualizado Correctamente'
+            })
+            this.getTem(this.$route.params.id)
+          }
+        })
       }
     },
     decartarCamb () {
-      this.newDatos = {}
+      this.form = {}
+      this.edit = false
     },
-    editTem (itm, ind) {
-      const newd = { ...itm }
-      this.edit = true
-      this.item = ind
-      this.newDatos = newd
+    editTem (itm) {
+      if (itm) {
+        var datos = { ...itm }
+        this.form = datos
+        this.nuevo = true
+        this.edit = true
+      } else {
+        this.nuevo = true
+      }
     },
     crearTem () {
-      this.edit = true
-      this.item = this.temas.length + 1
+      this.$v.$touch()
+      this.form.asignatura_id = this.$route.params.id
+      if (!this.$v.form.$error) {
+        this.$q.loading.show({
+          message: 'Subiendo Tema, Por Favor Espere...'
+        })
+        this.$api.post('tema', this.form).then((res) => {
+          if (res) {
+            this.$q.loading.hide()
+            this.$q.notify({
+              color: 'positive',
+              message: 'Tema Creado Correctamente'
+            })
+            this.getTem(this.$route.params.id)
+          }
+        })
+      }
     },
-    EliminarTem (ind) {
+    eiminarTem (id) {
       this.$q.dialog({
         title: 'Confirma',
-        message: '¿Seguro deseas elimirar este Tema?',
+        message: '¿Seguro deseas eliminar este tema?',
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.temas.splice(ind, 1)
+        this.$api.delete('tema/' + id).then(res => {
+          if (res) {
+            this.$q.notify({
+              color: 'positive',
+              message: 'Eliminado Correctamente'
+            })
+            this.getTem(this.$route.params.id)
+          }
+        })
       }).onCancel(() => {
-        // cancel
+        // console.log('>>>> Cancel')
+      })
+    },
+    getTem (id) {
+      this.$api.get('tema_by_asignatura/' + id).then(res => {
+        if (res) {
+          this.temas = res
+        }
       })
     }
   }
