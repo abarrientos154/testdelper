@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'MainLayout',
   data () {
@@ -66,7 +67,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('generals', ['logout']),
     cerrarSesion () {
+      this.logout()
       this.$router.push('/login')
     },
     rutas (itm) {

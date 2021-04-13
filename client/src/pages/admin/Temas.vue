@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md column items-center">
-    <div class="text-primary text-h3 text-weight-bolder q-mb-lg">Temas</div>
+    <div class="text-primary text-h5">{{asig.name}}</div>
+    <div class="text-black text-subtitle1 text-weight-bolder q-mb-lg">Temas</div>
     <q-list class="column items-center" style="width: 100%" v-if="temas.length > 0">
       <q-card v-for="(item,index) in temas" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
@@ -42,7 +43,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-page-sticky position="top-right" :offset="[20, 20]">
+    <q-page-sticky position="bottom-right" :offset="[20, 20]">
       <q-btn round icon="add" color="primary" size="20px" @click="editTem()"/>
     </q-page-sticky>
   </div>
@@ -57,6 +58,7 @@ export default {
       nuevo: false,
       form: {},
       item: 0,
+      asig: {},
       temas: []
     }
   },
@@ -66,8 +68,7 @@ export default {
     }
   },
   mounted () {
-    this.getTem(this.$route.params.id)
-    this.form.asignatura_id = this.$route.params.id
+    this.getAsig(this.$route.params.id)
   },
   methods: {
     actualizarTem () {
@@ -83,7 +84,7 @@ export default {
               color: 'positive',
               message: 'Tema Actualizado Correctamente'
             })
-            this.getTem(this.$route.params.id)
+            this.getAsig(this.$route.params.id)
           }
         })
       }
@@ -116,7 +117,7 @@ export default {
               color: 'positive',
               message: 'Tema Creado Correctamente'
             })
-            this.getTem(this.$route.params.id)
+            this.getAsig(this.$route.params.id)
           }
         })
       }
@@ -134,17 +135,22 @@ export default {
               color: 'positive',
               message: 'Eliminado Correctamente'
             })
-            this.getTem(this.$route.params.id)
+            this.getAsig(this.$route.params.id)
           }
         })
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       })
     },
-    getTem (id) {
-      this.$api.get('tema_by_asignatura/' + id).then(res => {
+    getAsig (id) {
+      this.$api.get('asignatura_by_id/' + id).then(res => {
         if (res) {
-          this.temas = res
+          this.asig = res
+          this.$api.get('tema_by_asignatura/' + id).then(res => {
+            if (res) {
+              this.temas = res
+            }
+          })
         }
       })
     }

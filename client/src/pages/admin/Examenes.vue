@@ -42,7 +42,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-page-sticky position="top-right" :offset="[20, 20]">
+    <q-page-sticky position="bottom-right" :offset="[20, 20]">
       <q-btn round icon="add" color="primary" size="20px" @click="editExam()"/>
     </q-page-sticky>
   </div>
