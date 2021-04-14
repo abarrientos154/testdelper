@@ -96,6 +96,8 @@ class UploadController {
   async excel ({request, response}) {
     console.log('sirve?');
     let files = request.file('fileExcel')
+    var data = request.only(['data'])
+    data = JSON.parse(data.data)
     // TODO preguntar a andres
     files.clientName = 'UploadExcel.xlsx'
     const filePath = `${path.resolve(`./tmp/uploads/`)}/${files.clientName}`
@@ -122,6 +124,12 @@ class UploadController {
         let optionD = explanation.getCell('F' + rowNumber).value
         question.optionD = optionD
         question.isActive = false
+        if (data.asignatura_id != null && data.tema_id != null) {
+          question.asignatura_id = data.asignatura_id
+          question.tema_id = data.tema_id
+        } else if (data.examen_id != null) {
+          question.examen_id = data.examen_id
+        }
         console.log('question :>> ', question);
         let save = await Question.create(question)
       }

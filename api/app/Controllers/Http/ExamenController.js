@@ -26,6 +26,10 @@ class ExamenController {
     let datos = await Examen.all()
     response.send(datos)
   }
+  async examById ({ request, response, view, params }) {
+    let datos = (await Examen.find(params.id)).toJSON()
+    response.send(datos)
+  }
 
   async store ({ request, response, auth }) {
     var dat = request.body

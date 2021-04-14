@@ -70,7 +70,7 @@ export default async ({ store, Vue }) => {
           position: 'bottom'
         })
       }
-      var data = error.response.data
+      const data = error.response.data
       // console.log('error.response.data.error', data)
       if (data) {
         if (data.statusCode === 403) {
