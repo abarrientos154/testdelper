@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">Examen 1</div>
+    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{exam.name}}</div>
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
@@ -13,17 +13,17 @@
     </q-card>
     <div>
       <q-dialog v-model="newQ" @hide="reload">
-        <quest @question="newQuest" :id="questId"/>
+        <quest @question="newQuest" :id="questId" :exam_id="exam._id"/>
       </q-dialog>
     </div>
     <div>
       <q-dialog v-model="newF">
-        <quest-upload @file="getFile"/>
+        <quest-upload @file="getFile" :exam_id="exam._id"/>
       </q-dialog>
     </div>
     <div class="row justify-center">
       <div class="col col-xs-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 q-mx-md q-my-sm">
-        <div class="column dimension no-wrap">
+        <div class="column dimension no-wrap" v-if="questions.length > 0">
           <q-card class="dimensionC q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
             <q-card class="row justify-between bg-blue-2 q-pa-sm q-mb-md">
               <div class="text-h6 q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
@@ -40,6 +40,9 @@
             </div>
           </q-card>
         </div>
+        <q-card v-else class="shadow-2 q-ma-md q-pa-md">
+          <div class="text-center text-subtitle1">Actualmente sin Preguntas...</div>
+        </q-card>
       </div>
     </div>
   </div>
@@ -51,6 +54,7 @@ export default {
   components: { Quest, QuestUpload },
   data () {
     return {
+      exam: {},
       questions: [],
       questId: '',
       file: {},
@@ -59,27 +63,36 @@ export default {
     }
   },
   mounted () {
-    this.getQuestionsByCourse()
+    this.getExamById()
+    this.getQuestionsByExam()
   },
   methods: {
-    getQuestionsByCourse () {
-      this.$api.get('getQuestionsbyCourse').then(res => {
+    getExamById () {
+      this.$api.get('ExamById/' + this.$route.params.id).then(res => {
+        if (res) {
+          this.exam = res
+          console.log('this.exam >> ', res)
+        }
+      })
+    },
+    getQuestionsByExam () {
+      this.$api.get('getQuestionsbyExam/' + this.$route.params.id).then(res => {
         if (res) {
           console.log('res :>> ', res)
-          this.questions = res.data
+          this.questions = res
         }
       })
     },
     newQuest (quest) {
       if (quest === false) {
         this.newQ = false
-        this.getQuestionsByCourse()
+        this.getQuestionsByExam()
       }
     },
     async getFile (f) {
       if (f === false) {
         this.newF = false
-        this.getQuestionsByCourse()
+        this.getQuestionsByExam()
       }
     },
     getIdForEdit (id) {
@@ -99,7 +112,7 @@ export default {
               color: 'positive',
               message: 'Pregunta Eliminada Correctamente'
             })
-            this.getQuestionsByCourse()
+            this.getQuestionsByExam()
           }
         })
       }).onCancel(() => {

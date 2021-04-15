@@ -37,7 +37,8 @@ addPrefixToGroup(
     Route.post('uploadExcel', 'UploadController.excel')
     Route.post('newQuest', 'QuestionController.store')
     Route.get('getQuestions', 'QuestionController.index')
-    Route.get('getQuestionsbyCourse', 'QuestionController.getQuestionsbyCourse')
+    Route.get('getQuestionsbyTheme/:id', 'QuestionController.getQuestionsbyTheme')
+    Route.get('getQuestionsbyExam/:id', 'QuestionController.getQuestionsbyExam')
     Route.put('updateQuest/:id', 'QuestionController.update')
     Route.get('questById/:id', 'QuestionController.show')
     Route.delete('destroyQuest/:id', 'QuestionController.destroy')
@@ -56,11 +57,13 @@ addPrefixToGroup(
 
     Route.get('tema', 'TemaController.index')
     Route.get('tema_by_asignatura/:asignatura_id', 'TemaController.temaByAsignatura')
+    Route.get('themeById/:id', 'TemaController.themeById')
     Route.post('tema', 'TemaController.store')
     Route.put('tema/:id', 'TemaController.update')
     Route.delete('tema/:id', 'TemaController.destroy')
 
     Route.get('examen', 'ExamenController.index')
+    Route.get('ExamById/:id', 'ExamenController.examById')
     Route.post('examen', 'ExamenController.store')
     Route.put('examen/:id', 'ExamenController.update')
     Route.delete('examen/:id', 'ExamenController.destroy')

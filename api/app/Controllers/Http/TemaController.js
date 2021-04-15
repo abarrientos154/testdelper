@@ -32,6 +32,10 @@ class TemaController {
     console.log(datos, 'datos')
     response.send(datos)
   }
+  async themeById ({ request, response, params }) {
+    let theme = (await Tema.with('datos_asignatura').find(params.id)).toJSON()
+    response.send(theme)
+  }
 
   async store ({ request, response, auth }) {
     var dat = request.body

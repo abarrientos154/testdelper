@@ -100,7 +100,7 @@ export default {
       this.form = {}
     },
     editAsig (itm) {
-      var datos = { ...itm }
+      const datos = { ...itm }
       this.edit = true
       this.form = datos
     },

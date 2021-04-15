@@ -93,7 +93,7 @@ export default {
     },
     editExam (itm) {
       if (itm) {
-        var datos = { ...itm }
+        const datos = { ...itm }
         this.form = datos
         this.nuevo = true
         this.edit = true

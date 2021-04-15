@@ -24,8 +24,13 @@ class QuestionController {
   }
   
 
-  async getQuestionsbyCourse ({ request, response, view }) {
-    let data = (await Question.query().where({}).fetch()).toJSON()
+  async getQuestionsbyTheme ({ request, response, view, params }) {
+    let data = (await Question.query().where({tema_id: params.id}).fetch()).toJSON()
+    response.send(data)
+  }
+
+  async getQuestionsbyExam ({ request, response, view, params }) {
+    let data = (await Question.query().where({ examen_id: params.id }).fetch()).toJSON()
     response.send(data)
   }
 
