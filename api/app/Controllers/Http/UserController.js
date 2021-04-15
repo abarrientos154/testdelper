@@ -35,7 +35,7 @@ class UserController {
     const user = (await User.findBy('email', email)).toJSON()
     let isUser = false
     token.roles = user.roles.map(roleMap => {
-      if (roleMap === 3) {
+      if (roleMap === 2) {
         isUser = true
       }
       return roleMap
@@ -57,6 +57,33 @@ class UserController {
     let data = {}
     data.SESSION_INFO = token
     return data
+  }
+
+  async register({ request, response }) {
+    var dat = request.body
+
+    // const validation = await validate(dat, User.fieldValidationRules())
+    // if (validation.fails()) {
+    //   response.unprocessableEntity(validation.messages())
+    // } else {
+    // }
+
+    if (((await User.where({email: dat.email}).fetch()).toJSON()).length) {
+      response.unprocessableEntity([{
+        message: 'Correo ya registrado en el sistema!'
+      }])
+    } else {
+      let body = dat
+      const rol = body.roles
+      body.roles = [rol]
+      const user = await User.create(body)
+      response.send(user)
+    }
+  }
+
+  async userInfo({ request, response, auth }) {
+    const user = (await auth.getUser()).toJSON()
+    response.send(user)
   }
 }
 

@@ -66,11 +66,10 @@ export default {
           if (res) {
             this.user = res.SESSION_INFO
             console.log('user', this.user)
-
             this.login(res)
             if (this.user.roles[0] === 1) {
               this.$router.push('/inicio_administrador')
-            } else if (this.user.roles[0] === 2) {
+            } else {
               this.$router.push('/inicio')
             }
           } else {

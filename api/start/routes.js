@@ -48,6 +48,8 @@ addPrefixToGroup(
 addPrefixToGroup(
   Route.group(() => {
     // Insertar rutas con protección de autenticación aquí
+    Route.get("user_info", "UserController.userInfo")
+
     Route.get("asignatura", "AsignaturaController.index")
     Route.get('asignatura_by_id/:id', 'AsignaturaController.getAsignaturaById')
     Route.put('updateAsignatura/:id', 'AsignaturaController.update')

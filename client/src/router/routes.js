@@ -10,8 +10,9 @@ const routes = [
       { path: '/temas/:id', component: () => import('pages/admin/Temas.vue') },
       { path: '/test/:id', component: () => import('pages/admin/Test.vue') },
       { path: '/exam/:id', component: () => import('pages/admin/Exam.vue') },
-      { path: '/questions', component: () => import('pages/admin/Questions.vue') }
+      { path: '/questions', component: () => import('pages/admin/Questions.vue') },
       // User
+      { path: '/inicio', component: () => import('pages/user/Inicio.vue') }
     ]
   },
   { path: '/login', component: () => import('pages/Login.vue') },

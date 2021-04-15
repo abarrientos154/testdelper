@@ -3,23 +3,23 @@
     <q-layout view="lHh Lpr lFf">
       <q-header elevated class="bg-white">
         <q-toolbar>
-          <q-btn flat dense round color="primary" icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen"/>
+          <!-- <q-btn flat dense round color="primary" icon="menu" aria-label="Menu" @click="clickmenu()"/> -->
 
-          <q-toolbar-title class="row">
-            <img v-if="leftDrawerOpen == false" src="logocolomer.png" style="width: 50px; height: 40px">
+          <q-toolbar-title class="row justify-center">
+            <img v-if="DrawerOpen == false" src="logocolomer.png" style="width: 50px; height: 40px">
             <div class="text-weight-bolder text-primary column justify-center q-pl-sm">Colomer</div>
           </q-toolbar-title>
 
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-1">
+      <q-drawer v-model="DrawerOpen" bordered>
         <q-list>
           <q-item-label header class="column items-center">
             <img src="logocolomer.png">
             <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div>
           </q-item-label>
-          <template v-for="(item, index) in menuAdmin">
+          <template v-for="(item, index) in menu">
             <q-item :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : rutas(item)">
               <q-item-section avatar>
                 <q-icon :name="item.icon" />
@@ -46,7 +46,9 @@ export default {
   name: 'MainLayout',
   data () {
     return {
-      leftDrawerOpen: false,
+      rol: null,
+      DrawerOpen: true,
+      menu: [],
       menuAdmin: [
         {
           icon: 'menu_book',
@@ -63,14 +65,58 @@ export default {
           label: 'Cerrar Sesión',
           ruta: ''
         }
+      ],
+      menuUser: [
+        {
+          icon: 'home',
+          label: 'Inicio',
+          ruta: '/inicio'
+        },
+        {
+          icon: 'logout',
+          label: 'Cerrar Sesión',
+          ruta: ''
+        }
       ]
     }
+  },
+  mounted () {
+    this.getUser()
+    this.clickmenu()
   },
   methods: {
     ...mapMutations('generals', ['logout']),
     cerrarSesion () {
       this.logout()
       this.$router.push('/login')
+    },
+    getUser () {
+      this.$api.get('user_info').then(v => {
+        if (v) {
+          this.rol = v.roles[0]
+          if (this.rol === 1) {
+            this.menu = this.menuAdmin
+          } else {
+            if (this.rol === 2) {
+              this.menu = this.menuUser
+            } else {
+              console.log(this.rol)
+            }
+          }
+        }
+      })
+    },
+    clickmenu () {
+      // this.DrawerOpen = !this.DrawerOpen
+      // if (this.rol === 1) {
+      //   this.menu = this.menuAdmin
+      // } else {
+      //   if (this.rol === 2) {
+      //     this.menu = this.menuUser
+      //   } else {
+      //     console.log(this.rol)
+      //   }
+      // }
     },
     rutas (itm) {
       this.$router.push(itm.ruta)

@@ -69,7 +69,7 @@ export default {
     ...mapMutations('generals', ['login']),
     async registrarse () {
       this.$v.$touch()
-      this.form.roles[0] = this.rol
+      this.form.roles = this.rol
       console.log(this.$v.form.$error, this.$v.password.$error, this.$v.repeatPassword.$error, this.terminos)
       if (!this.$v.form.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && this.terminos) {
         this.form.password = this.password
@@ -93,7 +93,7 @@ export default {
     },
     loguear () {
       this.$api.post('login', this.form).then(res => {
-        if (res) { // Se debe ejecutar una mutacion que modifique el state con sessionInfo
+        if (res) {
           const usuario = res.SESSION_INFO.roles.find(value => value === 2)
           if (usuario) {
             this.login(res)
@@ -110,17 +110,5 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.button-subir {
-  text-decoration: none;
-  padding: 10px;
-  font-weight: 540;
-  font-size: 0px;
-  color: #0016b0;
-  background-color: $primary;
-  border-radius: 30px;
-  border: 1px solid #7e7e7e;
-  height:40px;
-  width: 40px;
-}
+<style>
 </style>
