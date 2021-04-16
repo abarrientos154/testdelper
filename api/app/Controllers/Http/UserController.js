@@ -85,6 +85,17 @@ class UserController {
     const user = (await auth.getUser()).toJSON()
     response.send(user)
   }
+
+  async update ({ params, request, response }) {
+    var dat = request.body
+    // const validation = await validate(dat, Asignatura.fieldValidationRules())
+    // if (validation.fails()) {
+    //   response.unprocessableEntity(validation.messages())
+    // } else {
+    // }
+    let modificar = await User.query().where('_id', params.id).update(dat)
+    response.send(modificar)
+  }
 }
 
 module.exports = UserController;

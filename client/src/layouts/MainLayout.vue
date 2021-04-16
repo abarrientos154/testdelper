@@ -6,10 +6,11 @@
           <!-- <q-btn flat dense round color="primary" icon="menu" aria-label="Menu" @click="clickmenu()"/> -->
 
           <q-toolbar-title class="row justify-center">
-            <img v-if="DrawerOpen == false" src="logocolomer.png" style="width: 50px; height: 40px">
+            <!-- <img v-if="DrawerOpen == false" src="logocolomer.png" style="width: 50px; height: 40px"> -->
             <div class="text-weight-bolder text-primary column justify-center q-pl-sm">Colomer</div>
           </q-toolbar-title>
 
+          <div class="text-black">{{ultimaConeccion == {} ? ultimaConeccion.fecha : user.ultima_coneccion.fecha}}</div>
         </q-toolbar>
       </q-header>
 
@@ -46,7 +47,12 @@ export default {
   name: 'MainLayout',
   data () {
     return {
+      hoy: new Date(),
+      fecha: '',
+      hora: '',
       rol: null,
+      user: {},
+      ultimaConeccion: {},
       DrawerOpen: true,
       menu: [],
       menuAdmin: [
@@ -87,13 +93,23 @@ export default {
   methods: {
     ...mapMutations('generals', ['logout']),
     cerrarSesion () {
-      this.logout()
-      this.$router.push('/login')
+      this.$q.loading.show({
+        message: 'Cerrando Sesión...'
+      })
+      this.$api.put('updateUser/' + this.user._id, this.user).then((res) => {
+        if (res) {
+          this.$q.loading.hide()
+          this.logout()
+          this.$router.push('/login')
+        }
+      })
     },
     getUser () {
       this.$api.get('user_info').then(v => {
         if (v) {
           this.rol = v.roles[0]
+          this.ultimaConeccion = v.ultima_coneccion
+          this.user = v
           if (this.rol === 1) {
             this.menu = this.menuAdmin
           } else {
@@ -103,20 +119,12 @@ export default {
               console.log(this.rol)
             }
           }
+          this.fecha = this.hoy.getDate() + '/' + (this.hoy.getMonth() + 1) + '/' + this.hoy.getFullYear()
+          this.hora = this.hoy.getHours() + ':' + this.hoy.getMinutes() + ':' + this.hoy.getSeconds()
+          this.user.ultima_coneccion = { fecha: this.fecha, hora: this.hora }
+          console.log(v)
         }
       })
-    },
-    clickmenu () {
-      // this.DrawerOpen = !this.DrawerOpen
-      // if (this.rol === 1) {
-      //   this.menu = this.menuAdmin
-      // } else {
-      //   if (this.rol === 2) {
-      //     this.menu = this.menuUser
-      //   } else {
-      //     console.log(this.rol)
-      //   }
-      // }
     },
     rutas (itm) {
       this.$router.push(itm.ruta)
