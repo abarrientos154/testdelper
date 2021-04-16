@@ -10,7 +10,7 @@
             <div class="text-weight-bolder text-primary column justify-center q-pl-sm">Colomer</div>
           </q-toolbar-title>
 
-          <div class="text-black">{{ultimaConeccion == {} ? ultimaConeccion.fecha : user.ultima_coneccion.fecha}}</div>
+          <div class="text-black">{{ultimaConeccion == {} ? user.ultima_coneccion.fecha : ultimaConeccion.fecha}}</div>
         </q-toolbar>
       </q-header>
 
@@ -88,7 +88,6 @@ export default {
   },
   mounted () {
     this.getUser()
-    this.clickmenu()
   },
   methods: {
     ...mapMutations('generals', ['logout']),
