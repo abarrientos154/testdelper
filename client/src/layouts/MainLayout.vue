@@ -10,7 +10,7 @@
             <div class="text-weight-bolder text-primary column justify-center q-pl-sm">Colomer</div>
           </q-toolbar-title>
 
-          <div class="text-black">{{ultimaConeccion == {} ? user.ultima_coneccion.fecha : ultimaConeccion.fecha}}</div>
+          <div v-if="rol == 2" class="text-black">{{ultimaConeccion == {} ? user.ultima_coneccion.fecha : ultimaConeccion.fecha}}</div>
         </q-toolbar>
       </q-header>
 
