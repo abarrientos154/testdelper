@@ -24,7 +24,7 @@ class QuestionController {
   }
   
 
-  async getQuestionsbyTheme ({ request, response, view, params }) {
+  async getQuestionsbyTest ({ request, response, view, params }) {
     let data = (await Question.query().where({tema_id: params.id}).fetch()).toJSON()
     response.send(data)
   }

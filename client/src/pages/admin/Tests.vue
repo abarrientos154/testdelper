@@ -2,16 +2,16 @@
   <div class="q-pa-md column items-center">
     <div class="text-primary text-h5">{{asig.name}}</div>
     <div class="text-black text-subtitle1 text-weight-bolder q-mb-lg">Temas</div>
-    <q-list class="column items-center" style="width: 100%" v-if="temas.length > 0">
-      <q-card v-for="(item,index) in temas" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
+    <q-list class="column items-center" style="width: 100%" v-if="test.length > 0">
+      <q-card v-for="(item,index) in test" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/test/' + item._id)">
+          <q-item-section @click="$router.push('/edit_test/' + item._id)">
             <q-item>
               <q-item-section avatar>
                 <q-icon name="source" size="30px"/>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="text-black text-weight-bolder text-h6">{{item.name}}</q-item-label>
+                <q-item-label class="text-black text-weight-bolder text-h6">{{item.title}}</q-item-label>
               </q-item-section>
             </q-item>
           </q-item-section>
@@ -59,7 +59,7 @@ export default {
       form: {},
       item: 0,
       asig: {},
-      temas: []
+      test: []
     }
   },
   validations: {
@@ -146,9 +146,9 @@ export default {
       this.$api.get('asignatura_by_id/' + id).then(res => {
         if (res) {
           this.asig = res
-          this.$api.get('tema_by_asignatura/' + id).then(res => {
+          this.$api.get('test_by_course/' + id).then(res => {
             if (res) {
-              this.temas = res
+              this.test = res
             }
           })
         }

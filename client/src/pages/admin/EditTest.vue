@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{theme.name}}</div>
-    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{theme.datos_asignatura.name}}</div>
+    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.title}}</div>
+    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.datos_asignatura.name}}</div>
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
@@ -13,12 +13,12 @@
     </q-card>
     <div>
       <q-dialog v-model="newQ" @hide="reload">
-        <quest @question="newQuest" :id="questId" :course_id="theme.datos_asignatura._id" :theme_id="theme._id"/>
+        <quest @question="newQuest" :id="questId" :course_id="test.datos_asignatura._id" :test_id="test._id"/>
       </q-dialog>
     </div>
     <div>
       <q-dialog v-model="newF">
-        <quest-upload @file="getFile" :course_id="theme.datos_asignatura._id" :theme_id="theme._id"/>
+        <quest-upload @file="getFile" :course_id="test.datos_asignatura._id" :test_id="test._id"/>
       </q-dialog>
     </div>
     <div class="row justify-center">
@@ -54,7 +54,7 @@ export default {
   components: { Quest, QuestUpload },
   data () {
     return {
-      theme: {},
+      test: {},
       questions: null,
       questId: '',
       file: {},
@@ -63,20 +63,20 @@ export default {
     }
   },
   mounted () {
-    this.getThemeById()
-    this.getQuestionsByTheme()
+    this.getTestById()
+    this.getQuestionsByTest()
   },
   methods: {
-    getThemeById () {
-      this.$api.get('themeById/' + this.$route.params.id).then(res => {
+    getTestById () {
+      this.$api.get('testById/' + this.$route.params.id).then(res => {
         if (res) {
-          this.theme = res
-          console.log('this.theme >> ', this.theme)
+          this.test = res
+          console.log('this.test >> ', this.test)
         }
       })
     },
-    getQuestionsByTheme () {
-      this.$api.get('getQuestionsbyTheme/' + this.$route.params.id).then(res => {
+    getQuestionsByTest () {
+      this.$api.get('getQuestionsbyTest/' + this.$route.params.id).then(res => {
         if (res) {
           console.log('res :>> ', res)
           this.questions = res
@@ -87,13 +87,13 @@ export default {
     newQuest (quest) {
       if (quest === false) {
         this.newQ = false
-        this.getQuestionsByTheme()
+        this.getQuestionsByTest()
       }
     },
     async getFile (f) {
       if (f === false) {
         this.newF = false
-        this.getQuestionsByTheme()
+        this.getQuestionsByTest()
       }
     },
     getIdForEdit (id) {
@@ -113,7 +113,7 @@ export default {
               color: 'positive',
               message: 'Pregunta Eliminada Correctamente'
             })
-            this.getQuestionsByTheme()
+            this.getQuestionsByTest()
           }
         })
       }).onCancel(() => {

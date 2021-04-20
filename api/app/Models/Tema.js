@@ -14,7 +14,7 @@ class Tema extends Model {
     return rules
   }
   datos_asignatura () {
-    return this.hasOne('App/Models/Asignatura', 'asignatura_id', '_id')
+    return this.hasOne('App/Models/Asignatura', 'family_id', '_id')
   }
 }
 

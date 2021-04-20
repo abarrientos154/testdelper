@@ -23,7 +23,7 @@
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   name: 'Quest',
-  props: ['id', 'course_id', 'theme_id', 'exam_id'],
+  props: ['id', 'course_id', 'test_id', 'exam_id'],
   data () {
     return {
       quest: {},
@@ -59,7 +59,7 @@ export default {
       this.$v.$touch()
       if (!this.$v.quest.$error) {
         this.quest.asignatura_id = this.course_id
-        this.quest.tema_id = this.theme_id
+        this.quest.tema_id = this.test_id
         this.quest.examen_id = this.exam_id
         await this.$api.post('newQuest', this.quest).then(res => {
           if (res) {

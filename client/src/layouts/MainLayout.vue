@@ -20,7 +20,7 @@
             <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div>
           </q-item-label>
           <template v-for="(item, index) in menu">
-            <q-item :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : rutas(item)">
+            <q-item :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : item.label === 'Datos Masivos' ? uploadData() : rutas(item)">
               <q-item-section avatar>
                 <q-icon :name="item.icon" />
               </q-item-section>
@@ -33,6 +33,10 @@
         </q-list>
       </q-drawer>
 
+      <q-dialog v-model="up">
+        <big-data @file="getFile"></big-data>
+      </q-dialog>
+
       <q-page-container>
         <router-view />
       </q-page-container>
@@ -41,11 +45,14 @@
 </template>
 
 <script>
+import BigData from '../components/BigData.vue'
 import { mapMutations } from 'vuex'
 export default {
+  components: { BigData },
   name: 'MainLayout',
   data () {
     return {
+      up: false,
       rol: null,
       DrawerOpen: true,
       menu: [],
@@ -59,6 +66,11 @@ export default {
           icon: 'article',
           label: 'Examenes',
           ruta: '/examenes'
+        },
+        {
+          icon: 'upload_file',
+          label: 'Datos Masivos',
+          ruta: ''
         },
         {
           icon: 'logout',
@@ -89,6 +101,14 @@ export default {
     cerrarSesion () {
       this.logout()
       this.$router.push('/login')
+    },
+    uploadData () {
+      this.up = true
+    },
+    getFile (f) {
+      if (f === false) {
+        this.up = false
+      }
     },
     getUser () {
       this.$api.get('user_info').then(v => {

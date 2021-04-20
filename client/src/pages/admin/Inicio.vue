@@ -5,7 +5,7 @@
     <q-list class="column items-center" style="width: 100%">
       <q-card v-for="(item,index) in asig" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/temas/' + item._id)">
+          <q-item-section @click="$router.push('/tests/' + item._id)">
             <q-item>
               <q-item-section avatar>
                 <q-icon name="menu_book" size="30px"/>

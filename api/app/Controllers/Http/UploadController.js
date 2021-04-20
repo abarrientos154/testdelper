@@ -1,8 +1,8 @@
 'use strict'
-const Helpers = use('Helpers')
-const path = require('path')
 const ExcelJS = require('exceljs');
 const Question = use("App/Models/Question")
+const Test = use("App/Models/Test")
+const MoveFileService = use("App/Services/MoveFileService")
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -99,11 +99,7 @@ class UploadController {
     var data = request.only(['data'])
     data = JSON.parse(data.data)
     // TODO preguntar a andres
-    files.clientName = 'UploadExcel.xlsx'
-    const filePath = `${path.resolve(`./tmp/uploads/`)}/${files.clientName}`
-    await files.move(Helpers.tmpPath('uploads'), { name: files.clientName, overwrite: true })
-    console.log('filePath :>> ', filePath);
-
+    var filePath = await MoveFileService.moveFile(files)
     var workbook = new ExcelJS.Workbook()
     workbook = await workbook.xlsx.readFile(filePath)
     console.log('workbook :>> ', workbook);
@@ -135,6 +131,82 @@ class UploadController {
       }
     })
 
+    response.send(true)
+  }
+  async bigData ({ request, response }) {
+    if (request.file('testFile')) {
+      let testFile = request.file('testFile')
+      var filePath = await MoveFileService.moveFile(testFile)
+      var workbook = new ExcelJS.Workbook()
+      workbook = await workbook.xlsx.readFile(filePath)
+      console.log('workbook :>> ', workbook);
+      let explanation = workbook.getWorksheet('Hoja1')
+      let colComment = explanation.getColumn('A')
+      colComment.eachCell(async (cell, rowNumber) => {
+        if (rowNumber >= 2) {
+          let test = {}
+          let title = explanation.getCell('A' + rowNumber).value
+          test.title = title
+          let total_questions = explanation.getCell('B' + rowNumber).value
+          test.total_questions = total_questions
+          let family_id = explanation.getCell('C' + rowNumber).value
+          test.family_id = family_id
+          let id = explanation.getCell('D' + rowNumber).value
+          test.id = id
+          let save = await Test.create(test)
+        }
+      })
+    }
+    if (request.file('questionsFile')) {
+      let questionsFile = request.file('questionsFile')
+      var filePath = await MoveFileService.moveFile(questionsFile)
+      var workbook = new ExcelJS.Workbook()
+      workbook = await workbook.xlsx.readFile(filePath)
+      console.log('workbook :>> ', workbook);
+      let explanation = workbook.getWorksheet('Hoja1')
+      let colComment = explanation.getColumn('A')
+      colComment.eachCell(async (cell, rowNumber) => {
+        if (rowNumber >= 2) {
+          let quest = {}
+          let id = explanation.getCell('A' + rowNumber).value
+          quest.id = id
+          let test_id = explanation.getCell('B' + rowNumber).value
+          quest.test_id = test_id
+          let question_number = explanation.getCell('C' + rowNumber).value
+          quest.question_number = question_number
+          let question = explanation.getCell('D' + rowNumber).value
+          quest.question = question
+          let correct_answer = explanation.getCell('E' + rowNumber).value
+          quest.correct_answer = correct_answer
+          let save = await Test.create(quest)
+        }
+      })
+    }
+    if (request.file('answersFile')) {
+      let answersFile = request.file('answersFile')
+      var filePath = await MoveFileService.moveFile(answersFile)
+      var workbook = new ExcelJS.Workbook()
+      workbook = await workbook.xlsx.readFile(filePath)
+      console.log('workbook :>> ', workbook);
+      let explanation = workbook.getWorksheet('Hoja1')
+      let colComment = explanation.getColumn('A')
+      colComment.eachCell(async (cell, rowNumber) => {
+        if (rowNumber >= 2) {
+          let answer = {}
+          let id = explanation.getCell('A' + rowNumber).value
+          answer.id = id
+          let test_id = explanation.getCell('B' + rowNumber).value
+          answer.test_id = test_id
+          let question_number = explanation.getCell('C' + rowNumber).value
+          answer.question_number = question_number
+          let answer_number = explanation.getCell('D' + rowNumber).value
+          answer.answer_number = answer_number
+          let answer = explanation.getCell('E' + rowNumber).value
+          answer.answer = answer
+          let save = await Test.create(answer)
+        }
+      })
+    }
     response.send(true)
   }
 }
