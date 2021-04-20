@@ -3,6 +3,7 @@ const ExcelJS = require('exceljs');
 const Question = use("App/Models/Question")
 const Test = use("App/Models/Test")
 const MoveFileService = use("App/Services/MoveFileService")
+const Answer = use("App/Models/Answer")
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -134,14 +135,16 @@ class UploadController {
     response.send(true)
   }
   async bigData ({ request, response }) {
+    console.log('entra en bigdata');
     if (request.file('testFile')) {
+      console.log('sirve test');
       let testFile = request.file('testFile')
       var filePath = await MoveFileService.moveFile(testFile)
       var workbook = new ExcelJS.Workbook()
       workbook = await workbook.xlsx.readFile(filePath)
       console.log('workbook :>> ', workbook);
-      let explanation = workbook.getWorksheet('Hoja1')
-      let colComment = explanation.getColumn('A')
+      var explanation = workbook.getWorksheet('Hoja1')
+      var colComment = explanation.getColumn('A')
       colComment.eachCell(async (cell, rowNumber) => {
         if (rowNumber >= 2) {
           let test = {}
@@ -158,13 +161,14 @@ class UploadController {
       })
     }
     if (request.file('questionsFile')) {
+      console.log('sirve :>> ');
       let questionsFile = request.file('questionsFile')
       var filePath = await MoveFileService.moveFile(questionsFile)
       var workbook = new ExcelJS.Workbook()
       workbook = await workbook.xlsx.readFile(filePath)
       console.log('workbook :>> ', workbook);
-      let explanation = workbook.getWorksheet('Hoja1')
-      let colComment = explanation.getColumn('A')
+      var explanation = workbook.getWorksheet('Hoja1')
+      var colComment = explanation.getColumn('A')
       colComment.eachCell(async (cell, rowNumber) => {
         if (rowNumber >= 2) {
           let quest = {}
@@ -178,18 +182,19 @@ class UploadController {
           quest.question = question
           let correct_answer = explanation.getCell('E' + rowNumber).value
           quest.correct_answer = correct_answer
-          let save = await Test.create(quest)
+          let save = await Question.create(quest)
         }
       })
     }
-    if (request.file('answersFile')) {
+    /* if (request.file('answersFile')) {
+      console.log('falla respuestas?');
       let answersFile = request.file('answersFile')
       var filePath = await MoveFileService.moveFile(answersFile)
       var workbook = new ExcelJS.Workbook()
       workbook = await workbook.xlsx.readFile(filePath)
       console.log('workbook :>> ', workbook);
-      let explanation = workbook.getWorksheet('Hoja1')
-      let colComment = explanation.getColumn('A')
+      var explanation = workbook.getWorksheet('Hoja1')
+      var colComment = explanation.getColumn('A')
       colComment.eachCell(async (cell, rowNumber) => {
         if (rowNumber >= 2) {
           let answer = {}
@@ -203,10 +208,10 @@ class UploadController {
           answer.answer_number = answer_number
           let answer = explanation.getCell('E' + rowNumber).value
           answer.answer = answer
-          let save = await Test.create(answer)
+          let save = await Answer.create(answer)
         }
       })
-    }
+    } */
     response.send(true)
   }
 }

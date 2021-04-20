@@ -58,9 +58,16 @@ export default {
   methods: {
     async upload () {
       const formData = new FormData()
-      formData.append('testFile', this.testFile)
-      formData.append('questionsFile', this.questionsFile)
-      formData.append('answersFile', this.answersFile)
+      if (this.testFile !== null) {
+        formData.append('testFile', this.testFile)
+      }
+      if (this.questionsFile !== null) {
+        formData.append('questionsFile', this.questionsFile)
+      }
+      if (this.answersFile !== null) {
+        formData.append('answersFile', this.answersFile)
+        console.log('this.answersFile :>> ', this.answersFile)
+      }
       await this.$api.post('bigData', formData, {
         headers: {
           'Content-Type': undefined
