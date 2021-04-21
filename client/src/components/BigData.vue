@@ -35,7 +35,7 @@
           v-model="answersFile"
           label="Introduzca un archivo"
           filled
-          hint="(test.xlsx)"
+          hint="(answers.xlsx)"
           accept=".xls, .xlsx, .xltx, .ods, .ots, .csv/*"
           dense
           error-message="Este campo es requerido"
@@ -75,7 +75,7 @@ export default {
       }).then(res => {
         if (res) {
           this.$q.notify({
-            message: 'Test Cargados Correctamente',
+            message: 'Datos Cargados Correctamente',
             color: 'positive'
           })
           this.$emit('file', false)
