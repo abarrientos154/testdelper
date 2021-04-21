@@ -1,5 +1,7 @@
 'use strict'
 const Question = use("App/Models/Question")
+const Answer = use("App/Models/Answer")
+const Test = use("App/Models/Test")
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -24,9 +26,29 @@ class QuestionController {
   }
   
 
-  async getQuestionsbyTest ({ request, response, view, params }) {
-    let data = (await Question.query().where({tema_id: params.id}).fetch()).toJSON()
-    response.send(data)
+  async getQuestionsbyTest ({ response, params }) {
+    let id = parseInt(params.id)
+      try {
+        let data = (await Question.query().where({ test_id: id }).fetch()).toJSON()
+        response.send(data)
+        throw new Error()
+      } catch (e) {
+        console.error(e.name + ': ' + e.message)
+      }
+  }
+
+  async getAnswerByTestAndQuestionNumber ({response, params}) {
+    try {
+      const { id, number } = params
+      let data = (await Answer.query().where({
+        test_id: parseInt(id),
+        question_number: parseInt(number)
+      }).fetch()).toJSON()
+      response.send(data)
+      throw new Error()
+    } catch (e) {
+      console.error(e.name + ': ' + e.message)
+    }
   }
 
   async getQuestionsbyExam ({ request, response, view, params }) {

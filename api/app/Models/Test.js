@@ -8,7 +8,7 @@ class Test extends Model {
     return this.hasOne('App/Models/Asignatura', 'family_id', '_id')
   }
   datos_examen () {
-    return this.hasOne('App/Models/Asignatura', 'family_id', '_id')
+    return this.hasOne('App/Models/Examen', 'family_id', '_id')
   }
 }
 

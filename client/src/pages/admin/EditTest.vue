@@ -26,17 +26,17 @@
         <div class="column dimension no-wrap" v-if="questions.length > 0">
           <q-card class=" dimensionC q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
             <q-card class="row bg-blue-2 q-pa-sm q-mb-md">
-              <div class="col-9 text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
+              <div class="col-9 text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.question}}</div>
               <div>
                 <q-btn class="col-6" round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
                 <q-btn class="col-6" round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
               </div>
             </q-card>
-            <div class="column q-pl-lg">
-              <q-item class="text-subtitle1 q-mb-sm" clickable>A) {{qt.optionA}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable>B) {{qt.optionB}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable>C) {{qt.optionC}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable>D) {{qt.optionD}}</q-item>
+            <div class="column q-pl-lg" v-for="(item, index) in qt.answers" :key="index">
+              <q-item class="text-subtitle1 q-mb-sm" clickable> {{item.titleAnswer}}</q-item>
+             <!--  <q-item class="text-subtitle1 q-mb-sm" clickable> {{qt.answers[1].titleAnswer}}</q-item>
+              <q-item class="text-subtitle1 q-mb-sm" clickable> {{qt.answers[2].titleAnswer}}</q-item>
+              <q-item class="text-subtitle1 q-mb-sm" clickable> {{qt.answers[3].titleAnswer}}</q-item> -->
             </div>
           </q-card>
         </div>
@@ -64,25 +64,36 @@ export default {
   },
   mounted () {
     this.getTestById()
-    this.getQuestionsByTest()
   },
   methods: {
-    getTestById () {
-      this.$api.get('testById/' + this.$route.params.id).then(res => {
+    async getTestById () {
+      await this.$api.get('testById/' + this.$route.params.id).then(res => {
         if (res) {
           this.test = res
           console.log('this.test >> ', this.test)
+          this.getQuestionsByTest()
         }
       })
     },
-    getQuestionsByTest () {
-      this.$api.get('getQuestionsbyTest/' + this.$route.params.id).then(res => {
+    async getQuestionsByTest () {
+      await this.$api.get('getQuestionsbyTest/' + this.test.id).then(async res => {
         if (res) {
           console.log('res :>> ', res)
           this.questions = res
-          console.log('this.questions :>> ', this.questions)
+          this.getAnswer()
+          /* console.log('res :>> ', res)
+          console.log('this.questions :>> ', this.questions) */
         }
       })
+    },
+    async getAnswer () {
+      for (const i in this.questions) {
+        await this.$api.get('getAnswerByTestAndQuestionNumber/' + this.test.id + '/' + this.questions[i].question_number).then(v => {
+          if (v) {
+            this.questions[i].answers = v
+          }
+        })
+      }
     },
     newQuest (quest) {
       if (quest === false) {

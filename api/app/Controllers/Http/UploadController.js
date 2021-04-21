@@ -186,7 +186,7 @@ class UploadController {
         }
       })
     }
-    /* if (request.file('answersFile')) {
+    if (request.file('answersFile')) {
       console.log('falla respuestas?');
       let answersFile = request.file('answersFile')
       var filePath = await MoveFileService.moveFile(answersFile)
@@ -206,12 +206,12 @@ class UploadController {
           answer.question_number = question_number
           let answer_number = explanation.getCell('D' + rowNumber).value
           answer.answer_number = answer_number
-          let answer = explanation.getCell('E' + rowNumber).value
-          answer.answer = answer
+          let titleAnswer = explanation.getCell('E' + rowNumber).value
+          answer.titleAnswer = titleAnswer
           let save = await Answer.create(answer)
         }
       })
-    } */
+    }
     response.send(true)
   }
 }

@@ -40,6 +40,7 @@ addPrefixToGroup(
     Route.get('getQuestions', 'QuestionController.index')
     Route.get('getQuestionsbyTest/:id', 'QuestionController.getQuestionsbyTest')
     Route.get('getQuestionsbyExam/:id', 'QuestionController.getQuestionsbyExam')
+    Route.get('getAnswerByTestAndQuestionNumber/:id/:number', 'QuestionController.getAnswerByTestAndQuestionNumber')
     Route.put('updateQuest/:id', 'QuestionController.update')
     Route.get('questById/:id', 'QuestionController.show')
     Route.delete('destroyQuest/:id', 'QuestionController.destroy')
