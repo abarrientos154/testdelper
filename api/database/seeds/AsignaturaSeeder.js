@@ -1,5 +1,5 @@
 'use strict'
-
+var ObjectId = require('mongodb').ObjectId;
 /*
 |--------------------------------------------------------------------------
 | CategoriaSeeder
@@ -15,57 +15,57 @@ const Factory = use('Factory')
 const Asignatura = use("App/Models/Asignatura")
 const asignaturaData = [
   {
-    id: 1,
+    _id: new ObjectId('60748c7ba06b4e9171dfeafa'),
     name: 'Nomenclatura náutica',
     status: false
   },
   {
-    id: 2,
+    _id: new ObjectId('60748c7ca06b4e9171dfeafb'),
     name: 'Amarre y fondeo',
     status: false
   },
   {
-    id: 3,
+    _id: new ObjectId('60748c7ca06b4e9171dfeafc'),
     name: 'Seguridad en la mar',
     status: false
   },
   {
-    id: 4,
+    _id: new ObjectId('60748c7ca06b4e9171dfeafd'),
     name: 'Legislación',
     status: false
   },
   {
-    id: 5,
+    _id: new ObjectId('60748c7ca06b4e9171dfeafe'),
     name: 'Balizamiento',
     status: false
   },
   {
-    id: 6,
+    _id: new ObjectId('60748c7ca06b4e9171dfeaff'),
     name: 'Reglamento',
     status: false
   },
   {
-    id: 7,
+    _id: new ObjectId('60748c7ca06b4e9171dfeb00'),
     name: 'Maniobras en la mar',
     status: false
   },
   {
-    id: 8,
+    _id: new ObjectId('60748c7ca06b4e9171dfeb01'),
     name: 'Emergencias en la mar',
     status: false
   },
   {
-    id: 9,
+    _id: new ObjectId('60748c7ca06b4e9171dfeb02'),
     name: 'Meteorología',
     status: false
   },
   {
-    id: 10,
+    _id: new ObjectId('60748c7ca06b4e9171dfeb03'),
     name: 'Navegación',
     status: false
   },
   {
-    id: 11,
+    _id: new ObjectId('60748c7ca06b4e9171dfeb04'),
     name: 'Carta náutica',
     status: false
   }
@@ -73,7 +73,7 @@ const asignaturaData = [
 class AsignaturaSeeder {
   async run () {
     for (let i in asignaturaData) {
-      let asignatura = await Asignatura.findBy('id', asignaturaData[i].id)
+      let asignatura = await Asignatura.findBy('_id', asignaturaData[i]._id)
       if (!asignatura) {
         await Asignatura.create(asignaturaData[i])
       }

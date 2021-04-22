@@ -1,5 +1,5 @@
 'use strict'
-
+var ObjectId = require('mongodb').ObjectId;
 /*
 |--------------------------------------------------------------------------
 | ExamenSeeder
@@ -15,42 +15,42 @@ const Factory = use('Factory')
 const Examen = use('App/Models/Examen')
 const examenData = [
   {
-    id: 1,
+    _id: new ObjectId('6081a894968bfd8038c5d464'),
     name: 'Exámenes PER',
   },
   {
-    id: 2,
+    _id: new ObjectId('6079d4fe28ec030054537eff'),
     name: 'Exámenes PER Madrid',
   },
   {
-    id: 3,
+    _id: new ObjectId('6079d4fe28ec030054537f00'),
     name: 'Exámenes PER C. Valenciana',
   },
   {
-    id: 4,
+    _id: new ObjectId('6079d4fe28ec030054537f01'),
     name: 'Exámenes PER Murcia',
   },
   {
-    id: 5,
+    _id: new ObjectId('6079d4fe28ec030054537f02'),
     name: 'Exámenes PER Andalucía',
   },
   {
-    id: 6,
+    _id: new ObjectId('6079d4fe28ec030054537f03'),
     name: 'Exámenes PER Euskadi',
   },
   {
-    id: 7,
+    _id: new ObjectId('6079d4fe28ec030054537f04'),
     name: 'Exámenes PER Asturias',
   },
   {
-    id: 8,
+    _id: new ObjectId('6079d4fe28ec030054537f05'),
     name: 'Exámenes PER Baleares',
   }
 ]
 class ExamenSeeder {
   async run () {
     for (let i in examenData) {
-      let examen = await Examen.findBy('id', examenData[i].id)
+      let examen = await Examen.findBy('_id', examenData[i]._id)
       if (!examen) {
         await Examen.create(examenData[i])
       }

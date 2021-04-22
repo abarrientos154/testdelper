@@ -1,5 +1,6 @@
 'use strict'
 const Test = use("App/Models/Test")
+var ObjectId = require('mongodb').ObjectId;
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -43,6 +44,7 @@ class TestController {
    */
   async store ({ request, response }) {
     var data = request.body
+    data.family_id = new ObjectId(data.family_id)
     let save = await Test.create(data)
     response.send(save)
   }
@@ -81,6 +83,7 @@ class TestController {
    */
   async update ({ params, request, response }) {
     var data = request.body
+    data.family_id = new ObjectId(data.family_id)
     let update = await Test.query().where('_id', params.id).update(data)
     response.send(update)
   }

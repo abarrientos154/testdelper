@@ -111,7 +111,7 @@ export default {
         message: 'Creando Datos...'
       })
       this.$v.$touch()
-      this.form.asignatura_id = this.$route.params.id
+      this.form.family_id = this.$route.params.id
       if (!this.$v.form.$error) {
         this.$q.loading.show({
           message: 'Subiendo Tema, Por Favor Espere...'
