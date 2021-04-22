@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{exam.name}}</div>
+    <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.title}}</div>
+    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.course.name}}</div>
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
@@ -13,12 +14,12 @@
     </q-card>
     <div>
       <q-dialog v-model="newQ" @hide="reload">
-        <quest @question="newQuest" :id="questId" :exam_id="exam._id"/>
+        <quest @question="newQuest" :id="questId" :index="indexQ" :test_id="test.id"/>
       </q-dialog>
     </div>
     <div>
       <q-dialog v-model="newF">
-        <quest-upload @file="getFile" :exam_id="exam._id"/>
+        <quest-upload @file="getFile" :test_id="test.id"/>
       </q-dialog>
     </div>
     <div class="row justify-center">
@@ -54,49 +55,48 @@ export default {
   components: { Quest, QuestUpload },
   data () {
     return {
-      exam: {},
+      test: {},
       questions: [],
       questId: '',
+      indexQ: null,
       file: {},
       newQ: false,
       newF: false
     }
   },
   mounted () {
-    this.getExamById()
-    this.getQuestionsByExam()
+    this.getTestById()
   },
   methods: {
-    getExamById () {
-      this.$api.get('ExamById/' + this.$route.params.id).then(res => {
-        if (res) {
-          this.exam = res
-          console.log('this.exam >> ', res)
-        }
+    async getTestById () {
+      this.$q.loading.show({
+        message: 'Cargando Datos...'
       })
-    },
-    getQuestionsByExam () {
-      this.$api.get('getQuestionsbyExam/' + this.$route.params.id).then(res => {
+      await this.$api.get('testById/' + this.$route.params.id).then(res => {
         if (res) {
-          console.log('res :>> ', res)
-          this.questions = res
+          this.$q.loading.hide()
+          this.test = res
+          console.log('this.test >> ', this.test)
+          this.questions = this.test.questions
+          this.indexQ = this.questions.length + 1
         }
       })
     },
     newQuest (quest) {
       if (quest === false) {
         this.newQ = false
-        this.getQuestionsByExam()
+        this.getTestById()
       }
     },
     async getFile (f) {
       if (f === false) {
         this.newF = false
-        this.getQuestionsByExam()
+        this.getTestById()
       }
     },
-    getIdForEdit (id) {
+    getIdForEdit (id, index) {
       this.questId = id
+      this.indexQ = index + 1
       this.newQ = true
     },
     destroyQuest (id) {
@@ -106,13 +106,17 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Eliminando Datos...'
+        })
         this.$api.delete('destroyQuest/' + id).then(res => {
           if (res) {
+            this.$q.loading.hide()
             this.$q.notify({
               color: 'positive',
               message: 'Pregunta Eliminada Correctamente'
             })
-            this.getQuestionsByExam()
+            this.getTestById()
           }
         })
       }).onCancel(() => {
@@ -121,6 +125,7 @@ export default {
     },
     reload () {
       this.questId = ''
+      this.indexQ = this.questions.length + 1
     }
   }
 }

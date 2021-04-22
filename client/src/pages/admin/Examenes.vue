@@ -4,7 +4,7 @@
     <q-list class="column items-center" style="width: 100%" v-if="examenes.length > 0">
       <q-card v-for="(item,index) in examenes" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
-          <q-item-section @click="$router.push('/exam/' + item._id)">
+          <q-item-section @click="$router.push('/tests_exam/' + item._id)">
             <q-item>
               <q-item-section avatar>
                 <q-icon name="grading" size="30px"/>

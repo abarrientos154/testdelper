@@ -57,17 +57,18 @@ addPrefixToGroup(
     Route.get('asignatura_by_id/:id', 'AsignaturaController.getAsignaturaById')
     Route.get('getCourseWithTest/:id', 'AsignaturaController.getCourseWithTest')
     Route.put('updateAsignatura/:id', 'AsignaturaController.update')
-
+    
     Route.get('tema', 'TemaController.index')
     Route.get('test_by_course/:id', 'TestController.testByCourse')
     Route.get('testById/:id', 'TestController.testById')
     Route.post('test', 'TestController.store')
     Route.put('test/:id', 'TestController.update')
     Route.delete('test/:id', 'TestController.destroy')
-
+    
     Route.get('examen', 'ExamenController.index')
     Route.get('ExamById/:id', 'ExamenController.examById')
     Route.post('examen', 'ExamenController.store')
+    Route.get('getExamWithTest/:id', 'ExamenController.getExamWithTest')
     Route.put('examen/:id', 'ExamenController.update')
     Route.delete('examen/:id', 'ExamenController.destroy')
   }).middleware("auth")

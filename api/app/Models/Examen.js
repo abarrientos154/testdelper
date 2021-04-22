@@ -13,6 +13,9 @@ class Examen extends Model {
     }
     return rules
   }
+  tests () {
+    return this.hasMany('App/Models/Test', '_id', 'family_id')
+  }
 }
 
 module.exports = Examen

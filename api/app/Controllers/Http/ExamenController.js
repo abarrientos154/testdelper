@@ -58,6 +58,15 @@ class ExamenController {
     await examen.delete()
     response.send(examen)
   }
+  async getExamWithTest ({ request, response, params }) {
+    try {
+      let Exam = await Examen.with('tests').find(params.id)
+      console.log('Exam :>> ', Exam);
+      response.send(Exam)
+    } catch (error) {
+      console.error(error.name + 'tests: ' + error.message);
+    }
+  }
 }
 
 module.exports = ExamenController
