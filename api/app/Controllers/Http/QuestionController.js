@@ -37,19 +37,6 @@ class QuestionController {
       }
   }
 
-  async getAnswerByTestAndQuestionNumber ({response, params}) {
-    try {
-      const { id, number } = params
-      let data = (await Answer.query().where({
-        test_id: parseInt(id),
-        question_number: parseInt(number)
-      }).fetch()).toJSON()
-      response.send(data)
-      throw new Error()
-    } catch (e) {
-      console.error(e.name + ': ' + e.message)
-    }
-  }
 
   async getQuestionsbyExam ({ request, response, view, params }) {
     let data = (await Question.query().where({ examen_id: params.id }).fetch()).toJSON()

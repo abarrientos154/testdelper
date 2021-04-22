@@ -80,20 +80,10 @@ export default {
         if (res) {
           console.log('res :>> ', res)
           this.questions = res
-          this.getAnswer()
           /* console.log('res :>> ', res)
           console.log('this.questions :>> ', this.questions) */
         }
       })
-    },
-    async getAnswer () {
-      for (const i in this.questions) {
-        await this.$api.get('getAnswerByTestAndQuestionNumber/' + this.test.id + '/' + this.questions[i].question_number).then(v => {
-          if (v) {
-            this.questions[i].answers = v
-          }
-        })
-      }
     },
     newQuest (quest) {
       if (quest === false) {
