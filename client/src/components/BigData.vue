@@ -57,6 +57,9 @@ export default {
   },
   methods: {
     async upload () {
+      this.$q.loading.show({
+        message: 'Subiendo datos, esto puede tomar un tiempo...'
+      })
       const formData = new FormData()
       if (this.testFile !== null) {
         formData.append('testFile', this.testFile)
@@ -74,6 +77,7 @@ export default {
         }
       }).then(res => {
         if (res) {
+          this.$q.loading.hide()
           this.$q.notify({
             message: 'Datos Cargados Correctamente',
             color: 'positive'

@@ -1,6 +1,5 @@
 'use strict'
 const Question = use("App/Models/Question")
-const Answer = use("App/Models/Answer")
 const Test = use("App/Models/Test")
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */

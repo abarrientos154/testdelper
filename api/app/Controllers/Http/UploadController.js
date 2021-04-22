@@ -4,7 +4,6 @@ const Question = use("App/Models/Question")
 const Test = use("App/Models/Test")
 const MoveFileService = use("App/Services/MoveFileService")
 const QuestionsAndAnswersService = use("App/Services/QuestionsAndAnswersService")
-const Answer = use("App/Models/Answer")
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
