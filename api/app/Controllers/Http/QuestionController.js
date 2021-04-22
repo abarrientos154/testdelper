@@ -63,10 +63,22 @@ class QuestionController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    let body = request.body
-    body.isActive = false
-    let save = await Question.create(body)
-    response.send(save)
+    try {
+      let { quest, answers } = request.body
+      answers = Object.values(answers)
+      let arr = []
+      for (let i in answers) {
+        let ans = { titleAnswer: answers[i] }
+        arr.push(ans)
+      }
+      quest.answers = arr
+      console.log('quest :>> ', quest);
+      // body.isActive = false
+      let save = await Question.create(quest)
+      response.send(save)
+    } catch (error) {
+      console.error(error.name + 'store:' + error.message);
+    }
   }
 
   /**
@@ -104,9 +116,18 @@ class QuestionController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    let body = request.body
-    const update = await Question.where('_id', params.id).update(body)
-    response.send(update)
+    try {
+      let { quest, answers } = request.body
+      answers = Object.values(answers)
+      for (let i in answers) {
+        quest.answers[i].titleAnswer = answers[i] 
+      }
+      console.log('quest :>> ', quest);
+      const update = await Question.where('_id', params.id).update(quest)
+      response.send(update)
+    } catch (error) {
+      console.error(error.name + '1:' + error.message);
+    }
   }
 
   /**

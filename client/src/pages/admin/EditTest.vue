@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.title}}</div>
-    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.datos_asignatura.name}}</div>
+    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.course.name}}</div>
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
@@ -13,12 +13,12 @@
     </q-card>
     <div>
       <q-dialog v-model="newQ" @hide="reload">
-        <quest @question="newQuest" :id="questId" :course_id="test.datos_asignatura._id" :test_id="test._id"/>
+        <quest @question="newQuest" :id="questId" :index="indexQ" :course_id="test.course._id" :test_id="test.id"/>
       </q-dialog>
     </div>
     <div>
       <q-dialog v-model="newF">
-        <quest-upload @file="getFile" :course_id="test.datos_asignatura._id" :test_id="test._id"/>
+        <quest-upload @file="getFile" :course_id="test.course._id" :test_id="test._id"/>
       </q-dialog>
     </div>
     <div class="row justify-center">
@@ -28,15 +28,12 @@
             <q-card class="row bg-blue-2 q-pa-sm q-mb-md">
               <div class="col-9 text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.question}}</div>
               <div>
-                <q-btn class="col-6" round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
+                <q-btn class="col-6" round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id, index)"  />
                 <q-btn class="col-6" round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
               </div>
             </q-card>
             <div class="column q-pl-lg" v-for="(item, index) in qt.answers" :key="index">
               <q-item class="text-subtitle1 q-mb-sm" clickable> {{item.titleAnswer}}</q-item>
-             <!--  <q-item class="text-subtitle1 q-mb-sm" clickable> {{qt.answers[1].titleAnswer}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable> {{qt.answers[2].titleAnswer}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable> {{qt.answers[3].titleAnswer}}</q-item> -->
             </div>
           </q-card>
         </div>
@@ -57,6 +54,7 @@ export default {
       test: {},
       questions: null,
       questId: '',
+      indexQ: null,
       file: {},
       newQ: false,
       newF: false
@@ -67,38 +65,34 @@ export default {
   },
   methods: {
     async getTestById () {
+      this.$q.loading.show({
+        message: 'Cargando Datos...'
+      })
       await this.$api.get('testById/' + this.$route.params.id).then(res => {
         if (res) {
+          this.$q.loading.hide()
           this.test = res
           console.log('this.test >> ', this.test)
-          this.getQuestionsByTest()
-        }
-      })
-    },
-    async getQuestionsByTest () {
-      await this.$api.get('getQuestionsbyTest/' + this.test.id).then(res => {
-        if (res) {
-          console.log('res :>> ', res)
-          this.questions = res
-          /* console.log('res :>> ', res)
-          console.log('this.questions :>> ', this.questions) */
+          this.questions = this.test.questions
+          this.indexQ = this.questions.length + 1
         }
       })
     },
     newQuest (quest) {
       if (quest === false) {
         this.newQ = false
-        this.getQuestionsByTest()
+        this.getTestById()
       }
     },
     async getFile (f) {
       if (f === false) {
         this.newF = false
-        this.getQuestionsByTest()
+        this.getTestById()
       }
     },
-    getIdForEdit (id) {
+    getIdForEdit (id, index) {
       this.questId = id
+      this.indexQ = index + 1
       this.newQ = true
     },
     destroyQuest (id) {
@@ -114,7 +108,7 @@ export default {
               color: 'positive',
               message: 'Pregunta Eliminada Correctamente'
             })
-            this.getQuestionsByTest()
+            this.getTestById()
           }
         })
       }).onCancel(() => {
@@ -123,6 +117,7 @@ export default {
     },
     reload () {
       this.questId = ''
+      this.indexQ = this.questions.length + 1
     }
   }
 }

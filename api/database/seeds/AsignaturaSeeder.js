@@ -56,7 +56,7 @@ const asignaturaData = [
   },
   {
     id: 9,
-    name: 'Metodología',
+    name: 'Meteorología',
     status: false
   },
   {

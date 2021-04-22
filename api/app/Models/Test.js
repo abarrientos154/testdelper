@@ -13,11 +13,14 @@ class Test extends Model {
     }
     return rules
   }
-  datos_asignatura () {
+  course () {
     return this.hasOne('App/Models/Asignatura', 'family_id', '_id')
   }
   datos_examen () {
     return this.hasOne('App/Models/Examen', 'family_id', '_id')
+  }
+  questions () {
+    return this.hasMany('App/Models/Question', 'id', 'test_id')
   }
 }
 

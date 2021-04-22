@@ -105,8 +105,12 @@ class TestController {
     response.send(data)
   }
   async testById ({ request, response, params }) {
-    let test = (await Test.with('datos_asignatura').find(params.id)).toJSON()
-    response.send(test)
+    try {
+      let test = (await Test.with('course').with('questions').find(params.id)).toJSON()
+      response.send(test)
+    } catch (error) {
+      console.error(error.name +'1: ' + error.message)
+    }
   }
 }
 

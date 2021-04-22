@@ -71,7 +71,7 @@ export default {
   },
   validations: {
     form: {
-      name: { required, minLength: minLength(3), maxLength: maxLength(20) }
+      name: { required, minLength: minLength(3), maxLength: maxLength(35) }
     }
   },
   mounted () {
