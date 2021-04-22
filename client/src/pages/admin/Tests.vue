@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md column items-center">
-    <div class="text-primary text-h5">{{asig.name}}</div>
+    <div class="text-primary text-h5">{{course.name}}</div>
     <div class="text-black text-subtitle1 text-weight-bolder q-mb-lg">Temas</div>
-    <q-list class="column items-center" style="width: 100%" v-if="test.length > 0">
-      <q-card v-for="(item,index) in test" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
+    <q-list class="column items-center" style="width: 100%" v-if="tests.length > 0">
+      <q-card v-for="(item,index) in tests" :key="index" v-ripple class="q-pa-sm q-mb-md bordes" style="width: 75%; min-width: 300px; max-width: 500px">
         <q-item>
           <q-item-section @click="$router.push('/edit_test/' + item._id)">
             <q-item>
@@ -58,8 +58,8 @@ export default {
       nuevo: false,
       form: {},
       item: 0,
-      asig: {},
-      test: []
+      course: {},
+      tests: []
     }
   },
   validations: {
@@ -68,10 +68,13 @@ export default {
     }
   },
   mounted () {
-    this.getAsig(this.$route.params.id)
+    this.getCourse(this.$route.params.id)
   },
   methods: {
     actualizarTem () {
+      this.$q.loading.show({
+        message: 'Actualizando Datos...'
+      })
       this.$v.form.$touch()
       if (!this.$v.form.$error) {
         this.$q.loading.show({
@@ -84,7 +87,7 @@ export default {
               color: 'positive',
               message: 'Tema Actualizado Correctamente'
             })
-            this.getAsig(this.$route.params.id)
+            this.getCourse(this.$route.params.id)
           }
         })
       }
@@ -104,6 +107,9 @@ export default {
       }
     },
     crearTem () {
+      this.$q.loading.show({
+        message: 'Creando Datos...'
+      })
       this.$v.$touch()
       this.form.asignatura_id = this.$route.params.id
       if (!this.$v.form.$error) {
@@ -117,7 +123,7 @@ export default {
               color: 'positive',
               message: 'Tema Creado Correctamente'
             })
-            this.getAsig(this.$route.params.id)
+            this.getCourse(this.$route.params.id)
           }
         })
       }
@@ -129,28 +135,33 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Eliminando Datos...'
+        })
         this.$api.delete('test/' + id).then(res => {
           if (res) {
+            this.$q.loading.hide()
             this.$q.notify({
               color: 'positive',
               message: 'Eliminado Correctamente'
             })
-            this.getAsig(this.$route.params.id)
+            this.getCourse(this.$route.params.id)
           }
         })
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       })
     },
-    async getAsig (id) {
-      await this.$api.get('asignatura_by_id/' + id).then(async res => {
+    async getCourse (id) {
+      this.$q.loading.show({
+        message: 'Cargando Datos...'
+      })
+      await this.$api.get('getCourseWithTest/' + id).then(async res => {
         if (res) {
-          this.asig = res
-          await this.$api.get('test_by_course/' + id).then(res => {
-            if (res) {
-              this.test = res
-            }
-          })
+          this.$q.loading.hide()
+          this.course = res
+          this.tests = this.course.tests
+          console.log('this.course :>> ', this.course)
         }
       })
     }

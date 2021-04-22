@@ -4,6 +4,7 @@ const Question = use("App/Models/Question")
 const Test = use("App/Models/Test")
 const MoveFileService = use("App/Services/MoveFileService")
 const QuestionsAndAnswersService = use("App/Services/QuestionsAndAnswersService")
+var ObjectId = require('mongodb').ObjectId;
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -107,22 +108,22 @@ class UploadController {
     colComment.eachCell(async (cell, rowNumber) => {
       if (rowNumber >= 2) {
         let question = {}
+        let answers = []
+        let arr = []
         let title = explanation.getCell('B' + rowNumber).value
-        question.title = title
-        let optionA = explanation.getCell('C' + rowNumber).value
-        question.optionA = optionA
-        let optionB = explanation.getCell('D' + rowNumber).value
-        question.optionB = optionB
-        let optionC = explanation.getCell('E' + rowNumber).value
-        question.optionC = optionC
-        let optionD = explanation.getCell('F' + rowNumber).value
-        question.optionD = optionD
-        question.isActive = false
-        if (data.asignatura_id != null && data.tema_id != null) {
-          question.asignatura_id = data.asignatura_id
-          question.tema_id = data.tema_id
-        } else if (data.examen_id != null) {
-          question.examen_id = data.examen_id
+        question.question = title
+        arr.push(explanation.getCell('C' + rowNumber).value)
+        arr.push(explanation.getCell('D' + rowNumber).value)
+        arr.push(explanation.getCell('E' + rowNumber).value)
+        arr.push(explanation.getCell('F' + rowNumber).value)
+        for (let i in arr) {
+          let ans = { titleAnswer: arr[i] }
+          answers.push(ans)
+        }
+        question.answers = answers
+        // question.isActive = false
+        if (data.test_id != null) {
+          question.test_id = data.test_id
         }
         let save = await Question.create(question)
       }
@@ -132,29 +133,34 @@ class UploadController {
   }
   async bigData ({ request, response }) {
     //console.log('entra en bigdata');
-    if (request.file('testFile')) {
-      //console.log('sirve test');
-      let testFile = request.file('testFile')
-      var filePath = await MoveFileService.moveFile(testFile)
-      var workbook = new ExcelJS.Workbook()
-      workbook = await workbook.xlsx.readFile(filePath)
-      //console.log('workbook :>> ', workbook);
-      var explanation = workbook.getWorksheet('Hoja1')
-      var colComment = explanation.getColumn('A')
-      colComment.eachCell(async (cell, rowNumber) => {
-        if (rowNumber >= 2) {
-          let test = {}
-          let title = explanation.getCell('A' + rowNumber).value
-          test.title = title
-          let total_questions = explanation.getCell('B' + rowNumber).value
-          test.total_questions = total_questions
-          let family_id = explanation.getCell('C' + rowNumber).value
-          test.family_id = family_id
-          let id = explanation.getCell('D' + rowNumber).value
-          test.id = id
-          let save = await Test.create(test)
-        }
-      })
+    try {
+      if (request.file('testFile')) {
+        //console.log('sirve test');
+        let testFile = request.file('testFile')
+        var filePath = await MoveFileService.moveFile(testFile)
+        var workbook = new ExcelJS.Workbook()
+        workbook = await workbook.xlsx.readFile(filePath)
+        //console.log('workbook :>> ', workbook);
+        var explanation = workbook.getWorksheet('Hoja1')
+        var colComment = explanation.getColumn('A')
+        colComment.eachCell(async (cell, rowNumber) => {
+          if (rowNumber >= 2) {
+            let test = {}
+            let title = explanation.getCell('A' + rowNumber).value
+            test.title = title
+            let total_questions = explanation.getCell('B' + rowNumber).value
+            test.total_questions = total_questions
+            let family_id = explanation.getCell('C' + rowNumber).value
+            let objId = new ObjectId(family_id);
+            test.family_id = objId
+            let id = explanation.getCell('D' + rowNumber).value
+            test.id = id
+            let save = await Test.create(test)
+          }
+        })
+      }
+    } catch (error) {
+      console.error(error.name + 'tests : ' + error.message)
     }
 
     try {   

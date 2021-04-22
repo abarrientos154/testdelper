@@ -23,7 +23,7 @@
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   name: 'Quest',
-  props: ['id', 'index', 'course_id', 'test_id', 'exam_id'],
+  props: ['id', 'index', 'test_id'],
   data () {
     return {
       quest: {},
@@ -70,7 +70,7 @@ export default {
     },
     async save () {
       this.$q.loading.show({
-        message: 'Cargando Datos...'
+        message: 'Creando Datos...'
       })
       this.$v.$touch()
       if (!this.$v.quest.$error && !this.$v.answers.$error) {
@@ -93,7 +93,7 @@ export default {
     },
     async update () {
       this.$q.loading.show({
-        message: 'Cargando Datos...'
+        message: 'Actualizando Datos...'
       })
       this.$v.$touch()
       if (!this.$v.quest.$error && !this.$v.answers.$error) {

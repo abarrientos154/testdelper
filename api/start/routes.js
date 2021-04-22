@@ -55,6 +55,7 @@ addPrefixToGroup(
 
     Route.get("asignatura", "AsignaturaController.index")
     Route.get('asignatura_by_id/:id', 'AsignaturaController.getAsignaturaById')
+    Route.get('getCourseWithTest/:id', 'AsignaturaController.getCourseWithTest')
     Route.put('updateAsignatura/:id', 'AsignaturaController.update')
 
     Route.get('tema', 'TemaController.index')

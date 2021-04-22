@@ -13,12 +13,12 @@
     </q-card>
     <div>
       <q-dialog v-model="newQ" @hide="reload">
-        <quest @question="newQuest" :id="questId" :index="indexQ" :course_id="test.course._id" :test_id="test.id"/>
+        <quest @question="newQuest" :id="questId" :index="indexQ" :test_id="test.id"/>
       </q-dialog>
     </div>
     <div>
       <q-dialog v-model="newF">
-        <quest-upload @file="getFile" :course_id="test.course._id" :test_id="test._id"/>
+        <quest-upload @file="getFile" :test_id="test.id"/>
       </q-dialog>
     </div>
     <div class="row justify-center">
@@ -102,8 +102,12 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
+        this.$q.loading.show({
+          message: 'Eliminando Datos...'
+        })
         this.$api.delete('destroyQuest/' + id).then(res => {
           if (res) {
+            this.$q.loading.hide()
             this.$q.notify({
               color: 'positive',
               message: 'Pregunta Eliminada Correctamente'

@@ -23,6 +23,15 @@ class AsignaturaController {
     console.log(asignatura)
     response.send(asignatura)
   }
+  async getCourseWithTest ({ request, response, params }) {
+    try {
+      let course = await Asignatura.with('tests').find(params.id)
+      console.log('course :>> ', course);
+      response.send(course)
+    } catch (error) {
+      console.error(error.name + 'tests: ' + error.message);
+    }
+  }
 
   async update ({ params, request, response }) {
     var dat = request.body

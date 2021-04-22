@@ -24,7 +24,7 @@
 import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'QuestUpload',
-  props: ['course_id', 'test_id', 'exam_id'],
+  props: ['test_id'],
   data () {
     return {
       file: null
@@ -38,9 +38,8 @@ export default {
       this.$v.$touch()
       if (!this.$v.file.$error) {
         const dataId = {}
-        dataId.asignatura_id = this.course_id
-        dataId.tema_id = this.test_id
-        dataId.examen_id = this.exam_id
+        dataId.test_id = this.test_id
+        console.log('dataId.test_id :>> ', dataId.test_id)
         const formData = new FormData()
         formData.append('fileExcel', this.file)
         formData.append('data', JSON.stringify(dataId))

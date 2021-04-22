@@ -7,6 +7,9 @@ class Asignatura extends Model {
     static get fillable() {
         return ['name','status']
     }
+    tests () {
+        return this.hasMany('App/Models/Test', '_id', 'family_id')
+    }
 }
 
 module.exports = Asignatura
