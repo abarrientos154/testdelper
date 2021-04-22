@@ -31,7 +31,7 @@
           <div class="text-h6">{{edit ? 'Editar Tema' : 'Crear Tema'}}</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input rounded dense outlined type="text" v-model="form.name" label="Nuevo nombre" :error="$v.form.name.$error" error-message="Este campo es requerido"  @blur="$v.form.name.$touch()">
+          <q-input rounded dense outlined type="text" v-model="form.title" label="Nuevo nombre" :error="$v.form.title.$error" error-message="Este campo es requerido"  @blur="$v.form.title.$touch()">
             <template v-slot:prepend>
               <q-icon name="edit" color="primary"/>
             </template>
@@ -64,7 +64,7 @@ export default {
   },
   validations: {
     form: {
-      name: { required, minLength: minLength(3), maxLength: maxLength(20) }
+      title: { required, minLength: minLength(3), maxLength: maxLength(20) }
     }
   },
   mounted () {
@@ -77,7 +77,7 @@ export default {
         this.$q.loading.show({
           message: 'Actualizando Tema, Por Favor Espere...'
         })
-        this.$api.put('tema/' + this.form._id, this.form).then((res) => {
+        this.$api.put('test/' + this.form._id, this.form).then((res) => {
           if (res) {
             this.$q.loading.hide()
             this.$q.notify({
@@ -110,7 +110,7 @@ export default {
         this.$q.loading.show({
           message: 'Subiendo Tema, Por Favor Espere...'
         })
-        this.$api.post('tema', this.form).then((res) => {
+        this.$api.post('test', this.form).then((res) => {
           if (res) {
             this.$q.loading.hide()
             this.$q.notify({
@@ -129,7 +129,7 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.$api.delete('tema/' + id).then(res => {
+        this.$api.delete('test/' + id).then(res => {
           if (res) {
             this.$q.notify({
               color: 'positive',

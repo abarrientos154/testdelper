@@ -42,6 +42,9 @@ class TestController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    var data = request.body
+    let save = await Test.create(data)
+    response.send(save)
   }
 
   /**
@@ -77,6 +80,9 @@ class TestController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    var data = request.body
+    let update = await Test.query().where('_id', params.id).update(data)
+    response.send(update)
   }
 
   /**
@@ -88,6 +94,9 @@ class TestController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    let test = await Test.find(params.id)
+    await test.delete()
+    response.send(test)
   }
 
   async testByCourse ({ request, response, params }) {
