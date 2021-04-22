@@ -76,7 +76,7 @@ export default {
       })
     },
     async getQuestionsByTest () {
-      await this.$api.get('getQuestionsbyTest/' + this.test.id).then(async res => {
+      await this.$api.get('getQuestionsbyTest/' + this.test.id).then(res => {
         if (res) {
           console.log('res :>> ', res)
           this.questions = res

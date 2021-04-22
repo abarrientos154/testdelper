@@ -142,11 +142,11 @@ export default {
         // console.log('>>>> Cancel')
       })
     },
-    getAsig (id) {
-      this.$api.get('asignatura_by_id/' + id).then(res => {
+    async getAsig (id) {
+      await this.$api.get('asignatura_by_id/' + id).then(async res => {
         if (res) {
           this.asig = res
-          this.$api.get('test_by_course/' + id).then(res => {
+          await this.$api.get('test_by_course/' + id).then(res => {
             if (res) {
               this.test = res
             }
