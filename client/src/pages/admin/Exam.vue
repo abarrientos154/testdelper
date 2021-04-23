@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-h3 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.title}}</div>
-    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.course.name}}</div>
+    <div class="text-h6 col-10 row justify-center q-my-sm text-primary text-weight-bolder">{{test.exam.name}}</div>
     <q-card class="row justify-start bg-blue-2">
       <div class="column q-ma-md">
         <div class="text-h6 text-primary">Nueva Pregunta</div>
@@ -27,17 +27,14 @@
         <div class="column dimension no-wrap" v-if="questions.length > 0">
           <q-card class="dimensionC q-px-xl q-pt-md q-pb-lg q-ma-lg" v-for="(qt, index) in questions" :key="index">
             <q-card class="row justify-between bg-blue-2 q-pa-sm q-mb-md">
-              <div class="text-h6 q-ml-xs q-mb-sm">{{index + 1}} - {{qt.title}}</div>
+              <div class="text-h6 q-ml-xs q-mb-sm">{{index + 1}} - {{qt.question}}</div>
               <div>
                 <q-btn round flat size="md" text-color="primary" icon="edit" @click="getIdForEdit(qt._id)"  />
                 <q-btn round flat size="md" text-color="primary" icon="delete" @click="destroyQuest(qt._id)" />
               </div>
             </q-card>
-            <div class="column q-pl-lg">
-              <q-item class="text-subtitle1 q-mb-sm" clickable>A) {{qt.optionA}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable>B) {{qt.optionB}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable>C) {{qt.optionC}}</q-item>
-              <q-item class="text-subtitle1 q-mb-sm" clickable>D) {{qt.optionD}}</q-item>
+            <div class="column q-pl-lg" v-for="(item, index) in qt.answers" :key="index">
+              <q-item class="text-subtitle1 q-mb-sm" clickable> {{item.titleAnswer}}</q-item>
             </div>
           </q-card>
         </div>
@@ -72,7 +69,7 @@ export default {
       this.$q.loading.show({
         message: 'Cargando Datos...'
       })
-      await this.$api.get('testById/' + this.$route.params.id).then(res => {
+      await this.$api.get('testExamById/' + this.$route.params.id).then(res => {
         if (res) {
           this.$q.loading.hide()
           this.test = res

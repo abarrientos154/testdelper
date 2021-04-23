@@ -16,7 +16,7 @@ class Test extends Model {
   course () {
     return this.hasOne('App/Models/Asignatura', 'family_id', '_id')
   }
-  datos_examen () {
+  exam () {
     return this.hasOne('App/Models/Examen', 'family_id', '_id')
   }
   questions () {

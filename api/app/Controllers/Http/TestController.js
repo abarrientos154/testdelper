@@ -115,6 +115,14 @@ class TestController {
       console.error(error.name +'1: ' + error.message)
     }
   }
+  async testExamById ({ request, response, params }) {
+    try {
+      let test = (await Test.with('exam').with('questions').find(params.id)).toJSON()
+      response.send(test)
+    } catch (error) {
+      console.error(error.name + '1: ' + error.message)
+    }
+  }
 }
 
 module.exports = TestController

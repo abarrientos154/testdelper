@@ -37,6 +37,9 @@ export default {
     async upload () {
       this.$v.$touch()
       if (!this.$v.file.$error) {
+        this.$q.loading.show({
+          message: 'Subiendo datos, esto puede tomar un tiempo...'
+        })
         const dataId = {}
         dataId.test_id = this.test_id
         console.log('dataId.test_id :>> ', dataId.test_id)
@@ -49,6 +52,7 @@ export default {
           }
         }).then(res => {
           if (res) {
+            this.$q.loading.hide()
             this.$q.notify({
               message: 'Preguntas Cargadas Correctamente',
               color: 'positive'
