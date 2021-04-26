@@ -121,7 +121,7 @@ class UploadController {
           answers.push(ans)
         }
         question.answers = answers
-        // question.isActive = false
+        question.isActive = false
         if (data.test_id != null) {
           question.test_id = data.test_id
         }
@@ -211,6 +211,7 @@ class UploadController {
             quest.question = question
             let correct_answer = explanation.getCell('E' + rowNumber).value
             quest.correct_answer = correct_answer
+            quest.isActive = false
             collectionQuestions.push(quest)
           }
         })

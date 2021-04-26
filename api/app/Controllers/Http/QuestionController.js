@@ -1,5 +1,6 @@
 'use strict'
 const Question = use("App/Models/Question")
+const Asignatura = use("App/Models/Asignatura")
 const Test = use("App/Models/Test")
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -42,6 +43,15 @@ class QuestionController {
     response.send(data)
   }
 
+  async getFullQuestions ({ response }) {
+    try {
+      let data = (await Asignatura.query().where({}).with('tests.questions').fetch()).toJSON()
+      response.send(data)
+    } catch (error) {
+      console.error(error.name + 'fullQuestions: ' + error.message);
+    }
+  }
+
   /**
    * Render a form to be used for creating a new question.
    * GET questions/create
@@ -73,11 +83,25 @@ class QuestionController {
       }
       quest.answers = arr
       console.log('quest :>> ', quest);
-      // body.isActive = false
+      body.isActive = false
       let save = await Question.create(quest)
       response.send(save)
     } catch (error) {
-      console.error(error.name + 'store:' + error.message);
+      console.error(error.name + 'store: ' + error.message);
+    }
+  }
+  async multiplesQuestions ({ request, response }) {
+    try {
+      let { multipleQ, id } = request.body
+      let test = (await Test.where('id', id)).toJSON()
+      console.log('test :>> ', test);
+      for (let i in multipleQ) {
+        multipleQ[i].exam_id = id
+        const update = await Question.where('_id', multipleQ[i]._id).update(multipleQ[i])
+      }
+      response.send(true)
+    } catch (error) {
+      console.error(error.name + 'multiplesQuestions: ' + error.message);
     }
   }
 

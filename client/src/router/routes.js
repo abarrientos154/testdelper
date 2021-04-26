@@ -11,7 +11,6 @@ const routes = [
       { path: '/tests_exam/:id', component: () => import('pages/admin/TestsExam.vue') },
       { path: '/edit_test/:id', component: () => import('pages/admin/EditTest.vue') },
       { path: '/exam/:id', component: () => import('pages/admin/Exam.vue') },
-      { path: '/questions', component: () => import('pages/admin/Questions.vue') },
       // User
       { path: '/inicio', component: () => import('pages/user/Inicio.vue') }
     ]
