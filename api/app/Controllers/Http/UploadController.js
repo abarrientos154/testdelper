@@ -3,7 +3,6 @@ const ExcelJS = require('exceljs');
 const Question = use("App/Models/Question")
 const Test = use("App/Models/Test")
 const MoveFileService = use("App/Services/MoveFileService")
-const QuestionsAndAnswersService = use("App/Services/QuestionsAndAnswersService")
 var ObjectId = require('mongodb').ObjectId;
 
 
@@ -187,6 +186,7 @@ class UploadController {
             let question = explanation1.getCell('D' + rowNumber).value
             quest.question = question
             let correct_answer = explanation1.getCell('E' + rowNumber).value
+            quest.isActive = false
             quest.correct_answer = correct_answer
             
             collectionQuestions.push(quest)
