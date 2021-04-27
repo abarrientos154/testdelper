@@ -46,7 +46,7 @@
       </div>
     </div>
     <div v-else>
-      <questions id="test.id"></questions>
+      <questions :id="test.id"></questions>
     </div>
   </div>
 </template>

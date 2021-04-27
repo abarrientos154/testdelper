@@ -22,6 +22,9 @@ class Test extends Model {
   questions () {
     return this.hasMany('App/Models/Question', 'id', 'test_id')
   }
+  questionsE () {
+    return this.hasMany('App/Models/Question', 'id', 'exam_id')
+  }
 }
 
 module.exports = Test
