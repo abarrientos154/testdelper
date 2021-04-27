@@ -165,6 +165,33 @@ class UploadController {
 
     try {   
       if (request.file('questionsFile') && request.file('answersFile')) {
+        // preguntas
+        console.log('object :>> ');
+        let questionsFile = request.file('questionsFile')
+        filePath = await MoveFileService.moveFile(questionsFile)
+        var workbook1 = new ExcelJS.Workbook()
+        workbook1 = await workbook1.xlsx.readFile(filePath)
+        console.log('workbook :>> ', workbook1);
+        var explanation1 = workbook1.getWorksheet('Hoja1')
+        var colComment = explanation1.getColumn('A')
+        let collectionQuestions = []
+        colComment.eachCell(async (cell, rowNumber) => {
+          if (rowNumber >= 2) {
+            let quest = {}
+            let idq = explanation1.getCell('A' + rowNumber).value
+            quest.id = idq
+            let test_id1 = explanation1.getCell('B' + rowNumber).value
+            quest.test_id = test_id1
+            let question_number1 = explanation1.getCell('C' + rowNumber).value
+            quest.question_number = question_number1
+            let question = explanation1.getCell('D' + rowNumber).value
+            quest.question = question
+            let correct_answer = explanation1.getCell('E' + rowNumber).value
+            quest.correct_answer = correct_answer
+            
+            collectionQuestions.push(quest)
+          }
+        })
         // respuestas
         let answersFile = request.file('answersFile')
         var filePath = await MoveFileService.moveFile(answersFile)
@@ -189,34 +216,18 @@ class UploadController {
             collectionAnswers.push(answer)
           }
         })
-        // preguntas
-        let questionsFile = request.file('questionsFile')
-        filePath = await MoveFileService.moveFile(questionsFile)
-        var workbook = new ExcelJS.Workbook()
-        workbook = await workbook.xlsx.readFile(filePath)
-        console.log('workbook :>> ', workbook);
-        var explanation = workbook.getWorksheet('Hoja1')
-        var colComment = explanation.getColumn('A')
-        let collectionQuestions = []
-        colComment.eachCell(async (cell, rowNumber) => {
-          if (rowNumber >= 2) {
-            let quest = {}
-            let id = explanation.getCell('A' + rowNumber).value
-            quest.id = id
-            let test_id = explanation.getCell('B' + rowNumber).value
-            quest.test_id = test_id
-            let question_number = explanation.getCell('C' + rowNumber).value
-            quest.question_number = question_number
-            let question = explanation.getCell('D' + rowNumber).value
-            quest.question = question
-            let correct_answer = explanation.getCell('E' + rowNumber).value
-            quest.correct_answer = correct_answer
-            quest.isActive = false
-            collectionQuestions.push(quest)
-          }
-        })
-        let service = await QuestionsAndAnswersService.getAnswers(collectionAnswers, collectionQuestions)
-        console.log('collectionAnswers.length, collectionQuestions.length :>> ', collectionAnswers.length, collectionQuestions.length);
+
+        for (let i in collectionQuestions) {
+          let answers = []
+          let iQuestion = {...collectionQuestions[i]}
+          collectionAnswers.forEach((iAnswer, index) => {
+             if (parseInt(iAnswer.test_id) === parseInt(iQuestion.test_id) && parseInt(iAnswer.question_number) === parseInt(iQuestion.question_number)) {
+              answers.push(iAnswer)
+            }
+          });
+          iQuestion.answers = answers
+          let save = await Question.create(iQuestion)
+        }
       }
     } catch (error) {
       console.error(error.name + '2: ' + error.message)
