@@ -75,6 +75,12 @@ export default {
           console.log('this.test >> ', this.test)
           this.questions = this.test.questions
           this.indexQ = this.questions.length + 1
+        } else {
+          this.$q.loading.hide()
+          this.$q.notify({
+            color: 'negative',
+            message: 'Aun no hay datos'
+          })
         }
       })
     },

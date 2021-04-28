@@ -74,5 +74,7 @@ addPrefixToGroup(
     Route.get('getExamWithTest/:id', 'ExamenController.getExamWithTest')
     Route.put('examen/:id', 'ExamenController.update')
     Route.delete('examen/:id', 'ExamenController.destroy')
+
+    Route.get('titles', 'TitleController.index')
   }).middleware("auth")
 );

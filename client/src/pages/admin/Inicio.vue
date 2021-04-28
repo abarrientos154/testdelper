@@ -36,6 +36,8 @@
                 <q-icon name="edit" color="primary"/>
               </template>
             </q-input>
+            <q-select :options="titles" rounded dense outlined v-model="form.title" label="Título" :error="$v.form.title.$error" error-message="Este campo es requerido"  @blur="$v.form.title.$touch()" map-options emit-value option-value="_id" options-selected-class="text-primary" option-label="name">
+            </q-select>
             <q-chip text-color="white" :label="form.status ? 'Paga' : 'Gratuita'" :color="form.status ? 'green-14' : 'primary'" />
           </div>
           <div class="col-2">
@@ -66,12 +68,17 @@ export default {
       edit: false,
       form: {},
       item: 0,
-      asig: []
+      asig: [],
+      options: [
+        'Licencia de Navegación', 'Patrón de Navegación Básico, del tema 1 al 6', 'Patrón de Embarcaciones de Recreo del tema 1 al 11', 'Reducido, del tema 7 al 11', 'Patrón de Yate', 'Capitán de Yate'
+      ],
+      titles: []
     }
   },
   validations: {
     form: {
-      name: { required, minLength: minLength(3), maxLength: maxLength(35) }
+      name: { required, minLength: minLength(3), maxLength: maxLength(35) },
+      title: { required, minLength: minLength(3), maxLength: maxLength(35) }
     }
   },
   mounted () {
@@ -100,14 +107,31 @@ export default {
       this.form = {}
     },
     editAsig (itm) {
+      this.getTitles()
       const datos = { ...itm }
       this.edit = true
       this.form = datos
     },
-    getAsignaturas () {
-      this.$api.get('asignatura').then(res => {
+    async getAsignaturas () {
+      this.$q.loading.show({
+        message: 'Cargando Datos...'
+      })
+      await this.$api.get('asignatura').then(res => {
         if (res) {
+          this.$q.loading.hide()
           this.asig = res
+        }
+      })
+    },
+    async getTitles () {
+      this.$q.loading.show({
+        message: 'Cargando Datos...'
+      })
+      await this.$api.get('titles').then(res => {
+        if (res) {
+          this.$q.loading.hide()
+          this.titles = res
+          console.log('titles :>> ', this.titles)
         }
       })
     }

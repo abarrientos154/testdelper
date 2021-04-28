@@ -43,10 +43,18 @@ class TestController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    var data = request.body
-    data.family_id = new ObjectId(data.family_id)
-    let save = await Test.create(data)
-    response.send(save)
+    try {
+      var data = request.body
+      data.family_id = new ObjectId(data.family_id)
+      let id = (await Test.query().where({}).fetch()).toJSON()
+      let lastT = id.length -1
+      id = parseInt(id[lastT].id) + 1
+      data.id = id
+      let save = await Test.create(data)
+      response.send(save)
+    } catch (error) {
+      console.error('metodo store:' + error.name + ':' + error.message);
+    }
   }
 
   /**
