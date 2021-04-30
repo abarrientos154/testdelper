@@ -88,7 +88,17 @@ export default {
         {
           icon: 'home',
           label: 'Inicio',
-          ruta: '/inicio'
+          ruta: '/home'
+        },
+        {
+          icon: 'menu_book',
+          label: 'Asignaturas',
+          ruta: '/courses'
+        },
+        {
+          icon: 'article',
+          label: 'Examenes',
+          ruta: '/exams'
         },
         {
           icon: 'logout',
@@ -127,7 +137,7 @@ export default {
       this.$api.get('user_info').then(v => {
         if (v) {
           this.rol = v.roles[0]
-          this.ultimaConeccion = v.ultima_coneccion
+          // this.ultimaConeccion = v.ultima_coneccion
           this.user = v
           if (this.rol === 1) {
             this.menu = this.menuAdmin
@@ -138,9 +148,9 @@ export default {
               console.log(this.rol)
             }
           }
-          this.fecha = this.hoy.getDate() + '/' + (this.hoy.getMonth() + 1) + '/' + this.hoy.getFullYear()
-          this.hora = this.hoy.getHours() + ':' + this.hoy.getMinutes() + ':' + this.hoy.getSeconds()
-          this.user.ultima_coneccion = { fecha: this.fecha, hora: this.hora }
+          // this.fecha = this.hoy.getDate() + '/' + (this.hoy.getMonth() + 1) + '/' + this.hoy.getFullYear()
+          // this.hora = this.hoy.getHours() + ':' + this.hoy.getMinutes() + ':' + this.hoy.getSeconds()
+          // this.user.ultima_coneccion = { fecha: this.fecha, hora: this.hora }
           console.log(v)
         }
       })

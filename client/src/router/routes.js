@@ -12,7 +12,13 @@ const routes = [
       { path: '/edit_test/:id', component: () => import('pages/admin/EditTest.vue') },
       { path: '/exam/:id', component: () => import('pages/admin/Exam.vue') },
       // User
-      { path: '/inicio', component: () => import('pages/user/Inicio.vue') }
+      { path: '/home', component: () => import('pages/user/Inicio.vue') },
+      { path: '/courses', component: () => import('pages/user/Courses.vue') },
+      { path: '/tests-courses/:id', component: () => import('pages/user/TestsCourses.vue') },
+      { path: '/test-course/:id', component: () => import('pages/user/TestCourse.vue') },
+      { path: '/exams', component: () => import('pages/user/Exams.vue') },
+      { path: '/tests_exams/:id', component: () => import('pages/user/TestsExams.vue') },
+      { path: '/test-exam/:id', component: () => import('pages/user/TestExam.vue') }
     ]
   },
   { path: '/login', component: () => import('pages/Login.vue') },

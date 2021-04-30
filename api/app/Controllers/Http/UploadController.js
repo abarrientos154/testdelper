@@ -212,6 +212,7 @@ class UploadController {
             let answer_number = explanation.getCell('D' + rowNumber).value
             answer.answer_number = answer_number
             let titleAnswer = explanation.getCell('E' + rowNumber).value
+            answer.isActive = false
             answer.titleAnswer = titleAnswer
             collectionAnswers.push(answer)
           }

@@ -82,8 +82,8 @@ class QuestionController {
         arr.push(ans)
       }
       quest.answers = arr
+      quest.isActive = false
       console.log('quest :>> ', quest);
-      body.isActive = false
       let save = await Question.create(quest)
       response.send(save)
     } catch (error) {
