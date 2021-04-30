@@ -15,8 +15,8 @@
               <div class="col-9 text-h6 text-primary q-ml-xs q-mb-sm">{{index + 1}} - {{qt.question}}</div>
             </q-card>
             <div class="row q-pl-lg" v-for="(item, index) in qt.answers" :key="index">
-              <q-checkbox v-model="item.isActive"  @input="answerSelected(item, index, qt)"/>
-              <q-item class="text-subtitle1 q-mb-sm" clickable> {{item.titleAnswer}}</q-item>
+              <q-checkbox class="col-1" v-model="item.isActive"  @input="answerSelected(item, index, qt)"/>
+              <q-item class="col-10 text-subtitle1 q-mb-sm" clickable> {{item.titleAnswer}}</q-item>
             </div>
           </q-card>
           <div class="row justify-center q-mb-md">
@@ -69,10 +69,10 @@ export default {
         }
       }
       answer.isActive = true
+    },
+    send () {
+      console.log('envia respuesta')
     }
-  },
-  send () {
-    console.log('envia respuesta')
   }
 }
 </script>
