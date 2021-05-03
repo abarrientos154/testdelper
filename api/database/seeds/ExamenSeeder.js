@@ -15,7 +15,7 @@ const Factory = use('Factory')
 const Examen = use('App/Models/Examen')
 const examenData = [
   {
-    _id: new ObjectId('6081a894968bfd8038c5d464'),
+    _id: new ObjectId('6079d4fd28ec030054537efe'),
     name: 'Exámenes PER',
   },
   {
