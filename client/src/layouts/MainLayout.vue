@@ -74,6 +74,11 @@ export default {
           ruta: '/examenes'
         },
         {
+          icon: 'event',
+          label: 'Fecha Examen',
+          ruta: '/date_exams'
+        },
+        {
           icon: 'upload_file',
           label: 'Datos Masivos',
           ruta: ''
