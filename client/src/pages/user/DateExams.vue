@@ -47,11 +47,8 @@ export default {
     },
     execute (emit) {
       console.log('emit :>> ', emit)
-      if (emit.title === 'Eliminar') {
-        this.destroyDateExam(emit.id)
-      } else if (emit.title === 'Editar') {
-        this.dateExam_id = emit.id
-        this.newDE = true
+      if (emit.title === 'Comprar') {
+        console.log('compras pronto')
       }
     }
   }
