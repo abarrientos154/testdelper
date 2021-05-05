@@ -83,5 +83,11 @@ addPrefixToGroup(
       Route.get('questById/:id', 'QuestionController.show')
       Route.delete('destroyQuest/:id', 'QuestionController.destroy')
 
+      Route.post('newDateExam', 'DateExamController.store')
+      Route.put('updateDateExam/:id', 'DateExamController.update')
+      Route.get('dateExam', 'DateExamController.index')
+      Route.delete('destroyDateExam/:id', 'DateExamController.destroy')
+      Route.get('dateExamById/:id', 'DateExamController.show')
+
     }).middleware("auth")
   );

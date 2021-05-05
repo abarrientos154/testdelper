@@ -43,13 +43,12 @@
 import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'Quest',
-  props: ['id', 'index', 'test_id'],
+  props: ['id'],
   data () {
     return {
       places: null,
       communities: null,
       dateExam: {},
-      answers: {},
       edit: false,
       loading: false
     }
@@ -65,6 +64,7 @@ export default {
   },
   mounted () {
     this.getCommunities()
+    this.getDateExamById()
   },
   methods: {
     async getCommunities () {
@@ -81,22 +81,18 @@ export default {
         }
       })
     },
-    async getQuestById () {
+    async getDateExamById () {
       if (this.id !== '') {
         this.$q.loading.show({
           message: 'Cargando Datos...'
         })
         console.log('this.id :>> ', this.id)
         this.edit = true
-        await this.$api.get('questById/' + this.id).then(res => {
+        await this.$api.get('dateExamById/' + this.id).then(res => {
           if (res) {
+            this.getPlace(res.ccaa)
+            this.dateExam = res
             this.$q.loading.hide()
-            console.log('res :>> ', res)
-            this.quest = res
-            this.answers.optionA = this.quest.answers[0].titleAnswer
-            this.answers.optionB = this.quest.answers[1].titleAnswer
-            this.answers.optionC = this.quest.answers[2].titleAnswer
-            this.answers.optionD = this.quest.answers[3].titleAnswer
           }
         })
       }
@@ -106,20 +102,15 @@ export default {
         message: 'Creando Datos...'
       })
       this.$v.$touch()
-      if (!this.$v.quest.$error && !this.$v.answers.$error) {
-        this.quest.test_id = this.test_id
-        this.quest.question_number = this.index
-        await this.$api.post('newQuest', {
-          quest: this.quest,
-          answers: this.answers
-        }).then(res => {
+      if (!this.$v.dateExam.$error) {
+        await this.$api.post('newDateExam', this.dateExam).then(res => {
           if (res) {
             this.$q.loading.hide()
             this.$q.notify({
-              message: 'Pregunta Creada Correctamente',
+              message: 'Fecha Examen Creada Correctamente',
               color: 'positive'
             })
-            this.$emit('question', false)
+            this.$emit('close', false)
           }
         })
       }
@@ -129,19 +120,15 @@ export default {
         message: 'Actualizando Datos...'
       })
       this.$v.$touch()
-      if (!this.$v.quest.$error && !this.$v.answers.$error) {
-        this.quest.question_number = this.index
-        await this.$api.put('updateQuest/' + this.id, {
-          quest: this.quest,
-          answers: this.answers
-        }).then(res => {
+      if (!this.$v.dateExam.$error) {
+        await this.$api.put('updateDateExam/' + this.id, this.dateExam).then(res => {
           if (res) {
             this.$q.loading.hide()
             this.$q.notify({
-              message: 'Pregunta Editada Correctamente',
+              message: 'Fecha Examen Editada Correctamente',
               color: 'positive'
             })
-            this.$emit('question', false)
+            this.$emit('close', false)
           }
         })
       }

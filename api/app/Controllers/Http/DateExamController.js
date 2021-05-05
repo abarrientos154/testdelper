@@ -1,4 +1,5 @@
 'use strict'
+const DateExam = use("App/Models/DateExam")
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -17,7 +18,29 @@ class DateExamController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index ({ response }) {
+    let data = (await DateExam.query().where({}).with('community').with('placeO').fetch()).toJSON();
+    for (let i in data) {
+      data[i].community_name = data[i].community.name
+      data[i].place_name = data[i].placeO.name
+      data[i].actions = [
+        {
+          color: "primary",
+          icon: "edit",
+          url: "",
+          action: "",
+          title: "Editar",
+        },
+        {
+          color: "red",
+          icon: "delete",
+          url: "",
+          action: "",
+          title: "Eliminar",
+        }
+      ]  
+    }
+    response.send(data);
   }
 
   /**
@@ -41,6 +64,14 @@ class DateExamController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      let body = request.body
+      console.log('body :>> ', body);
+      let store = await DateExam.create(body)
+      response.send(store)
+    } catch (error) {
+      console.error('Store DateExam: ' + error.name + ': ' + error.message);
+    }
   }
 
   /**
@@ -52,7 +83,14 @@ class DateExamController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show ({ params, response }) {
+    try {
+      let { id } = params
+      let data = (await DateExam.query().find(id)).toJSON()
+      response.send(data)
+    } catch (error) {
+      console.error('show DateExam: ' + error.name + ': ' + error.message);
+    }
   }
 
   /**
@@ -76,6 +114,13 @@ class DateExamController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      let dateExam = request.body
+      const update = await DateExam.query().where('_id', params.id).update(dateExam)
+      response.send(update)
+    } catch (error) {
+      console.error('Update DateExam ' + error.name + ': ' + error.message);
+    }
   }
 
   /**
@@ -87,6 +132,8 @@ class DateExamController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const toDestroy = await DateExam.where('_id', params.id).delete()
+    response.send(toDestroy)
   }
 }
 
