@@ -106,6 +106,11 @@ export default {
           ruta: '/exams'
         },
         {
+          icon: 'event',
+          label: 'Fecha Examen',
+          ruta: '/date_exams_users'
+        },
+        {
           icon: 'logout',
           label: 'Cerrar Sesión',
           ruta: ''

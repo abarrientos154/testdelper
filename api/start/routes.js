@@ -86,6 +86,7 @@ addPrefixToGroup(
       Route.post('newDateExam', 'DateExamController.store')
       Route.put('updateDateExam/:id', 'DateExamController.update')
       Route.get('dateExam', 'DateExamController.index')
+      Route.get('dateExamUser', 'DateExamController.dateExamUser')
       Route.delete('destroyDateExam/:id', 'DateExamController.destroy')
       Route.get('dateExamById/:id', 'DateExamController.show')
 

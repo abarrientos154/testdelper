@@ -19,7 +19,8 @@ const routes = [
       { path: '/test-course/:id', component: () => import('pages/user/TestCourse.vue') },
       { path: '/exams', component: () => import('pages/user/Exams.vue') },
       { path: '/tests_exams/:id', component: () => import('pages/user/TestsExams.vue') },
-      { path: '/test-exam/:id', component: () => import('pages/user/TestExam.vue') }
+      { path: '/test-exam/:id', component: () => import('pages/user/TestExam.vue') },
+      { path: '/date_exams_users', component: () => import('pages/user/DateExams.vue') }
     ]
   },
   { path: '/login', component: () => import('pages/Login.vue') },

@@ -42,6 +42,23 @@ class DateExamController {
     }
     response.send(data);
   }
+  async dateExamUser ({ response }) {
+    let data = (await DateExam.query().where({}).with('community').with('placeO').fetch()).toJSON();
+    for (let i in data) {
+      data[i].community_name = data[i].community.name
+      data[i].place_name = data[i].placeO.name
+      data[i].actions = [
+        {
+          color: "green",
+          icon: "shopping_cart",
+          url: "",
+          action: "",
+          title: "Comprar",
+        }
+      ]
+    }
+    response.send(data);
+  }
 
   /**
    * Render a form to be used for creating a new dateexam.
