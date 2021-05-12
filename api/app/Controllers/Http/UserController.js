@@ -54,6 +54,7 @@ class UserController {
     token.estatus = user.estatus
     token.full_name = user.full_name ? user.full_name : null
     token.last_name = user.last_name
+    token._id = user._id
     let data = {}
     data.SESSION_INFO = token
     return data

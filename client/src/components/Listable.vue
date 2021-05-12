@@ -28,7 +28,7 @@
               {{action.title}}
             </q-tooltip>
           </q-btn>
-        </q-td>
+      </q-td>
     </q-table>
   </div>
 </template>
