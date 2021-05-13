@@ -27,11 +27,10 @@ class QuestionController {
   
 
   async getQuestionsbyTest ({ response, params }) {
-    let id = parseInt(params.id)
+    const id = parseInt(params.id)
       try {
-        let data = (await Question.query().where({ test_id: id }).fetch()).toJSON()
+        const data = (await Question.query().where({ test_id: id }).fetch()).toJSON()
         response.send(data)
-        throw new Error()
       } catch (e) {
         console.error(e.name + ': ' + e.message)
       }
@@ -92,22 +91,17 @@ class QuestionController {
   }
   async multiplesQuestions ({ request, response }) {
     try {
-      let { multiple, id } = request.all()
-      //console.log(typeof (multipleQ[0]._id));
-      console.log(typeof (id));
-      id = id.toString()
-      console.log('id :>> ', id);
+      let { multiple, id, _id } = request.all()
+      console.log(typeof (_id));
+      console.log('id :>> ', _id);
       console.log('multiple :>> ', multiple);
-      let test = await Test.findBy(id)
+      let test = await Test.find(_id)
+      test.hasExamId = true
       console.log('test :>> ', test);
-      let body = {
-        hasExamId: true
-      }
-      test.merge(body)
+      test.merge()
       await test.save()
       for (let i in multiple) {
         multiple[i].exam_id = id
-        console.log(typeof (multiple[i]._id));
         const update = await Question.where('_id', multiple[i]._id).update(multiple[i])
       }
       console.log('multiple :>> ', multiple);

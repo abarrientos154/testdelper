@@ -44,13 +44,14 @@ addPrefixToGroup(
       Route.get("user_info", "UserController.userInfo")
       Route.put('updateUser/:id', 'UserController.update')
       
-      Route.get("asignatura", "AsignaturaController.index")
+      Route.get('course', 'AsignaturaController.index')
       Route.get('asignatura_by_id/:id', 'AsignaturaController.getAsignaturaById')
       Route.get('getCourseWithTest/:id', 'AsignaturaController.getCourseWithTest')
       Route.put('updateAsignatura/:id', 'AsignaturaController.update')
       
       Route.get('tema', 'TemaController.index')
       Route.get('test_by_course/:id', 'TestController.testByCourse')
+      Route.get('testbByCourse/:id', 'TestController.testByCourseId')
       Route.get('testById/:id', 'TestController.testById')
       Route.get('testExamById/:id', 'TestController.testExamById')
       Route.post('test', 'TestController.store')

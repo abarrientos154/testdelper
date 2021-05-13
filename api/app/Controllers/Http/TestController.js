@@ -1,5 +1,6 @@
 'use strict'
 const Test = use("App/Models/Test")
+const Question = use("App/Models/Question")
 var ObjectId = require('mongodb').ObjectId;
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -123,9 +124,25 @@ class TestController {
       console.error(error.name +'1: ' + error.message)
     }
   }
+  async testByCourseId ({ request, response, params }) {
+    try {
+      console.log('params.id :>> ', typeof(params.id));
+      const id = new ObjectId(params.id)
+      const test = (await Test.query().where({ family_id: id}).fetch()).toJSON()
+      console.log('test :>> ', test);
+      response.send(test)
+    } catch (error) {
+      console.error(error.name +'1: ' + error.message)
+    }
+  }
   async testExamById ({ request, response, params }) {
     try {
       let test = (await Test.with('exam').with('questions').find(params.id)).toJSON()
+      if (test.hasExamId) {
+        const questionsFromExam = (await Question.query().where({ exam_id: test.id }).fetch()).toJSON()
+        const questions = [...test.questions]
+        test.questions = [...questions, ...questionsFromExam]
+      }
       response.send(test)
     } catch (error) {
       console.error(error.name + '1: ' + error.message)
