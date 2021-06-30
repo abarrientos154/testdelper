@@ -33,6 +33,7 @@ class ExamenController {
 
   async store ({ request, response, auth }) {
     var dat = request.body
+    console.log(dat, 'dat')
     // const validation = await validate(dat, Examen.fieldValidationRules())
     // if (validation.fails()) {
     //   response.unprocessableEntity(validation.messages())

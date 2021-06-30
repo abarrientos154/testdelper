@@ -25,6 +25,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+env.js
+client/src/env.js
+
 # Editor directories and files
 .idea
 *.suo

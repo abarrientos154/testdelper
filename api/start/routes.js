@@ -34,21 +34,23 @@ addPrefixToGroup(
     // Insertar rutas sin protección de autenticación aquí
     Route.post("login", "UserController.login");
     Route.post("register", "UserController.register")
-    
+
+    Route.post("register_user", "UserController.registerUser")
+
   })
   );
-  
+
   addPrefixToGroup(
     Route.group(() => {
       // Insertar rutas con protección de autenticación aquí
       Route.get("user_info", "UserController.userInfo")
       Route.put('updateUser/:id', 'UserController.update')
-      
+
       Route.get('course', 'AsignaturaController.index')
       Route.get('asignatura_by_id/:id', 'AsignaturaController.getAsignaturaById')
       Route.get('getCourseWithTest/:id', 'AsignaturaController.getCourseWithTest')
       Route.put('updateAsignatura/:id', 'AsignaturaController.update')
-      
+
       Route.get('tema', 'TemaController.index')
       Route.get('test_by_course/:id', 'TestController.testByCourse')
       Route.get('testbByCourse/:id', 'TestController.testByCourseId')
@@ -57,14 +59,14 @@ addPrefixToGroup(
       Route.post('test', 'TestController.store')
       Route.put('test/:id', 'TestController.update')
       Route.delete('test/:id', 'TestController.destroy')
-      
+
       Route.get('examen', 'ExamenController.index')
       Route.get('ExamById/:id', 'ExamenController.examById')
       Route.post('examen', 'ExamenController.store')
       Route.get('getExamWithTest/:id', 'ExamenController.getExamWithTest')
       Route.put('examen/:id', 'ExamenController.update')
       Route.delete('examen/:id', 'ExamenController.destroy')
-      
+
       Route.get('titles', 'TitleController.index')
 
       Route.get('communities', 'CommunityController.index')
@@ -73,7 +75,7 @@ addPrefixToGroup(
 
       Route.post('uploadExcel', 'UploadController.excel')
       Route.post('bigData', 'UploadController.bigData')
-    
+
       Route.post('newQuest', 'QuestionController.store')
       Route.put('multiplesQuestions', 'QuestionController.multiplesQuestions')
       Route.get('getQuestions', 'QuestionController.index')
@@ -90,7 +92,7 @@ addPrefixToGroup(
       Route.get('dateExamUser', 'DateExamController.dateExamUser')
       Route.delete('destroyDateExam/:id', 'DateExamController.destroy')
       Route.get('dateExamById/:id', 'DateExamController.show')
-      
+
       Route.post('answer', 'AnswerController.store')
       Route.put('answer/:id', 'AnswerController.update')
       Route.get('answerById/:id', 'AnswerController.show')

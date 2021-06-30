@@ -19,6 +19,34 @@ class User extends Model {
     return rulesUser
   }
 
+  static fieldValidationRulesUser() {
+    const rulesUser = {
+      email: 'required|email',
+      password: 'required|string|max:256',
+      full_name: 'required|string',
+      num_verification: 'required|string',
+      comunidadA: 'required|string',
+      ciudad: 'required|string',
+      direccion: 'required|string',
+      codpostal: 'required|string',
+      telefono: 'required|string',
+      tLicencia: 'required|string',
+      ciudadExamen: 'required|string',
+      examenD: 'required|string',
+      gestion: 'required|string',
+      tasa: 'required|string',
+      numberDoc: 'required|number'
+    }
+    return rulesUser
+  }
+
+  static get fillableUser() {
+    return ['email','password', 'full_name', 'num_verification', 'comunidadA', 'ciudad',
+      'direccion', 'codpostal', 'telefono', 'tLicencia', 'ciudadExamen', 'examenD',
+      'gestion', 'tasa', 'numberDoc'
+    ]
+  }
+
   static boot () {
     super.boot()
 

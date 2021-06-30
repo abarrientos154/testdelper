@@ -17,7 +17,11 @@ const routes = [
       { path: '/courses', component: () => import('pages/user/Courses.vue') },
       { path: '/tests-courses/:id', component: () => import('pages/user/TestsCourses.vue') },
       { path: '/test-course/:id', component: () => import('pages/user/TestCourse.vue') },
-      { path: '/exams', component: () => import('pages/user/Exams.vue') },
+
+      { path: '/exams', component: () => import('pages/user/examenes/Examenes.vue') },
+      { path: '/exams/form', component: () => import('pages/user/examenes/Form.vue') },
+      { path: '/exams/form/:id', component: () => import('pages/user/examenes/Form.vue') },
+
       { path: '/tests_exams/:id', component: () => import('pages/user/TestsExams.vue') },
       { path: '/test-exam/:id', component: () => import('pages/user/TestExam.vue') },
       { path: '/results/:id', component: () => import('pages/user/Results.vue') },
@@ -25,7 +29,7 @@ const routes = [
     ]
   },
   { path: '/login', component: () => import('pages/Login.vue') },
-  { path: '/registro', component: () => import('pages/Registro.vue') },
+  { path: '/registro', component: () => import('pages/Register.vue') },
   {
     path: '/',
     redirect: '/login'
