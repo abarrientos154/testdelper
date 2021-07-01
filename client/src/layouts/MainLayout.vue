@@ -18,7 +18,7 @@
         <q-list>
           <q-item-label header class="column items-center">
             <img src="logocolomer.png">
-            <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div>
+           <!--  <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div> -->
           </q-item-label>
           <template v-for="(item, index) in menu">
             <q-item :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : item.label === 'Datos Masivos' ? uploadData() : rutas(item)">
