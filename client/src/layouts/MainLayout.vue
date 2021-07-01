@@ -71,7 +71,7 @@ export default {
         {
           icon: 'article',
           label: 'Examenes',
-          ruta: '/examenes'
+          ruta: '/exams'
         },
         {
           icon: 'event',
@@ -99,11 +99,6 @@ export default {
           icon: 'menu_book',
           label: 'Asignaturas',
           ruta: '/courses'
-        },
-        {
-          icon: 'article',
-          label: 'Examenes',
-          ruta: '/exams'
         },
         {
           icon: 'event',

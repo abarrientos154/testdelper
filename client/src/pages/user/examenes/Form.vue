@@ -4,7 +4,7 @@
     <div class="text-subtitle1"> Informacion de general </div>
     <div class="text-caption text-grey"> Ingresa la informacion general del examen </div>
 
-    <div class="row q-mt-lg">
+    <div class="column q-mt-lg">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
         <div class="column">
           <div class="column">

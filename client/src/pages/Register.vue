@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="row q-mt-lg">
+    <div class="column q-mt-lg">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
         <div class="column">
           <div class="column">
