@@ -1,7 +1,7 @@
 <template>
   <div class="column q-pa-md">
-    <div class="text-h4 q-mb-sm">Registro de usuario</div>
-    <div class="column">
+    <div class="text-h4 text-center q-mb-sm">Registro de usuario</div>
+    <div class="column items-center">
       <div class="text-h6">Informacion de idetificacion</div>
       <div class="text-subtitle2 text-caption text-grey">Informacion de idetificacion</div>
     </div>
@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <div class="column q-mt-lg">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+    <div class="column items-center q-mt-lg">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Nombre completo</div>
@@ -31,7 +31,7 @@
             error-message="Ingrese un nombre completo válido" :error="$v.form.full_name.$error" @blur="$v.form.full_name.$touch()" />
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Numero de verificacion</div>
@@ -40,7 +40,7 @@
             error-message="Ingrese un numero de verificacion valido" :error="$v.form.num_verification.$error" @blur="$v.form.num_verification.$touch()" />
         </div>
       </div>
-      <div class="full-width q-pa-sm" style="margin-top:0px !important;padding-top: 0px !important">
+      <div class="full-width q-pa-sm" style="margin-top:0px !important;padding-top: 0px !important;max-width:350px;min-width:350px">
         <div class="text-subtitle2"> Documento PDF </div>
         <div class="text-caption" :class="$v.document.$error ? 'text-red' : 'text-grey-9'"> Sube tu documento de identificacion por ambos lados </div>
         <q-scroll-area style="height: 60px; width: 100%;" class="q-mt-sm">
@@ -57,14 +57,14 @@
         </q-scroll-area>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="text-h6">Informacion demografica</div>
           <div class="text-caption">Ingresa la informacion oficial de contacto</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Comunidad autonoma</div>
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Ciudad</div>
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Direccion</div>
@@ -94,7 +94,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Codigo postal</div>
@@ -104,14 +104,14 @@
         </div>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="text-h6">Informacion de contacto</div>
           <div class="text-caption">Ingresa la informacion oficial de contacto</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Correo electronico</div>
@@ -121,7 +121,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Telefono o celular</div>
@@ -131,7 +131,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Ingrese su contraseña</div>
@@ -149,7 +149,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Repita su contraseña</div>
@@ -167,14 +167,14 @@
         </div>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="text-h6">Cursos</div>
           <div class="text-caption">Ingresa el curso que realizara</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Tipo de licencia</div>
@@ -184,7 +184,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">¿Donde realizara el examen?</div>
@@ -194,7 +194,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Examenes disponibles</div>
@@ -204,14 +204,14 @@
         </div>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="text-h6">Costos asociados</div>
           <div class="text-caption">Ingresa los costos asociados</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Gestion</div>
@@ -221,7 +221,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
           <div class="column">
             <div class="no-mp">Tasa</div>
@@ -232,9 +232,9 @@
       </div>
     </div>
 
-    <div class="text-subtitle1 row"><div class="text-bold"> Costo total del PVP </div> <div class="q-ml-sm text-black"> €{{total}} </div></div>
+    <div class="text-subtitle1 row justify-center"><div class="text-bold"> Costo total del PVP </div> <div class="q-ml-sm text-black"> €{{total}} </div></div>
     <div class="full-width q-pa-sm row justify-center q-mt-sm">
-      <q-btn @click="save()" label="Crear usuario" no-caps style="height:60px;width:50%;min-width:170px" color="black" />
+      <q-btn @click="save()" label="Crear usuario" no-caps style="height:60px;width:30%;min-width:170px" color="black" />
     </div>
   </div>
 </template>

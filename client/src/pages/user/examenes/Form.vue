@@ -1,11 +1,11 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h6" style="font-size:25px"> Crear Examen </div>
-    <div class="text-subtitle1"> Informacion de general </div>
-    <div class="text-caption text-grey"> Ingresa la informacion general del examen </div>
+    <div class="text-h6 text-center" style="font-size:25px"> Crear Examen </div>
+    <div class="text-subtitle1 text-center"> Informacion de general </div>
+    <div class="text-caption text-grey text-center"> Ingresa la informacion general del examen </div>
 
-    <div class="column q-mt-lg">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+    <div class="column q-mt-lg items-center">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Titulo</div>
@@ -15,14 +15,14 @@
         </div>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column form-style">
         <div class="column">
           <div class="text-h6">Informacion demografica</div>
           <div class="text-caption">Ingresa la informacion donde se hara el examen</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Comunidad autonoma</div>
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Ciudad donde se realizara</div>
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Ubicacion</div>
@@ -52,14 +52,14 @@
         </div>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column form-style">
         <div class="column">
           <div class="text-h6">Fechas</div>
           <div class="text-caption">Ingresa las fechas del examen</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Hora del examen</div>
@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Fecha de apertura</div>
@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Fecha de cierre</div>
@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Fecha de examen</div>
@@ -99,14 +99,14 @@
         </div>
       </div>
 
-      <div class="full-width q-pa-sm column">
+      <div class="full-width q-pa-sm column form-style">
         <div class="column">
           <div class="text-h6">Costos del examen</div>
           <div class="text-caption">Ingresa las fechas del examen</div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-px-sm form-style">
         <div class="column">
           <div class="column">
             <div class="no-mp">Tasa</div>
