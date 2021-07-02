@@ -22,6 +22,11 @@ const routes = [
       { path: '/exams/form', component: () => import('pages/user/examenes/Form.vue') },
       { path: '/exams/form/:id', component: () => import('pages/user/examenes/Form.vue') },
 
+      // EXAMENES
+      { path: '/users', component: () => import('pages/admin/users/List.vue') },
+      { path: '/users/form', component: () => import('pages/admin/users/Form.vue') },
+      { path: '/users/form/:id', component: () => import('pages/admin/users/UpdateForm.vue') },
+
       { path: '/tests_exams/:id', component: () => import('pages/user/TestsExams.vue') },
       { path: '/test-exam/:id', component: () => import('pages/user/TestExam.vue') },
       { path: '/results/:id', component: () => import('pages/user/Results.vue') },

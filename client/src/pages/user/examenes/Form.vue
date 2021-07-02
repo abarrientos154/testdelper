@@ -10,8 +10,9 @@
           <div class="column">
             <div class="no-mp">Titulo</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.name" placeholder="Seleccionar comunidad"
-            error-message="Ingrese un Titulo válido" :error="$v.form.name.$error" @blur="$v.form.name.$touch()" />
+          <q-select dense outlined class="q-mb-sm" type="text" v-model="form.tLicencia" label="Seleccionar Titulo" :options="tlicenciaData" emit-value
+            map-options
+            error-message="Ingrese un Titulo válido" :error="$v.form.tLicencia.$error" @blur="$v.form.tLicencia.$touch()" />
         </div>
       </div>
 
@@ -64,8 +65,21 @@
           <div class="column">
             <div class="no-mp">Hora del examen</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.horaE" placeholder="10:00 hrs."
-            error-message="Ingrese una hora del examen válida" :error="$v.form.horaE.$error" @blur="$v.form.horaE.$touch()" />
+          <q-input mask="time" :rules="['time']" dense outlined class="q-mb-sm" type="text" v-model="form.horaE" placeholder="10:00 hrs."
+            error-message="Ingrese una hora del examen válida" :error="$v.form.horaE.$error" @blur="$v.form.horaE.$touch()"
+          >
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                  <q-time v-model="form.horaE">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
       </div>
 
@@ -74,8 +88,20 @@
           <div class="column">
             <div class="no-mp">Fecha de apertura</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.fechaA" placeholder="10/08/2021"
-            error-message="Ingrese una fecha de apertura válida" :error="$v.form.fechaA.$error" @blur="$v.form.fechaA.$touch()" />
+          <q-input v-model="form.fechaA" mask="date" :rules="['date']" dense outlined class="q-mb-sm" placeholder="10/08/2021"
+            error-message="Ingrese una fecha de apertura válida" :error="$v.form.fechaA.$error" @blur="$v.form.fechaA.$touch()">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="form.fechaA">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
       </div>
 
@@ -84,8 +110,20 @@
           <div class="column">
             <div class="no-mp">Fecha de cierre</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.fechaC" placeholder="20/09/2021"
-            error-message="Ingrese una Fecha de cierre válida" :error="$v.form.fechaC.$error" @blur="$v.form.fechaC.$touch()" />
+          <q-input v-model="form.fechaC" mask="date" :rules="['date']" dense outlined class="q-mb-sm" placeholder="10/08/2021"
+            error-message="Ingrese una fecha de apertura válida" :error="$v.form.fechaC.$error" @blur="$v.form.fechaC.$touch()">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="form.fechaC">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
       </div>
 
@@ -94,8 +132,20 @@
           <div class="column">
             <div class="no-mp">Fecha de examen</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.fechaE" placeholder="20/09/2021"
-            error-message="Ingrese una Fecha de examen válida" :error="$v.form.fechaE.$error" @blur="$v.form.fechaE.$touch()" />
+          <q-input v-model="form.fechaE" mask="date" :rules="['date']" dense outlined class="q-mb-sm" placeholder="10/08/2021"
+            error-message="Ingrese una fecha de apertura válida" :error="$v.form.fechaE.$error" @blur="$v.form.fechaE.$touch()">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="form.fechaE">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
       </div>
 
@@ -127,12 +177,17 @@ import { required } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
-      form: {}
+      form: {},
+      tlicenciaData: [
+        { label: 'LN - Licencia de Navegación', value: 'LN' }, { label: 'PNB - Patrón de Navegación Básico, del tema 1 al 6', value: 'PNB' },
+        { label: 'PER - Patrón de Embarcaciones de Recreo del tema 1 al 11', value: 'PER' }, { label: 'PER Reducido, del tema 7 al 11', value: 'PERR' },
+        { label: 'PY - Patrón de Yate', value: 'PY' }, { label: 'CY - Capitán de Yate', value: 'CY' }
+      ]
     }
   },
   validations: {
     form: {
-      name: { required },
+      tLicencia: { required },
       comunidadA: { required },
       ciudad: { required },
       ubicacion: { required },

@@ -1,11 +1,12 @@
 <template>
   <div class="column q-pa-md">
-    <div class="text-h4 text-center q-mb-sm">Registro de usuario</div>
+    <div class="text-h4 text-center q-mb-sm">Crear usuario</div>
     <div class="column items-center">
       <div class="text-h6">Informacion de idetificacion</div>
       <div class="text-subtitle2 text-caption text-grey">Informacion de idetificacion</div>
     </div>
 
+    <!--
     <div class="column q-mt-sm items-center">
       <div class="column items-center">
         <q-avatar size="150px">
@@ -20,7 +21,7 @@
         <div class="text-grey-9 text-caption">400 x 400</div>
       </div>
     </div>
-
+    -->
     <div class="column items-center q-mt-lg">
       <div class="q-px-sm" style="max-width:350px;min-width:350px">
         <div class="column">
@@ -40,6 +41,7 @@
             error-message="Ingrese un numero de verificacion valido" :error="$v.form.num_verification.$error" @blur="$v.form.num_verification.$touch()" />
         </div>
       </div>
+      <!--
       <div class="full-width q-pa-sm" style="margin-top:0px !important;padding-top: 0px !important;max-width:350px;min-width:350px">
         <div class="text-subtitle2"> Documento PDF </div>
         <div class="text-caption" :class="$v.document.$error ? 'text-red' : 'text-grey-9'"> Sube tu documento de identificacion por ambos lados </div>
@@ -56,6 +58,7 @@
           </div>
         </q-scroll-area>
       </div>
+      -->
 
       <div class="full-width q-pa-sm column" style="max-width:350px;min-width:350px">
         <div class="column">
@@ -246,6 +249,7 @@ import { required, maxLength, minLength, sameAs } from 'vuelidate/lib/validators
 export default {
   data () {
     return {
+      edit: false,
       form: {},
       imgPerfil: null,
       perfil: null,
@@ -281,36 +285,43 @@ export default {
       tasa: { required }
     },
     repeatPassword: { sameAsPassword: sameAs('password') },
-    password: { required, maxLength: maxLength(256), minLength: minLength(6) },
+    password: { required, maxLength: maxLength(256), minLength: minLength(6) }/* ,
     perfil: { required },
-    document: { required, minLength: minLength(1) }
+    document: { required, minLength: minLength(1) } */
+  },
+  mounted () {
+    if (this.$route.params.id) {
+      this.getData()
+    }
   },
   methods: {
+    async getData () {
+      const res = await this.$api.get('users/' + this.$route.params.id)
+      if (res) {
+        this.form = res
+      }
+    },
     async save () {
       this.$v.$touch()
-      console.log(this.$v.form.$error, this.$v.password.$error, this.$v.repeatPassword.$error, this.$v.document.$error, this.$v.perfil.$error)
-      if (!this.$v.form.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && !this.$v.document.$error && !this.$v.perfil.$error) {
+      console.log(this.$v.form.$error, this.$v.password.$error, this.$v.repeatPassword.$error)
+      if (!this.$v.form.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error) {
         this.form.password = this.password
-        var formData = new FormData()
-        for (const j in this.document) {
+        /* var formData = new FormData()
+         for (const j in this.document) {
           formData.append('file_' + j, this.document[j])
         }
         this.form.numberDoc = this.document.length
         formData.append('perfil', this.perfil)
-        formData.append('dat', JSON.stringify(this.form))
+        formData.append('dat', JSON.stringify(this.form)) */
         this.$q.loading.show()
-        await this.$api.post('register_user', formData, {
-          headers: {
-            'Content-Type': undefined
-          }
-        }).then(res => {
+        await this.$api.put('users/' + this.$route.params.id, this.form).then(res => {
           this.$q.loading.hide()
           if (res) {
             this.$q.notify({
-              message: 'Te has registrado correctamente, Bienvenido',
+              message: 'Actualizado Correctamente',
               color: 'positive'
             })
-            this.$router.push('login')
+            this.$router.go(-1)
           }
         })
       } else {

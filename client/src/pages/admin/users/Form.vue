@@ -1,6 +1,6 @@
 <template>
   <div class="column q-pa-md">
-    <div class="text-h4 text-center q-mb-sm">Registro de usuario</div>
+    <div class="text-h4 text-center q-mb-sm">Crear usuario</div>
     <div class="column items-center">
       <div class="text-h6">Informacion de idetificacion</div>
       <div class="text-subtitle2 text-caption text-grey">Informacion de idetificacion</div>
@@ -40,6 +40,7 @@
             error-message="Ingrese un numero de verificacion valido" :error="$v.form.num_verification.$error" @blur="$v.form.num_verification.$touch()" />
         </div>
       </div>
+
       <div class="full-width q-pa-sm" style="margin-top:0px !important;padding-top: 0px !important;max-width:350px;min-width:350px">
         <div class="text-subtitle2"> Documento PDF </div>
         <div class="text-caption" :class="$v.document.$error ? 'text-red' : 'text-grey-9'"> Sube tu documento de identificacion por ambos lados </div>
@@ -246,6 +247,7 @@ import { required, maxLength, minLength, sameAs } from 'vuelidate/lib/validators
 export default {
   data () {
     return {
+      edit: false,
       form: {},
       imgPerfil: null,
       perfil: null,
@@ -283,12 +285,17 @@ export default {
     repeatPassword: { sameAsPassword: sameAs('password') },
     password: { required, maxLength: maxLength(256), minLength: minLength(6) },
     perfil: { required },
-    document: { required, minLength: minLength(1) }
+    document: { required, minLength: minLength(2) }
+  },
+  mounted () {
+    if (this.$route.params.id) {
+      this.edit = true
+    }
   },
   methods: {
     async save () {
       this.$v.$touch()
-      console.log(this.$v.form.$error, this.$v.password.$error, this.$v.repeatPassword.$error, this.$v.document.$error, this.$v.perfil.$error)
+      console.log(this.$v.form.$error, this.$v.password.$error, this.$v.repeatPassword.$error)
       if (!this.$v.form.$error && !this.$v.password.$error && !this.$v.repeatPassword.$error && !this.$v.document.$error && !this.$v.perfil.$error) {
         this.form.password = this.password
         var formData = new FormData()
@@ -307,10 +314,10 @@ export default {
           this.$q.loading.hide()
           if (res) {
             this.$q.notify({
-              message: 'Te has registrado correctamente, Bienvenido',
+              message: 'Se registro el correctamente el usuario',
               color: 'positive'
             })
-            this.$router.push('login')
+            this.$router.go(-1)
           }
         })
       } else {

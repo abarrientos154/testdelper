@@ -33,8 +33,8 @@ class User extends Model {
       tLicencia: 'required|string',
       ciudadExamen: 'required|string',
       examenD: 'required|string',
-      gestion: 'required|string',
-      tasa: 'required|string',
+      gestion: 'required|number',
+      tasa: 'required|number',
       numberDoc: 'required|number'
     }
     return rulesUser

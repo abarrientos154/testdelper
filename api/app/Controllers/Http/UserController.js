@@ -79,8 +79,21 @@ class UserController {
   }
 
   async index({ request, response, view }) {
-    let users = await User.all();
-    response.send(users);
+    let users = (await User.query().where({roles: [2]}).fetch()).toJSON()
+    response.send(users)
+  }
+
+  async show({ response, params }) {
+    let users = (await User.find(params.id)).toJSON()
+    delete users.password
+    console.log(users)
+    response.send(users)
+  }
+
+  async destroy({ response, params }) {
+    let users = await User.find(params.id)
+    await users.delete()
+    response.send(users)
   }
 
   async login({ auth, request }) {
@@ -148,8 +161,13 @@ class UserController {
     //   response.unprocessableEntity(validation.messages())
     // } else {
     // }
-    let modificar = await User.query().where('_id', params.id).update(dat)
-    response.send(modificar)
+    var pass = dat.password
+    delete dat.password
+    await User.query().where('_id', params.id).update(dat)
+    let user = await User.find(params.id)
+    user.password = pass
+    await user.save()
+    response.send(user)
   }
 }
 

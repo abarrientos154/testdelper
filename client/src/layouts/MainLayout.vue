@@ -64,24 +64,14 @@ export default {
       menu: [],
       menuAdmin: [
         {
-          icon: 'menu_book',
-          label: 'Asignaturas',
-          ruta: '/inicio_administrador'
+          icon: 'person',
+          label: 'Usuarios',
+          ruta: '/users'
         },
         {
           icon: 'article',
           label: 'Examenes',
           ruta: '/exams'
-        },
-        {
-          icon: 'event',
-          label: 'Fecha Examen',
-          ruta: '/date_exams'
-        },
-        {
-          icon: 'upload_file',
-          label: 'Datos Masivos',
-          ruta: ''
         },
         {
           icon: 'logout',
