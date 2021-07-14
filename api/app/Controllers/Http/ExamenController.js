@@ -43,6 +43,19 @@ class ExamenController {
     response.send(guardar)
   }
 
+  async duplicateExamById ({ response, params }) {
+    var dat = (await Examen.find(params.id)).toJSON()
+    delete dat._id
+    dat.duplicate = true
+    let guardar = await Examen.create(dat)
+    response.send(guardar)
+  }
+
+  async changeDuplicados ({ response, params }) {
+    let guardar = await Examen.query().where({duplicate: true}).update({duplicate: false})
+    response.send(guardar)
+  }
+
   async update ({ params, request, response }) {
     var dat = request.body
     // const validation = await validate(dat, Examen.fieldValidationRules())

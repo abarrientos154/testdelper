@@ -4,7 +4,7 @@ const routes = [
     path: '/index',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      // Admin
+      // Admin //
       { path: '/inicio_administrador', component: () => import('pages/admin/Inicio.vue') },
       { path: '/examenes', component: () => import('pages/admin/Examenes.vue') },
       { path: '/tests/:id', component: () => import('pages/admin/Tests.vue') },
@@ -12,6 +12,10 @@ const routes = [
       { path: '/edit_test/:id', component: () => import('pages/admin/EditTest.vue') },
       { path: '/exam/:id', component: () => import('pages/admin/Exam.vue') },
       { path: '/date_exams', component: () => import('pages/admin/DateExams.vue') },
+
+      // costo de gestion //
+      { path: '/gestion_cost', component: () => import('pages/admin/gestionCost/Form.vue') },
+
       // User
       { path: '/home', component: () => import('pages/user/Inicio.vue') },
       { path: '/courses', component: () => import('pages/user/Courses.vue') },

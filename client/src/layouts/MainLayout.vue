@@ -3,7 +3,7 @@
     <q-layout view="lHh Lpr lFf">
       <q-header elevated class="bg-white">
         <q-toolbar>
-          <!-- <q-btn flat dense round color="primary" icon="menu" aria-label="Menu" @click="clickmenu()"/> -->
+         <q-btn flat dense round color="primary" icon="menu" aria-label="Menu" @click="DrawerOpen = !DrawerOpen"/>
 
           <q-toolbar-title class="row justify-center">
             <!-- <img v-if="DrawerOpen == false" src="logocolomer.png" style="width: 50px; height: 40px"> -->
@@ -38,6 +38,13 @@
         <big-data @file="getFile"></big-data>
       </q-dialog>
 
+      <q-dialog v-model="gestion">
+        <q-card style="width:400px; height:300px; border-radius:15px">
+          <q-btn icon="close" color="negative" style="position:absolute;top:5px;right:5px" flat v-close-popup round />
+          <gestion-cost />
+        </q-card>
+      </q-dialog>
+
       <q-page-container>
         <router-view />
       </q-page-container>
@@ -47,12 +54,14 @@
 
 <script>
 import BigData from '../components/BigData.vue'
+import GestionCost from '../pages/admin/gestionCost/Form.vue'
 import { mapMutations } from 'vuex'
 export default {
-  components: { BigData },
+  components: { BigData, GestionCost },
   name: 'MainLayout',
   data () {
     return {
+      gestion: false,
       up: false,
       hoy: new Date(),
       fecha: '',
@@ -72,6 +81,11 @@ export default {
           icon: 'article',
           label: 'Examenes',
           ruta: '/exams'
+        },
+        {
+          icon: 'fact_check',
+          label: 'Gestion de coste',
+          ruta: '/gestion'
         },
         {
           icon: 'logout',
@@ -151,7 +165,12 @@ export default {
       })
     },
     rutas (itm) {
-      this.$router.push(itm.ruta)
+      console.log(itm, 'res')
+      if (itm.ruta === '/gestion') {
+        this.gestion = true
+      } else {
+        this.$router.push(itm.ruta)
+      }
     }
   }
 }

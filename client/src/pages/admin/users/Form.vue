@@ -37,7 +37,8 @@
             <div class="no-mp">Numero de verificacion</div>
           </div>
           <q-input dense outlined class="q-mb-sm" type="text" v-model="form.num_verification" placeholder="J57374G475"
-            error-message="Ingrese un numero de verificacion valido" :error="$v.form.num_verification.$error" @blur="$v.form.num_verification.$touch()" />
+            error-message="Ingrese un numero de verificacion valido" :error="$v.form.num_verification.$error" @blur="$v.form.num_verification.$touch()"
+          />
         </div>
       </div>
 

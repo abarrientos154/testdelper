@@ -4,6 +4,7 @@ const Helpers = use('Helpers')
 const mkdirp = use('mkdirp')
 // const fs = require('fs')
 const User = use("App/Models/User")
+const GestionCost = use("App/Models/GestionCost")
 const Role = use("App/Models/Role")
 const { validate } = use("Validator")
 
@@ -15,6 +16,24 @@ const { validate } = use("Validator")
  * Resourceful controller for interacting with users
  */
 class UserController {
+
+  ////GESTION DE COST////
+  async showGestionCost ({ response }) {
+    let data = (await GestionCost.first()).toJSON()
+    response.send(data)
+  }
+
+  async updateGestionCost ({ response, request }) {
+    let reque = request.only(['gestion_cost'])
+    console.log(reque, 'resques')
+    let data = await GestionCost.first()
+    data.value = parseFloat(reque.gestion_cost)
+    await data.save()
+    response.send(data)
+  }
+
+  /////////////////////
+
   /**
    * Show a list of all users.
    * GET users

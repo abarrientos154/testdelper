@@ -42,7 +42,13 @@ addPrefixToGroup(
 
   addPrefixToGroup(
     Route.group(() => {
-      // Insertar rutas con protección de autenticación aquí
+      // Insertar rutas con protección de autenticación
+
+      //// Coste de la gestion /////
+      Route.get("gestion_cost", "UserController.showGestionCost")
+      Route.put("gestion_cost", "UserController.updateGestionCost")
+      //// Coste de la gestion /////
+
       Route.get("user_info", "UserController.userInfo")
       Route.get("users", "UserController.index")
       Route.get("users/:id", "UserController.show")
@@ -64,6 +70,8 @@ addPrefixToGroup(
       Route.delete('test/:id', 'TestController.destroy')
 
       Route.get('examen', 'ExamenController.index')
+      Route.post('duplicate_exam/:id', 'ExamenController.duplicateExamById')
+      Route.put('changeduplicados', 'ExamenController.changeDuplicados')
       Route.get('ExamById/:id', 'ExamenController.examById')
       Route.post('examen', 'ExamenController.store')
       Route.get('getExamWithTest/:id', 'ExamenController.getExamWithTest')
