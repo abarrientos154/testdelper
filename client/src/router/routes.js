@@ -26,6 +26,11 @@ const routes = [
       { path: '/exams/form', component: () => import('pages/user/examenes/Form.vue') },
       { path: '/exams/form/:id', component: () => import('pages/user/examenes/Form.vue') },
 
+      { path: '/buy_exams', component: () => import('pages/user/examenes/Buy/List.vue') },
+      { path: '/buy_exams/form/:id', component: () => import('pages/user/examenes/Buy/Buy.vue') },
+
+      { path: '/payment/:status', component: () => import('pages/admin/payments/List.vue') },
+
       // EXAMENES
       { path: '/users', component: () => import('pages/admin/users/List.vue') },
       { path: '/users/form', component: () => import('pages/admin/users/Form.vue') },
@@ -41,11 +46,11 @@ const routes = [
   { path: '/registro', component: () => import('pages/Register.vue') },
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/buy_exams'
   },
   {
     path: '*',
-    redirect: '/login'
+    redirect: '/buy_exams'
   },
   // Always leave this as last one,
   // but you can also remove it

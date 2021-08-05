@@ -21,7 +21,7 @@
            <!--  <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div> -->
           </q-item-label>
           <template v-for="(item, index) in menu">
-            <q-item :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : item.label === 'Datos Masivos' ? uploadData() : rutas(item)">
+            <q-item v-if="!item.children" :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : item.label === 'Datos Masivos' ? uploadData() : rutas(item)">
               <q-item-section avatar>
                 <q-icon :name="item.icon" />
               </q-item-section>
@@ -29,6 +29,16 @@
                   {{ item.label }}
               </q-item-section>
             </q-item>
+            <q-expansion-item v-else expand-separator :icon="item.icon" :label="item.label" :key="index" >
+              <q-item class="q-ml-md" v-for="(child, ind) in item.children" :key="ind" clickable v-ripple @click="rutas(child)">
+                <q-item-section avatar>
+                  <q-icon :name="child.icon" />
+                </q-item-section>
+                <q-item-section>
+                  {{ child.label }}
+                </q-item-section>
+              </q-item>
+            </q-expansion-item>
             <q-separator :key="'sep' + index" />
           </template>
         </q-list>
@@ -78,6 +88,28 @@ export default {
           ruta: '/users'
         },
         {
+          icon: 'credit_score',
+          label: 'Pagos',
+          ruta: '',
+          children: [
+            {
+              icon: 'pending_actions',
+              label: 'Pendientes',
+              ruta: '/payment/1'
+            },
+            {
+              icon: 'account_balance_wallet',
+              label: 'Pagados',
+              ruta: '/payment/2'
+            }
+          ]
+        },
+        {
+          icon: 'upload',
+          label: 'Datos Masivos',
+          ruta: ''
+        },
+        {
           icon: 'article',
           label: 'Examenes',
           ruta: '/exams'
@@ -97,23 +129,45 @@ export default {
         {
           icon: 'home',
           label: 'Inicio',
-          ruta: '/home'
+          ruta: '/buy_exams'
         },
         {
+          icon: 'login',
+          label: 'Acceso',
+          ruta: '/login'
+        },
+        /* {
           icon: 'menu_book',
           label: 'Asignaturas',
           ruta: '/courses'
-        },
-        {
+        }, */
+        /* {
           icon: 'event',
           label: 'Fecha Examen',
           ruta: '/date_exams_users'
-        },
+        }, */
+        {
+          icon: 'add_shopping_cart',
+          label: 'Comprar',
+          ruta: '',
+          children: [
+            {
+              icon: 'list',
+              label: 'Examenes',
+              ruta: '/buy_exams'
+            }/* ,
+            {
+              icon: 'list',
+              label: 'Test',
+              ruta: '/buy_tests'
+            } */
+          ]
+        }/* ,
         {
           icon: 'logout',
           label: 'Cerrar Sesión',
           ruta: ''
-        }
+        } */
       ]
     }
   },
