@@ -40,6 +40,11 @@ addPrefixToGroup(
     Route.get('ExamById/:id', 'ExamenController.examById')
 
     Route.post('payment', 'PaymentController.store')
+    Route.post('payment_paypal', 'PaymentController.storePaypal')
+
+    //// Coste de la gestion /////
+    Route.get("gestion_cost", "UserController.showGestionCost")
+    //// Coste de la gestion /////
 
   })
 );
@@ -53,7 +58,7 @@ addPrefixToGroup(
       Route.put('payment/:id', 'PaymentController.payApprove')
 
       //// Coste de la gestion /////
-      Route.get("gestion_cost", "UserController.showGestionCost")
+      // Route.get("gestion_cost", "UserController.showGestionCost")
       Route.put("gestion_cost", "UserController.updateGestionCost")
       //// Coste de la gestion /////
 

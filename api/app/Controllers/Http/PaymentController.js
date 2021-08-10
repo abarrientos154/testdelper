@@ -63,6 +63,19 @@ class PaymentController {
     }
   }
 
+  async storePaypal ({ request, response }) {
+    let dat = request.only(Payment.fillablePayment)
+    const validation = await validate(dat, Payment.fieldValidatePayment())
+    if (validation.fails()) {
+      response.unprocessableEntity(validation.messages())
+    } else {
+      dat.status = 2 // procesado directo porque fue por paypal
+      dat.paypal = true
+      const payment = await Payment.create(dat)
+      response.send(payment)
+    }
+  }
+
   /**
    * Display a single payment.
    * GET payments/:id

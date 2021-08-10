@@ -196,27 +196,29 @@ export default {
         this.up = false
       }
     },
-    getUser () {
-      this.$api.get('user_info').then(v => {
-        if (v) {
-          this.rol = v.roles[0]
-          // this.ultimaConeccion = v.ultima_coneccion
-          this.user = v
-          if (this.rol === 1) {
-            this.menu = this.menuAdmin
+    async getUser () {
+      const v = JSON.parse(this.$q.localStorage.getItem('SESSION_INFO'))
+      if (v) {
+        this.rol = v.roles[0]
+        // this.ultimaConeccion = v.ultima_coneccion
+        this.user = v
+        console.log(this.rol, 'rol')
+        if (this.rol === 1) {
+          this.menu = this.menuAdmin
+        } else {
+          if (this.rol === 2) {
+            this.menu = this.menuUser
           } else {
-            if (this.rol === 2) {
-              this.menu = this.menuUser
-            } else {
-              console.log(this.rol)
-            }
+            console.log(this.rol)
           }
-          // this.fecha = this.hoy.getDate() + '/' + (this.hoy.getMonth() + 1) + '/' + this.hoy.getFullYear()
-          // this.hora = this.hoy.getHours() + ':' + this.hoy.getMinutes() + ':' + this.hoy.getSeconds()
-          // this.user.ultima_coneccion = { fecha: this.fecha, hora: this.hora }
-          console.log(v)
         }
-      })
+        // this.fecha = this.hoy.getDate() + '/' + (this.hoy.getMonth() + 1) + '/' + this.hoy.getFullYear()
+        // this.hora = this.hoy.getHours() + ':' + this.hoy.getMinutes() + ':' + this.hoy.getSeconds()
+        // this.user.ultima_coneccion = { fecha: this.fecha, hora: this.hora }
+        console.log(v)
+      } else {
+        this.menu = this.menuUser
+      }
     },
     rutas (itm) {
       console.log(itm, 'res')
