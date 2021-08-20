@@ -16,13 +16,13 @@ class Payment extends Model {
       phone: 'required|string',
       cp: 'required|string',
       nieNif: 'string',
-      total: 'required'
+      total: 'required',
     }
     return rulesUser
   }
 
   static get fillablePayment() {
-    return [ 'email', 'name', 'lastName', 'country', 'address', 'comments', 'phone', 'cp', 'nieNif', 'total' ]
+    return [ 'email', 'name', 'lastName', 'country', 'address', 'comments', 'phone', 'cp', 'nieNif', 'total', 'curso' ]
   }
 
 }

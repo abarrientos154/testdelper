@@ -3,23 +3,21 @@
     <div class="text-h6">Compra Examen</div>
      <q-stepper v-model="step" header-nav ref="stepper" color="primary" animated class="q-mt-md">
       <q-step :name="1" title="Informacion" icon="info" :done="step > 1" :header-nav="false" >
-        <div class="column items-center q-pa-md rounded-borders q-mt-md">
-          <div class="row justify-start">
-            <div class="text-subtitle2 text-bold q-px-md">Titulo: <label class="text-subtitle2"> {{form.name}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">CCA: <label class="text-subtitle2"> {{form.comunidadA}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">Licencia: <label class="text-subtitle2"> {{form.licencia}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">Localidad: <label class="text-subtitle2"> {{form.ciudad}} </label> </div>
-          </div>
-          <div class="row justify-start q-mt-lg">
-            <div class="text-subtitle2 text-bold q-px-md">Fecha Apertura: <label class="text-subtitle2"> {{form.fechaA}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">Fecha Cierre: <label class="text-subtitle2"> {{form.fechaC}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">Fecha: <label class="text-subtitle2"> {{form.fechaE}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">Hora: <label class="text-subtitle2"> {{form.horaE}} </label> </div>
-          </div>
-          <div class="row justify-start q-mt-lg">
-            <div class="text-subtitle2 text-bold q-px-md">Tasa: <label class="text-subtitle2"> {{form.tasa}} </label> </div>
-            <div class="text-subtitle2 text-bold q-px-md">Ubicacion: <label class="text-subtitle2"> {{form.ubicacion}} </label> </div>
-          </div>
+        <div class="text-h4 text-center q-pb-md"> Plan seleccionado </div>
+        <div class="column items-center justify-center">
+          <q-card class="plan-style">
+            <div class="text-uppercase text-center text-primary text-h4 text-bold"> {{itm.name}} </div>
+            <div class="text-center text-h4 text-bold"> {{ itm.price }}€ </div>
+            <div class="text-grey-6 text-center q-pb-md"> (Acceso durante 1 año)</div>
+            <q-separator color="primary" inset />
+            <br>
+            <div class="column items-center">
+              <div v-for="label in itm.items" :key="label">
+                <div class="text-grey-6 text-subtitle2"> {{label}}  </div>
+                <br>
+              </div>
+            </div>
+          </q-card>
         </div>
       </q-step>
 
@@ -90,7 +88,7 @@
                   <div class="text-center" style="font-size:20px"> Total pagar: </div>
                   <div class="text-subtitle2 text-center text-bold q-mt-sm text-primary" style="font-size:35px"> ${{total}} </div>
                   <div class="row justify-center">
-                    <pay-pal class="q-mt-lg" style="width:400px" :total="total" :descripcion="form.name" @pagoProcesado="pagoProcesado" />
+                    <pay-pal class="q-mt-lg" style="width:400px" :total="total" :descripcion="itm.name" @pagoProcesado="pagoProcesado" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -136,7 +134,28 @@ export default {
       user: {},
       finish: false,
       finishPaypal: false,
-      expandedPaypal: false
+      expandedPaypal: false,
+      cursos: [
+        {
+          id: '1',
+          name: 'Per Basic',
+          price: 39,
+          items: [
+            '26 Exámenes PER', 'Exámenes por materias', 'Test con tus errores(importante)',
+            '96 Exámenes PER de Madrid - Andalucía - Asturias - C.Valenciana - Murcia - País Vasco', 'Curso completo con 104 problemas (ver ejemplo)',
+            'Profesor online / telefónico', 'Control de tus test'
+          ]
+        },
+        {
+          id: '2',
+          name: 'Per Pro',
+          price: 49,
+          items: [
+            '26 Exámenes PER', 'Exámenes por materias', 'Test con tus errores (importante)', '96 Exámenes PER de Madrid - Andalucía - Asturias - C.Valenciana - Murcia - País Vasco',
+            'Curso completo con 104 problemas (ver ejemplo)', 'Profesor online / telefónico', 'Control de tus test', '4 Cartas + transportador náutico'
+          ]
+        }
+      ]
     }
   },
   validations () {
@@ -149,13 +168,18 @@ export default {
       }
     }
   },
+  computed: {
+    itm () {
+      return this.cursos.find(v => v.id === this.id)
+    }
+  },
   mounted () {
-    this.getExamn()
     this.getGestionCost()
   },
   methods: {
     async pagoProcesado () {
       this.user.total = this.total
+      this.user.curso = true
       await this.$api.post('payment_paypal', this.user).then(res => {
         this.$q.loading.hide()
         if (res) {
@@ -173,9 +197,10 @@ export default {
         }
       } else if (this.step === 4) {
         if (this.finishPaypal) {
-          this.$router.push('/buy_exams')
+          this.$router.push('/buy_cursos')
         } else {
           this.$q.loading.show()
+          this.user.curso = true
           this.user.total = this.total
           await this.$api.post('payment', this.user).then(res => {
             this.$q.loading.hide()
@@ -188,28 +213,27 @@ export default {
         this.$refs.stepper.next()
       }
     },
-    async getExamn () {
-      this.$q.loading.show()
-      const form = await this.$api.get('ExamById/' + this.id)
-      this.$q.loading.hide()
-      if (form) {
-        this.form = form
-      }
-    },
     async getGestionCost () {
       this.$q.loading.show()
       const form = await this.$api.get('gestion_cost')
       this.$q.loading.hide()
       console.log(form, 'gestion cost')
       if (form) {
-        console.log(form)
-        this.total = form.value + parseInt(this.form.tasa)
+        console.log(form, this.itm, 'itm')
+        this.total = form.value + parseInt(this.itm.price)
+        console.log(this.total, 'total')
       }
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.plan-style {
+  padding: 15px;
+  width: 45%;
+  border-top: 10px solid $primary;
+  height: 600px;
+  background-color: $grey-3;
+}
 </style>

@@ -155,12 +155,12 @@ export default {
               icon: 'list',
               label: 'Examenes',
               ruta: '/buy_exams'
-            }/* ,
+            },
             {
               icon: 'list',
-              label: 'Test',
-              ruta: '/buy_tests'
-            } */
+              label: 'Cursos Online',
+              ruta: '/buy_cursos'
+            }
           ]
         }/* ,
         {

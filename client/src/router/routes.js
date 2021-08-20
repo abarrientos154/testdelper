@@ -29,6 +29,9 @@ const routes = [
       { path: '/buy_exams', component: () => import('pages/user/examenes/Buy/List.vue') },
       { path: '/buy_exams/form/:id', component: () => import('pages/user/examenes/Buy/Buy.vue') },
 
+      { path: '/buy_cursos', component: () => import('pages/user/cursos/Buy/Form.vue') },
+      { path: '/buy_cursos/form/:id', component: () => import('pages/user/cursos/Buy/Buy.vue') },
+
       { path: '/payment/:status', component: () => import('pages/admin/payments/List.vue') },
 
       // EXAMENES

@@ -1,7 +1,11 @@
 <template>
   <q-page class="q-pa-md">
     <div class="text-h6">Lista de Examenes</div>
-    <q-table :data="data" :columns="columns" row-key="_id" separator="horizontal" flat bordered no-data-label="Sin datos">
+    <div class="column q-pa-sm borders-og">
+      <div>Filtrar Titulos</div>
+      <q-select class="q-pa-sm q-px-lg" :options="optionsFilter" emit-value map-options v-model="filterTitle" outlined dense />
+    </div>
+    <q-table :data="filterData" :columns="columns" row-key="_id" separator="horizontal" flat bordered no-data-label="Sin datos">
       <template v-slot:body-cell-Action="props">
         <q-td :props="props">
           <q-btn color="primary" icon="credit_card" size="sm" class="q-ml-sm" flat dense :to="'buy_exams/form/' + props.row._id" >
@@ -19,6 +23,13 @@
 export default {
   data () {
     return {
+      optionsFilter: [
+        { label: 'Todos', value: 'all' },
+        { label: 'LN - Licencia de Navegación', value: 'LN' }, { label: 'PNB - Patrón de Navegación Básico, del tema 1 al 6', value: 'PNB' },
+        { label: 'PER - Patrón de Embarcaciones de Recreo del tema 1 al 11', value: 'PER' }, { label: 'PERR Reducido, del tema 7 al 11', value: 'PERR' },
+        { label: 'PY - Patrón de Yate', value: 'PY' }, { label: 'CY - Capitán de Yate', value: 'CY' }
+      ],
+      filterTitle: 'all',
       data: [],
       columns: [
         { name: 'Action', label: 'Comprar', field: 'Action', sortable: false, align: 'center' },
@@ -32,6 +43,15 @@ export default {
         { name: 'horaE', align: 'center', label: 'Hora Examen', field: 'horaE', sortable: true },
         { name: 'ubicacion', align: 'center', label: 'Ubicacion', field: 'ubicacion', sortable: true }
       ]
+    }
+  },
+  computed: {
+    filterData () {
+      if (this.filterTitle === 'all') {
+        return this.data
+      } else {
+        return this.data.filter(v => v.tLicencia === this.filterTitle)
+      }
     }
   },
   mounted () {
@@ -48,6 +68,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.borders-og {
+  border-left: 1px solid $grey-4;
+  border-right: 1px solid $grey-4;
+  border-top: 1px solid $grey-4;
+  border-radius: 5px;
+}
 </style>
