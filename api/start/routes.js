@@ -53,6 +53,9 @@ addPrefixToGroup(
     Route.group(() => {
       // Insertar rutas con protección de autenticación
 
+      Route.get('cities/:id', 'ExamenController.cities')
+      Route.get('provinces', 'ExamenController.provinces')
+
       //PAYMENT//
       Route.get('payment', 'PaymentController.index')
       Route.put('payment/:id', 'PaymentController.payApprove')

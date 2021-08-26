@@ -28,8 +28,18 @@
           <div class="column">
             <div class="no-mp">Comunidad autonoma</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.comunidadA" placeholder="Seleccionar comunidad"
-            error-message="Ingrese una comunidad autonoma válida" :error="$v.form.comunidadA.$error" @blur="$v.form.comunidadA.$touch()" />
+          <q-select v-model="comunidadA" use-input input-debounce="0" placeholder="Seleccionar comunidad" :options="optionsCAF" @filter="filterCA" @input="filterCiudad()"
+            error-message="Seleccione una comunidad autonoma válida" :error="$v.form.comunidadA.$error" @blur="$v.form.comunidadA.$touch()" outlined dense class="q-mb-sm"
+            option-value="id" option-label="nombre" map-options emit-value
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  Sin resultados
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
         </div>
       </div>
 
@@ -38,8 +48,18 @@
           <div class="column">
             <div class="no-mp">Ciudad donde se realizara</div>
           </div>
-          <q-input dense outlined class="q-mb-sm" type="text" v-model="form.ciudad" placeholder="Cadiz"
-            error-message="Ingrese una ciudad válida" :error="$v.form.ciudad.$error" @blur="$v.form.ciudad.$touch()" />
+          <q-select v-model="city" use-input input-debounce="0" placeholder="Seleccionar Ciudad" :options="optionsCityF" @filter="filterCity" @input="form.ciudad = city"
+            error-message="Seleccione una ciudad válida" :error="$v.form.ciudad.$error" @blur="$v.form.ciudad.$touch()" outlined dense class="q-mb-sm"
+            option-value="_id" option-label="nombre" map-options emit-value
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  Sin resultados
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
         </div>
       </div>
 
@@ -177,6 +197,12 @@ import { required } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
+      comunidadA: null,
+      city: null,
+      optionsCA: [],
+      optionsCAF: [],
+      optionsCity: [],
+      optionsCityF: [],
       form: {},
       tlicenciaData: [
         { label: 'LN - Licencia de Navegación', value: 'LN' }, { label: 'PNB - Patrón de Navegación Básico, del tema 1 al 6', value: 'PNB' },
@@ -199,15 +225,74 @@ export default {
     }
   },
   mounted () {
+    this.getProvinces()
     if (this.$route.params.id) {
       this.getExamen()
     }
   },
   methods: {
+    async filterCiudad () {
+      this.form.comunidadA = this.comunidadA
+      this.city = null
+      this.form.ciudad = null
+      this.$q.loading.show()
+      const res = await this.$api.get('cities/' + this.comunidadA)
+      this.optionsCity = res
+      this.optionsCityF = res
+      this.$q.loading.hide()
+    },
+    filterCity (val, update) {
+      if (val === '') {
+        update(() => {
+          this.optionsCityF = this.optionsCity
+
+          // with Quasar v1.7.4+
+          // here you have access to "ref" which
+          // is the Vue reference of the QSelect
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.optionsCityF = this.optionsCity.filter(v => v.nombre.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    filterCA (val, update) {
+      if (val === '') {
+        update(() => {
+          this.optionsCAF = this.optionsCA
+
+          // with Quasar v1.7.4+
+          // here you have access to "ref" which
+          // is the Vue reference of the QSelect
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.optionsCAF = this.optionsCA.filter(v => v.nombre.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    async getProvinces () {
+      this.$q.loading.show()
+      const resPro = await this.$api.get('provinces')
+      this.optionsCA = resPro
+      this.optionsCAF = resPro
+      this.$q.loading.hide()
+    },
     async getExamen () {
       const res = await this.$api.get('ExamById/' + this.$route.params.id)
       if (res) {
         this.form = res
+        this.comunidadA = res.comunidadA
+        this.city = res.ciudad
+        this.$q.loading.show()
+        const resCity = await this.$api.get('cities/' + this.comunidadA)
+        this.optionsCity = resCity
+        this.optionsCityF = resCity
+        this.$q.loading.hide()
       }
     },
     async save () {

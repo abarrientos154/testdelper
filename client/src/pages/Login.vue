@@ -23,6 +23,9 @@
       <div class="text-black text-h9">Aún no tienes cuenta?</div>
       <div class="text-primary q-ml-sm text-bold text-h9" @click="$router.push('/registro')">Registrar.</div>
     </div>
+    <div class="row">
+      <div class="text-primary q-ml-sm text-bold text-h9 cursor-pointer" @click="$router.push('/buy_exams')">Omitir.</div>
+    </div>
     <div class="q-my-md row justify-center">
       <q-btn rounded color="primary" text-color="white" label="Iniciar Sesión" :loading="loading" @click="loguear()" no-caps>
         <template v-slot:loading>

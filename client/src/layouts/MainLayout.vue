@@ -1,24 +1,25 @@
 <template>
   <div>
     <q-layout view="lHh Lpr lFf">
-      <q-header elevated class="bg-white">
+      <q-header elevated class="bg-white" style="height:80px">
         <q-toolbar>
-         <q-btn flat dense round color="primary" icon="menu" aria-label="Menu" @click="DrawerOpen = !DrawerOpen"/>
-
-          <q-toolbar-title class="row justify-center">
-            <!-- <img v-if="DrawerOpen == false" src="logocolomer.png" style="width: 50px; height: 40px"> -->
-            <div class="text-weight-bolder text-primary column justify-center q-pl-sm">Colomer</div>
-          </q-toolbar-title>
-
+          <img src="logocolomer.png" style="height:70px">
+          <div class="row full-width q-gutter-x-md justify-end items-center q-mr-xl" style="height:80px">
+            <div :class="item.label === 'Acceso' ? 'text-secondary': 'text-grey'"
+              @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : item.label === 'Datos Masivos' ? uploadData() : rutas(item)"
+              v-for="(item, index) in menu" :key="index" class="cursor-pointer animate-border" style="font-size:20px"
+              :style="item.ruta === $route.path ? 'border-bottom:1px solid #1976D2' : ''">
+                {{item.label}}
+            </div>
+          </div>
           <div v-if="rol == 2" class="text-black">{{ultimaConeccion == {} ? user.ultima_coneccion.fecha : ultimaConeccion.fecha}}</div>
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="DrawerOpen" bordered>
+      <!-- <q-drawer v-model="DrawerOpen" bordered>
         <q-list>
           <q-item-label header class="column items-center">
             <img src="logocolomer.png">
-           <!--  <div class="text-primary text-h4 q-mb-lg">2007 - 2021</div> -->
           </q-item-label>
           <template v-for="(item, index) in menu">
             <q-item v-if="!item.children" :key="index" clickable v-ripple @click="item.label === 'Cerrar Sesión' ? cerrarSesion() : item.label === 'Datos Masivos' ? uploadData() : rutas(item)">
@@ -43,6 +44,7 @@
           </template>
         </q-list>
       </q-drawer>
+      -->
 
       <q-dialog v-model="up">
         <big-data @file="getFile"></big-data>
@@ -88,21 +90,14 @@ export default {
           ruta: '/users'
         },
         {
-          icon: 'credit_score',
-          label: 'Pagos',
-          ruta: '',
-          children: [
-            {
-              icon: 'pending_actions',
-              label: 'Pendientes',
-              ruta: '/payment/1'
-            },
-            {
-              icon: 'account_balance_wallet',
-              label: 'Pagados',
-              ruta: '/payment/2'
-            }
-          ]
+          icon: 'pending_actions',
+          label: 'Pendientes',
+          ruta: '/payment/1'
+        },
+        {
+          icon: 'account_balance_wallet',
+          label: 'Pagados',
+          ruta: '/payment/2'
         },
         {
           icon: 'upload',
@@ -128,13 +123,13 @@ export default {
       menuUser: [
         {
           icon: 'home',
-          label: 'Inicio',
+          label: 'Examenes',
           ruta: '/buy_exams'
         },
         {
-          icon: 'login',
-          label: 'Acceso',
-          ruta: '/login'
+          icon: 'list',
+          label: 'Cursos Online',
+          ruta: '/buy_cursos'
         },
         /* {
           icon: 'menu_book',
@@ -145,7 +140,7 @@ export default {
           icon: 'event',
           label: 'Fecha Examen',
           ruta: '/date_exams_users'
-        }, */
+        },
         {
           icon: 'add_shopping_cart',
           label: 'Comprar',
@@ -162,12 +157,17 @@ export default {
               ruta: '/buy_cursos'
             }
           ]
-        }/* ,
+        }, /* ,
         {
           icon: 'logout',
           label: 'Cerrar Sesión',
           ruta: ''
         } */
+        {
+          icon: 'login',
+          label: 'Acceso',
+          ruta: '/login'
+        }
       ]
     }
   },
@@ -177,16 +177,8 @@ export default {
   methods: {
     ...mapMutations('generals', ['logout']),
     cerrarSesion () {
-      this.$q.loading.show({
-        message: 'Cerrando Sesión...'
-      })
-      this.$api.put('updateUser/' + this.user._id, this.user).then((res) => {
-        if (res) {
-          this.$q.loading.hide()
-          this.logout()
-          this.$router.push('/login')
-        }
-      })
+      this.logout()
+      this.$router.push('/login')
     },
     uploadData () {
       this.up = true

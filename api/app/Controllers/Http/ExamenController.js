@@ -1,5 +1,7 @@
 'use strict'
 const Examen = use("App/Models/Examen")
+const Ciudad = use("App/Models/Ciudad")
+const Provincia = use("App/Models/Provincia")
 // const { validate } = use("Validator")
 // const Helpers = use('Helpers')
 // const mkdirp = use('mkdirp')
@@ -22,6 +24,18 @@ class ExamenController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
+
+   async cities ({ request, response, params }) {
+    let datos = (await Ciudad.query().where('provinciaid', parseInt(params.id)).fetch()).toJSON()
+    response.send(datos)
+  }
+
+  async provinces ({ request, response, view }) {
+    let datos = (await Provincia.all()).toJSON()
+    response.send(datos)
+  }
+
+
   async index ({ request, response, view }) {
     let datos = await Examen.all()
     response.send(datos)
