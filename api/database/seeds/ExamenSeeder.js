@@ -14,7 +14,7 @@ var ObjectId = require('mongodb').ObjectId;
 const Factory = use('Factory')
 const Examen = use('App/Models/Examen')
 const examenData = [
-  {
+/*   {
     _id: new ObjectId('6079d4fd28ec030054537efe'),
     name: 'Exámenes PER',
     codigo: '01',
@@ -69,7 +69,7 @@ const examenData = [
     codigo: '08',
     licencia: 'Capitan',
     fechaT: '10/10/2021'
-  }
+  } */
 ]
 class ExamenSeeder {
   async run () {
